@@ -1,0 +1,19 @@
+version: '3.9'
+
+networks:
+  default:
+    name: 'wish-list'
+
+volumes:
+  wish-list-pg:
+
+services: 
+  postgres:
+    container_name: 'wish-list-pg'
+    image: 'postgres:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'admin'
+    volumes:
+      - wish-list-pg:/var/lib/postgresql/data

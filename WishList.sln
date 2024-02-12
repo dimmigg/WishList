@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishList.Bot", "WishList.Bot\WishList.Bot.csproj", "{95E8786A-69B4-4E16-A6C5-1BEF68453F1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishList.Domain", "WishList.Domain\WishList.Domain.csproj", "{BD4A82C6-B048-48E4-BDE1-AC7B57B23DED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-items", "{56D8FD4C-35BE-43E4-A163-B6B66584ADED}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishList.Storage", "WishList.Storage\WishList.Storage.csproj", "{52C5AE25-DF73-496B-A7D5-A15E86758E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishList.Domain.Test", "WishList.Domain.Test\WishList.Domain.Test.csproj", "{1F7976C7-7AB3-49FD-B5D9-E1D58CE433C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95E8786A-69B4-4E16-A6C5-1BEF68453F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E8786A-69B4-4E16-A6C5-1BEF68453F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E8786A-69B4-4E16-A6C5-1BEF68453F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E8786A-69B4-4E16-A6C5-1BEF68453F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD4A82C6-B048-48E4-BDE1-AC7B57B23DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD4A82C6-B048-48E4-BDE1-AC7B57B23DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD4A82C6-B048-48E4-BDE1-AC7B57B23DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD4A82C6-B048-48E4-BDE1-AC7B57B23DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C5AE25-DF73-496B-A7D5-A15E86758E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C5AE25-DF73-496B-A7D5-A15E86758E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C5AE25-DF73-496B-A7D5-A15E86758E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C5AE25-DF73-496B-A7D5-A15E86758E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F7976C7-7AB3-49FD-B5D9-E1D58CE433C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7976C7-7AB3-49FD-B5D9-E1D58CE433C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7976C7-7AB3-49FD-B5D9-E1D58CE433C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7976C7-7AB3-49FD-B5D9-E1D58CE433C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
