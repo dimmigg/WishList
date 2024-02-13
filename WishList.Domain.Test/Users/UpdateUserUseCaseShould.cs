@@ -8,29 +8,25 @@ namespace WishList.Domain.Test.Users;
 
 public class UpdateUserUseCaseShould
 {
-    private readonly ISetup<IGetUserStorage, Task<User?>> getUserSetup;
-    private readonly ISetup<IAddUserStorage,Task<User>> addUserSetup;
-    private readonly ISetup<IUpdateUserStorage,Task> updateUserSetup;
     private readonly UpdateUserUseCase sut;
-    private readonly Mock<IGetUserStorage> getUserStorage;
-    private readonly Mock<IAddUserStorage> addUserStorage;
-    private readonly Mock<IUpdateUserStorage> updateUserStorage;
+    private readonly Mock<IUserStorage> userStorage;
+    private readonly ISetup<IUserStorage,Task<User?>> getUserSetup;
+    private readonly ISetup<IUserStorage,Task<User>> addUserSetup;
+    private readonly ISetup<IUserStorage,Task> updateUserSetup;
 
     public UpdateUserUseCaseShould()
     {
-        getUserStorage = new Mock<IGetUserStorage>();
-        getUserSetup = getUserStorage
+        userStorage = new Mock<IUserStorage>();
+        getUserSetup = userStorage
             .Setup(s => s.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
         
-        addUserStorage = new Mock<IAddUserStorage>();
-        addUserSetup = addUserStorage
+        addUserSetup = userStorage
             .Setup<Task<User>>(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()));
-
-        updateUserStorage = new Mock<IUpdateUserStorage>();
-        updateUserSetup = updateUserStorage
+        
+        updateUserSetup = userStorage
             .Setup(u => u.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>()));
         
-        sut = new UpdateUserUseCase(getUserStorage.Object, addUserStorage.Object, updateUserStorage.Object);
+        sut = new UpdateUserUseCase(userStorage.Object);
     }
 
     [Fact]
@@ -49,9 +45,10 @@ public class UpdateUserUseCaseShould
         };
         
         await sut.CreateOrUpdateUser(user, CancellationToken.None);
-        updateUserStorage.Verify(u => u.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
-        addUserStorage.Verify(u => u.AddUser(user, It.IsAny<CancellationToken>()), Times.Once);
+        userStorage.Verify(u => u.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+        userStorage.Verify(u => u.AddUser(user, It.IsAny<CancellationToken>()), Times.Once);
     }
+
     [Fact]
     public async Task AddUser_WhenUserInDb()
     {
@@ -60,17 +57,18 @@ public class UpdateUserUseCaseShould
         {
             Id = userId
         };
-        
-        getUserSetup.ReturnsAsync(user);
+
+        getUserSetup.ReturnsAsync(new User
+        {
+            Id = userId
+        });
         addUserSetup.ReturnsAsync(new User
         {
             Id = userId
         });
-        
+
         await sut.CreateOrUpdateUser(user, CancellationToken.None);
-        addUserStorage.Verify(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
-        updateUserStorage.Verify(u => u.UpdateUser(user, It.IsAny<CancellationToken>()), Times.Once);
+        userStorage.Verify(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+        userStorage.Verify(u => u.UpdateUser(user, It.IsAny<CancellationToken>()), Times.Once);
     }
-    
-    
 }

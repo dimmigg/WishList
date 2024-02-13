@@ -10,9 +10,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddStorage(this IServiceCollection services, string dbConnectionString)
     {
         services
-            .AddScoped<IGetUserStorage, GetUserStorage>()
-            .AddScoped<IAddUserStorage, AddUserStorage>()
-            .AddScoped<IUpdateUserStorage, UpdateUserStorage>()
+            .AddScoped<IUserStorage, UserStorage>()
             .AddDbContextPool<WishListDbContext>(options => options
             .UseNpgsql(dbConnectionString));
         services.AddAutoMapper(config => config

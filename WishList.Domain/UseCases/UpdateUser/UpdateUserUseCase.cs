@@ -4,20 +4,18 @@ using WishList.Storage.Storages.Users;
 namespace WishList.Domain.UseCases.UpdateUser;
 
 public class UpdateUserUseCase(
-    IGetUserStorage getUserStorage,
-    IAddUserStorage addUserStorage,
-    IUpdateUserStorage updateUserStorage)
+    IUserStorage userStorage)
     : IUpdateUserUseCase
 {
     public async Task CreateOrUpdateUser(User? user, CancellationToken cancellationToken)
     {
         if (user != null)
         {
-            var localUser = await getUserStorage.GetUser(user.Id, cancellationToken);
+            var localUser = await userStorage.GetUser(user.Id, cancellationToken);
             if (localUser == null)
-                await addUserStorage.AddUser(user, cancellationToken);
+                await userStorage.AddUser(user, cancellationToken);
             else
-                await updateUserStorage.UpdateUser(user, cancellationToken);
+                await userStorage.UpdateUser(user, cancellationToken);
         }
     }
 }
