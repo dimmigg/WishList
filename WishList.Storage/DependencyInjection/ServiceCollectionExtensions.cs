@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Storage.Storages.Users;
+using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Storage.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddScoped<IUserStorage, UserStorage>()
+            .AddScoped<IWishListStorage, WishListStorage>()
             .AddDbContextPool<WishListDbContext>(options => options
             .UseNpgsql(dbConnectionString));
         services.AddAutoMapper(config => config

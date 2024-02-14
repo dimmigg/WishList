@@ -27,4 +27,8 @@
       <ProjectReference Include="..\WishList.Domain\WishList.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Received\" />
+    </ItemGroup>
+
 </Project>

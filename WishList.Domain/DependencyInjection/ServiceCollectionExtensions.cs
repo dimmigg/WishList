@@ -1,5 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using WishList.Domain.Mapper;
 using WishList.Domain.Received;
+using WishList.Domain.Received.CallbackQueryReceived;
+using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.AddWishList;
 using WishList.Domain.UseCases.Start;
 using WishList.Domain.UseCases.UpdateUser;
 
@@ -12,6 +17,11 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IReceivedService, ReceivedService>();
         services.AddScoped<IStartUseCase, StartUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+        services.AddScoped<ISuggestAddingUseCase, SuggestAddingUseCase>();
+        services.AddScoped<ICallbackQueryBuilder, CallbackQueryBuilder>();
+        services.AddScoped<ISender, Sender>();
+        services.AddAutoMapper(config => config
+            .AddMaps(Assembly.GetAssembly(typeof(UserProfile))));
         return services;
     }
 }

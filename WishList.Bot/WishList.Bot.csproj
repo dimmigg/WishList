@@ -24,6 +24,5 @@
 
     <ItemGroup>
         <ProjectReference Include="..\WishList.Domain\WishList.Domain.csproj"/>
-        <ProjectReference Include="..\WishList.Storage\WishList.Storage.csproj"/>
     </ItemGroup>
 </Project>

@@ -1,31 +1,34 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Received.CallbackQueryReceived;
+using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Start;
 using WishList.Domain.UseCases.UpdateUser;
 
 namespace WishList.Domain.Received;
 
 public class ReceivedService(
-    ITelegramBotClient botClient,
+    ISender sender,
     IUpdateUserUseCase updateUserUseCase,
+    ICallbackQueryBuilder callbackQueryBuilder,
     IStartUseCase startUseCase
     ) : IReceivedService
 {
     public async Task MessageReceivedAsync(Message message, CancellationToken cancellationToken)
     {
-        if (message.Text is not { } messageText)
+        if (message.Text is not { } messageText||
+            message.From is not { } tgUser)
             return;
 
-        await updateUserUseCase.CreateOrUpdateUser(message.From, cancellationToken);
-        
+        var user = await updateUserUseCase.CreateOrUpdateUser(tgUser, cancellationToken);
+
         var action = messageText.Split(' ')[0] switch
         {
-            "/start" => startUseCase.Execute(message, cancellationToken),
+            "/start" => startUseCase.Execute(message, user, cancellationToken),
             _ => Usage(message, cancellationToken)
         };
-        var sentMessage = await action;
+        await action;
         return;
         
         async Task<Message> Usage(Message message, CancellationToken cancellationToken)
@@ -38,7 +41,7 @@ public class ReceivedService(
                                  "/request     - request location or contact\n" +
                                  "/inline_mode - send keyboard with Inline Query";
 
-            return await botClient.SendTextMessageAsync(
+            return await sender.SendTextMessageAsync(
                 chatId: message.Chat.Id,
                 text: usage,
                 replyMarkup: new ReplyKeyboardRemove(),
@@ -46,17 +49,14 @@ public class ReceivedService(
         }
     }
     
-    public async Task CallbackQueryReceivedAsync(CallbackQuery callbackQuery, CancellationToken cancellationToken)
+    public async Task CallbackQueryReceivedAsync(CallbackQuery callbackQuery,
+        CancellationToken cancellationToken)
     {
-        await botClient.AnswerCallbackQueryAsync(
-            callbackQueryId: callbackQuery.Id,
-            text: $"Received {callbackQuery.Data}",
-            cancellationToken: cancellationToken);
+        if(callbackQuery.Data == null) return;
 
-        await botClient.SendTextMessageAsync(
-            chatId: callbackQuery.Message!.Chat.Id,
-            text: $"Received {callbackQuery.Data}",
-            cancellationToken: cancellationToken);
+        var callbackReceived = callbackQueryBuilder.Build(callbackQuery.Data, cancellationToken);
+        
+        await callbackReceived.Execute(callbackQuery, cancellationToken);
     }
     
     public async Task InlineQueryReceivedAsync(InlineQuery inlineQuery, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public class ReceivedService(
                 inputMessageContent: new InputTextMessageContent("hello"))
         };
 
-        await botClient.AnswerInlineQueryAsync(
+        await sender.AnswerInlineQueryAsync(
             inlineQueryId: inlineQuery.Id,
             results: results,
             cacheTime: 0,
@@ -79,7 +79,7 @@ public class ReceivedService(
     
     public async Task ChosenInlineResultReceivedAsync(ChosenInlineResult chosenInlineResult, CancellationToken cancellationToken)
     {
-        await botClient.SendTextMessageAsync(
+        await sender.SendTextMessageAsync(
             chatId: chosenInlineResult.From.Id,
             text: $"You chose result with Id: {chosenInlineResult.ResultId}",
             cancellationToken: cancellationToken);

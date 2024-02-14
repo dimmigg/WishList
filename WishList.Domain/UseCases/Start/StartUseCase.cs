@@ -1,21 +1,20 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Models;
+using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.AddWishList;
 using WishList.Domain.UseCases.UpdateUser;
 
 namespace WishList.Domain.UseCases.Start;
 
 public class StartUseCase(
-    ITelegramBotClient botClient,
+    ISender sender,
+    ISuggestAddingUseCase suggestAddingWishListUseCase,
     IUpdateUserUseCase updateUserUseCase) : UseCaseBase, IStartUseCase
 {
-    public async Task<Message> Execute(Message message, CancellationToken cancellationToken)
+    public async Task Execute(Message message, RegisteredUser user, CancellationToken cancellationToken)
     {
-        if (message.From != null)
-        {
-            await updateUserUseCase.CreateOrUpdateUser(message.From, cancellationToken);
-        }
-
         const string usage = "О, привет!\n" +
                              "Я помогу узнать, что хотят получить твои друзья! А также рассказать им, что хочешь получить ты!\n\n" +
                              "Для поиска друзей просто отправь ник.\n" + 
@@ -24,17 +23,26 @@ public class StartUseCase(
         ReplyKeyboardMarkup replyKeyboardMarkup = new(
             new[]
             {
-                new KeyboardButton[] { "Мои списки", "1.2" },
-                new KeyboardButton[] { "2.1", "2.2" },
+                new KeyboardButton[] { "Мои списки", "Параметры" },
             })
         {
             ResizeKeyboard = true
         };
 
-        return await botClient.SendTextMessageAsync(
+        await sender.SendTextMessageAsync(
             chatId: message.Chat.Id,
             text: usage,
             replyMarkup: replyKeyboardMarkup,
             cancellationToken: cancellationToken);
+        
+        if (user.WishLists.Count == 0)
+        {
+            //новый юзер - предлагаем добавить список
+            await suggestAddingWishListUseCase.Execute(message, cancellationToken);
+        }
+        else
+        {
+            // у пользователя есть список...
+        }
     }
 }

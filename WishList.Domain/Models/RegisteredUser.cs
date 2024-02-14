@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using WishList.Storage.WayOptions;
+﻿namespace WishList.Domain.Models;
 
-namespace WishList.Storage.Entities;
-
-public class TelegramUser
+public class RegisteredUser
 {
-    [Key]
     public long Id { get; set; }
     
     public string FirstName { get; set; } = default!;
@@ -15,19 +10,14 @@ public class TelegramUser
     
     public string? Username { get; set; }
     
-    [EnumDataType(typeof(Way))]
-    public Way? CurrentWay { get; set; }
+    public int? CurrentWay { get; set; }
     
-    [EnumDataType(typeof(StepWay))]
-    public StepWay? WayStep { get; set; }
+    public int? WayStep { get; set; }
     
-    [InverseProperty(nameof(WishList.Author))]
     public ICollection<WishList> WishLists { get; set; }
     
-    [InverseProperty(nameof(WishList.ReadUsers))]
     public ICollection<WishList> ReadWishLists { get; set; }
     
-    [InverseProperty(nameof(WishList.WriteUsers))]
     public ICollection<WishList> WriteWishLists { get; set; }
     
     public override string ToString() =>
