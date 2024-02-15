@@ -5,7 +5,7 @@ using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.WayOptions;
 
-namespace WishList.Domain.Received.CallbackQueryReceived;
+namespace WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 
 public class CreateWishListCallbackReceived(
     Way way,
@@ -39,11 +39,26 @@ public class CreateWishListCallbackReceived(
     private async Task RequestListName(CallbackQuery callbackQuery, CancellationToken cancellationToken)
     {
         const string textMessage = "Введите название списка";
-        await sender.EditMessageTextAsync(
+        
+        await sender.AnswerCallbackQueryAsync(
+            callbackQueryId: callbackQuery.Id,
+            text: textMessage,
+            cancellationToken: cancellationToken);
+        
+        await sender.SendTextMessageAsync(
             chatId: callbackQuery.Message!.Chat.Id,
-            messageId: callbackQuery.Message!.MessageId,
             replyMarkup: InlineKeyboardMarkup.Empty(),
             text: textMessage,
             cancellationToken: cancellationToken);
+    }
+
+    public void SetWay(Way newWay)
+    {
+        way = newWay;
+    }
+
+    public void SetStepWay(StepWay newStepWay)
+    {
+        step = newStepWay;
     }
 }

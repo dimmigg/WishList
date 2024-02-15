@@ -1,8 +1,8 @@
 ﻿using Telegram.Bot.Types;
 
-namespace WishList.Domain.UseCases.AddWishList;
+namespace WishList.Domain.UseCases.SuggestAddWishList;
 
-public interface ISuggestAddingUseCase
+public interface ISuggestAddWishListUseCase
 {
     public Task Execute(Message message, CancellationToken cancellationToken);
 }

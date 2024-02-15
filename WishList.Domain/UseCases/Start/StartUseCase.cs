@@ -1,17 +1,13 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
-using WishList.Domain.UseCases.AddWishList;
-using WishList.Domain.UseCases.UpdateUser;
-
+using WishList.Domain.UseCases.SuggestAddWishList;
 namespace WishList.Domain.UseCases.Start;
 
 public class StartUseCase(
     ISender sender,
-    ISuggestAddingUseCase suggestAddingWishListUseCase,
-    IUpdateUserUseCase updateUserUseCase) : UseCaseBase, IStartUseCase
+    ISuggestAddWishListUseCase suggestAddWishListWishListUseCase) : UseCaseBase, IStartUseCase
 {
     public async Task Execute(Message message, RegisteredUser user, CancellationToken cancellationToken)
     {
@@ -38,7 +34,7 @@ public class StartUseCase(
         if (user.WishLists.Count == 0)
         {
             //новый юзер - предлагаем добавить список
-            await suggestAddingWishListUseCase.Execute(message, cancellationToken);
+            await suggestAddWishListWishListUseCase.Execute(message, cancellationToken);
         }
         else
         {

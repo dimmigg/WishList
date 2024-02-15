@@ -41,4 +41,12 @@ public interface ISender
         InlineQueryResultsButton? button = default,
         CancellationToken cancellationToken = default
     );
+
+    Task AnswerCallbackQueryAsync(
+        string callbackQueryId,
+        string? text = default,
+        bool? showAlert = default,
+        string? url = default,
+        int? cacheTime = default,
+        CancellationToken cancellationToken = default);
 }

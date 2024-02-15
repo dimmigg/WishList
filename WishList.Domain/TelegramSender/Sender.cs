@@ -50,4 +50,14 @@ public class Sender(ITelegramBotClient botClient) : ISender
             nextOffset,
             button,
             cancellationToken);
+    
+    public Task AnswerCallbackQueryAsync(string callbackQueryId, string? text = default, bool? showAlert = default,
+        string? url = default, int? cacheTime = default, CancellationToken cancellationToken = default) =>
+    botClient.AnswerCallbackQueryAsync(
+        callbackQueryId,
+        text,
+        showAlert,
+        url,
+        cacheTime,
+        cancellationToken);
 }
