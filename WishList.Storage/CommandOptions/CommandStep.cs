@@ -1,6 +1,6 @@
-﻿namespace WishList.Storage.WayOptions;
+﻿namespace WishList.Storage.CommandOptions;
 
-public enum StepWay
+public enum CommandStep
 {
     Null,
     First,

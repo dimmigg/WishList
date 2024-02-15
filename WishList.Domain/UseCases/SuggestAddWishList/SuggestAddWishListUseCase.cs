@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.TelegramSender;
-using WishList.Storage.WayOptions;
+using WishList.Storage.CommandOptions;
 
 namespace WishList.Domain.UseCases.SuggestAddWishList;
 
@@ -18,7 +18,7 @@ public class SuggestAddWishListUseCase(
                 new []
                 {
                     InlineKeyboardButton.WithCallbackData(
-                        "Давай скорее!", $"{Way.CreateWishList}/{StepWay.First}"),
+                        "Давай скорее!", $"{Command.CreateWishList}/{CommandStep.First}"),
                 }
             }); 
         await sender.SendTextMessageAsync(

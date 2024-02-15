@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot.Types;
+using WishList.Storage.CommandOptions;
 using WishList.Storage.Entities;
 using WishList.Storage.Exceptions;
-using WishList.Storage.WayOptions;
 
 namespace WishList.Storage.Storages.Users;
 
@@ -42,14 +42,14 @@ public class UserStorage(
         return existingUser;
     }
 
-    public async Task<TelegramUser> UpdateWayUser(long id, Way way, StepWay step, CancellationToken cancellationToken)
+    public async Task<TelegramUser> UpdateWayUser(long id, Command command, CommandStep commandStep, CancellationToken cancellationToken)
     {
         var existingUser = await GetUser(id, cancellationToken: cancellationToken);
 
         if (existingUser == null) throw new StorageException("User not found");
 
-        existingUser.CurrentWay = way;
-        existingUser.WayStep = step;
+        existingUser.Command = command;
+        existingUser.CommandStep = commandStep;
         
         await dbContext.SaveChangesAsync(cancellationToken);
         

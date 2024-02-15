@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WishList.Storage.WayOptions;
+using WishList.Storage.CommandOptions;
 
 namespace WishList.Storage.Entities;
 
@@ -15,11 +15,11 @@ public class TelegramUser
     
     public string? Username { get; set; }
     
-    [EnumDataType(typeof(Way))]
-    public Way? CurrentWay { get; set; }
+    [EnumDataType(typeof(Command))]
+    public Command? Command { get; set; }
     
-    [EnumDataType(typeof(StepWay))]
-    public StepWay? WayStep { get; set; }
+    [EnumDataType(typeof(CommandStep))]
+    public CommandStep? CommandStep { get; set; }
     
     [InverseProperty(nameof(WishList.Author))]
     public ICollection<WishList> WishLists { get; set; }

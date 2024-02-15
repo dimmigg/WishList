@@ -1,8 +1,8 @@
 ﻿using WishList.Domain.Exceptions;
 using WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 using WishList.Domain.TelegramSender;
+using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
-using WishList.Storage.WayOptions;
 
 namespace WishList.Domain.Received.CallbackQueryReceived;
 
@@ -14,14 +14,14 @@ public class CallbackQueryBuilder(
     public ICallbackReceived Build(string command, CancellationToken cancellationToken)
     {
         var commands = command.Split('/');
-        if (!Enum.TryParse<Way>(commands[0], out var way) ||
-            !Enum.TryParse<StepWay>(commands[1], out var step))
+        if (!Enum.TryParse<Command>(commands[0], out var way) ||
+            !Enum.TryParse<CommandStep>(commands[1], out var step))
             throw new DomainException("Команда не распознана");
         switch (way)
         {
-            case Way.CreateWishList:
+            case Command.CreateWishList:
                 return new CreateWishListCallbackReceived(way, step, userStorage, sender);
-            case Way.Null:
+            case Command.Null:
             default:
                 throw new DomainException("Команда не распознана");
         }

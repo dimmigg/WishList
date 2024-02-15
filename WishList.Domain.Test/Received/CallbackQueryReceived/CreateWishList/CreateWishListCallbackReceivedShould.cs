@@ -4,8 +4,8 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 using WishList.Domain.TelegramSender;
+using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
-using WishList.Storage.WayOptions;
 
 namespace WishList.Domain.Test.Received.CallbackQueryReceived.CreateWishList;
 
@@ -20,8 +20,8 @@ public class CreateWishListCallbackReceivedShould
         userStorage = new Mock<IUserStorage>();
         sender = new Mock<ISender>();
         sut = new CreateWishListCallbackReceived(
-            Way.Null,
-            StepWay.Null,
+            Command.Null,
+            CommandStep.Null,
             userStorage.Object,
             sender.Object
             );
@@ -30,8 +30,8 @@ public class CreateWishListCallbackReceivedShould
     [Fact]
     public async Task SendMessage_WhenWayNotNull()
     {
-        const Way way = Way.CreateWishList;
-        const StepWay stepWay = StepWay.First;
+        const Command way = Command.CreateWishList;
+        const CommandStep stepWay = CommandStep.First;
         const long userId = 1;
         const string callbackId = "1";
         const long chatId = 1;

@@ -4,8 +4,8 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.Received.CallbackQueryReceived;
 using WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 using WishList.Domain.TelegramSender;
+using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
-using WishList.Storage.WayOptions;
 
 namespace WishList.Domain.Test.Received.CallbackQueryReceived;
 
@@ -24,7 +24,7 @@ public class CallbackQueryBuilderShould
     [Fact]
     public void ReturnCreateWishList_WhenWayCreateWishList()
     {
-        var command = $"{Way.CreateWishList}/{StepWay.Null}";
+        var command = $"{Command.CreateWishList}/{CommandStep.Null}";
 
         var received = sut.Build(command, CancellationToken.None);
 
@@ -43,7 +43,7 @@ public class CallbackQueryBuilderShould
     [Fact]
     public void ThrowDomain_WhenWayNull()
     {
-        var command = $"{Way.Null}/{StepWay.Null}";
+        var command = $"{Command.Null}/{CommandStep.Null}";
 
         sut.Invoking(s => s.Build(command, CancellationToken.None))
             .Should().Throw<DomainException>();

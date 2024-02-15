@@ -2,35 +2,35 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
+using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
-using WishList.Storage.WayOptions;
 
 namespace WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 
 public class CreateWishListCallbackReceived(
-    Way way,
-    StepWay step,
+    Command command,
+    CommandStep commandStep,
     IUserStorage userStorage,
     ISender sender)
     : ICallbackReceived
 {
     public async Task Execute(CallbackQuery callbackQuery, CancellationToken cancellationToken)
     {
-        await userStorage.UpdateWayUser(callbackQuery.From.Id, way, step, cancellationToken);
-        switch (step)
+        await userStorage.UpdateWayUser(callbackQuery.From.Id, command, commandStep, cancellationToken);
+        switch (commandStep)
         {
-            case StepWay.First:
+            case CommandStep.First:
                 await RequestListName(callbackQuery, cancellationToken);
                 break;
-            case StepWay.Second:
+            case CommandStep.Second:
                 break;
-            case StepWay.Third:
+            case CommandStep.Third:
                 break;
-            case StepWay.Fourth:
+            case CommandStep.Fourth:
                 break;
-            case StepWay.Fifth:
+            case CommandStep.Fifth:
                 break;
-            case StepWay.Null:
+            case CommandStep.Null:
             default:
                 throw new DomainException("Команда не распознана");
         }
@@ -52,13 +52,13 @@ public class CreateWishListCallbackReceived(
             cancellationToken: cancellationToken);
     }
 
-    public void SetWay(Way newWay)
+    public void SetWay(Command newCommand)
     {
-        way = newWay;
+        command = newCommand;
     }
 
-    public void SetStepWay(StepWay newStepWay)
+    public void SetStepWay(CommandStep newCommandStep)
     {
-        step = newStepWay;
+        commandStep = newCommandStep;
     }
 }
