@@ -6,6 +6,7 @@ using WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
+using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.Received.CallbackQueryReceived.CreateWishList;
 
@@ -14,15 +15,18 @@ public class CreateWishListCallbackReceivedShould
     private readonly CreateWishListCallbackReceived sut;
     private readonly Mock<IUserStorage> userStorage;
     private readonly Mock<ISender> sender;
+    private readonly Mock<IWishListStorage> wishListStorage;
 
     public CreateWishListCallbackReceivedShould()
     {
         userStorage = new Mock<IUserStorage>();
+        wishListStorage = new Mock<IWishListStorage>();
         sender = new Mock<ISender>();
         sut = new CreateWishListCallbackReceived(
             Command.Null,
             CommandStep.Null,
             userStorage.Object,
+            wishListStorage.Object,
             sender.Object
             );
     }
@@ -54,13 +58,7 @@ public class CreateWishListCallbackReceivedShould
             }
         };
         await sut.Execute(callbackQuery, CancellationToken.None);
-        
-        userStorage.Verify(us => us.UpdateWayUser(
-            userId, 
-            way, 
-            stepWay, 
-            It.IsAny<CancellationToken>()),
-            Times.Once);
+
         sender.Verify(s => s.SendTextMessageAsync(
             chatId,
             It.IsAny<string>(),

@@ -1,6 +1,8 @@
-﻿namespace WishList.Domain.Received.CallbackQueryReceived;
+﻿using WishList.Storage.CommandOptions;
+
+namespace WishList.Domain.Received.CallbackQueryReceived;
 
 public interface ICallbackQueryBuilder
 {
-    ICallbackReceived Build(string command, CancellationToken cancellationToken);
+    ICallbackReceived Build(Command way, CommandStep step, CancellationToken cancellationToken);
 }

@@ -1,10 +1,12 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Exceptions;
 using WishList.Domain.Received.CallbackQueryReceived;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Start;
 using WishList.Domain.UseCases.UpdateUser;
+using WishList.Storage.CommandOptions;
 
 namespace WishList.Domain.Received;
 
@@ -22,30 +24,19 @@ public class ReceivedService(
             return;
 
         var user = await updateUserUseCase.CreateOrUpdateUser(tgUser, cancellationToken);
-
-        var action = messageText.Split(' ')[0] switch
+        if(user.Command != Command.Null && user.CommandStep != CommandStep.Null)
         {
-            "/start" => startUseCase.Execute(message, user, cancellationToken),
-            _ => Usage(message, cancellationToken)
-        };
-        await action;
-        return;
-        
-        async Task<Message> Usage(Message message, CancellationToken cancellationToken)
+            var callbackReceived = callbackQueryBuilder.Build(user.Command, user.CommandStep, cancellationToken);
+            await callbackReceived.Execute(message, cancellationToken);
+        }
+        else
         {
-            const string usage = "Usage:\n" +
-                                 "/inline_keyboard - send inline keyboard\n" +
-                                 "/keyboard    - send custom keyboard\n" +
-                                 "/remove      - remove custom keyboard\n" +
-                                 "/photo       - send a photo\n" +
-                                 "/request     - request location or contact\n" +
-                                 "/inline_mode - send keyboard with Inline Query";
-
-            return await sender.SendTextMessageAsync(
-                chatId: message.Chat.Id,
-                text: usage,
-                replyMarkup: new ReplyKeyboardRemove(),
-                cancellationToken: cancellationToken);
+            var action = messageText.Split(' ')[0] switch
+            {
+                "/start" => startUseCase.Execute(message, user, cancellationToken),
+                _ => Usage(message, cancellationToken)
+            };
+            await action;
         }
     }
     
@@ -53,8 +44,10 @@ public class ReceivedService(
         CancellationToken cancellationToken)
     {
         if(callbackQuery.Data == null) return;
-
-        var callbackReceived = callbackQueryBuilder.Build(callbackQuery.Data, cancellationToken);
+        
+        callbackQuery.ParseCommand(out var way, out var step);
+        
+        var callbackReceived = callbackQueryBuilder.Build(way, step, cancellationToken);
         
         await callbackReceived.Execute(callbackQuery, cancellationToken);
     }
@@ -88,5 +81,16 @@ public class ReceivedService(
     public Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
+    }
+    
+    private async Task<Message> Usage(Message message, CancellationToken cancellationToken)
+    {
+        const string usage = "Что-то хотели?";
+
+        return await sender.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: usage,
+            replyMarkup: new ReplyKeyboardRemove(),
+            cancellationToken: cancellationToken);
     }
 }

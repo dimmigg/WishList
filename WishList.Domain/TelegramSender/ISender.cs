@@ -49,4 +49,10 @@ public interface ISender
         string? url = default,
         int? cacheTime = default,
         CancellationToken cancellationToken = default);
+
+    Task DeleteMessageAsync(
+        ChatId chatId,
+        int messageId,
+        CancellationToken cancellationToken = default);
+
 }

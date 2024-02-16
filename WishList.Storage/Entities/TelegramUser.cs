@@ -16,10 +16,10 @@ public class TelegramUser
     public string? Username { get; set; }
     
     [EnumDataType(typeof(Command))]
-    public Command? Command { get; set; }
+    public Command Command { get; set; }
     
     [EnumDataType(typeof(CommandStep))]
-    public CommandStep? CommandStep { get; set; }
+    public CommandStep CommandStep { get; set; }
     
     [InverseProperty(nameof(WishList.Author))]
     public ICollection<WishList> WishLists { get; set; }

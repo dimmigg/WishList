@@ -1,4 +1,6 @@
-﻿namespace WishList.Domain.Models;
+﻿using WishList.Storage.CommandOptions;
+
+namespace WishList.Domain.Models;
 
 public class RegisteredUser
 {
@@ -10,9 +12,9 @@ public class RegisteredUser
     
     public string? Username { get; set; }
     
-    public int? CurrentWay { get; set; }
+    public Command Command { get; set; }
     
-    public int? WayStep { get; set; }
+    public CommandStep CommandStep { get; set; }
     
     public ICollection<WishList> WishLists { get; set; }
     

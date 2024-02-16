@@ -60,4 +60,7 @@ public class Sender(ITelegramBotClient botClient) : ISender
         url,
         cacheTime,
         cancellationToken);
+
+    public Task DeleteMessageAsync(ChatId chatId, int messageId, CancellationToken cancellationToken = default) =>
+        botClient.DeleteMessageAsync(chatId, messageId, cancellationToken);
 }

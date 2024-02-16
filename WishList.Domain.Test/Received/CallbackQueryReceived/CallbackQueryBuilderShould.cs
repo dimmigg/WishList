@@ -6,6 +6,7 @@ using WishList.Domain.Received.CallbackQueryReceived.CreateWishList;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.CommandOptions;
 using WishList.Storage.Storages.Users;
+using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.Received.CallbackQueryReceived;
 
@@ -17,6 +18,7 @@ public class CallbackQueryBuilderShould
     {
         sut = new CallbackQueryBuilder(
             new Mock<IUserStorage>().Object,
+            new Mock<IWishListStorage>().Object,
             new Mock<ISender>().Object
             );
     }   
@@ -24,9 +26,7 @@ public class CallbackQueryBuilderShould
     [Fact]
     public void ReturnCreateWishList_WhenWayCreateWishList()
     {
-        var command = $"{Command.CreateWishList}/{CommandStep.Null}";
-
-        var received = sut.Build(command, CancellationToken.None);
+        var received = sut.Build(Command.CreateWishList, CommandStep.Null, CancellationToken.None);
 
         received.Should().BeOfType<CreateWishListCallbackReceived>();
     }
@@ -34,18 +34,7 @@ public class CallbackQueryBuilderShould
     [Fact]
     public void ThrowDomain_WhenWayInvalid()
     {
-        const string command = "InvalidWay/StepWayNull";
-
-        sut.Invoking(s => s.Build(command, CancellationToken.None))
-            .Should().Throw<DomainException>();
-    }
-    
-    [Fact]
-    public void ThrowDomain_WhenWayNull()
-    {
-        var command = $"{Command.Null}/{CommandStep.Null}";
-
-        sut.Invoking(s => s.Build(command, CancellationToken.None))
+        sut.Invoking(s => s.Build(Command.Null, CommandStep.Null, CancellationToken.None))
             .Should().Throw<DomainException>();
     }
 }
