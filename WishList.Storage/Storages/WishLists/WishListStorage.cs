@@ -21,10 +21,16 @@ public class WishListStorage(
         return wishList;
     }
 
-    public Task<Entities.WishList?> GetWishList(int id, CancellationToken cancellationToken) =>
-        dbContext.WishLists
+    public async Task<Entities.WishList?> GetWishList(int id, CancellationToken cancellationToken) =>
+        await dbContext.WishLists
             .Where(wl => wl.Id == id)
+            .Include(wl => wl.Presents)
             .FirstOrDefaultAsync(cancellationToken);
+
+    public async Task<Entities.WishList[]> GetWishLists(long userId, CancellationToken cancellationToken) =>
+        await dbContext.WishLists
+            .Where(wl => wl.AuthorId == userId)
+            .ToArrayAsync(cancellationToken);
 
     public async Task<Entities.WishList> UpdateNameWishList(int wishListId, string name, long authorId, CancellationToken cancellationToken)
     {

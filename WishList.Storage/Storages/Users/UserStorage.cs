@@ -24,8 +24,8 @@ public class UserStorage(
         dbContext.Users
             .Where(u => u.Id == id)
             .Include(u => u.WishLists)
-            .Include(u => u.ReadWishLists)
-            .Include(u => u.WriteWishLists)
+            //.Include(u => u.ReadWishLists)
+            //.Include(u => u.WriteWishLists)
             .FirstOrDefaultAsync(cancellationToken);
     
     public async Task<TelegramUser> UpdateUser(User user, CancellationToken cancellationToken)
@@ -42,14 +42,13 @@ public class UserStorage(
         return existingUser;
     }
 
-    public async Task<TelegramUser> UpdateWayUser(long id, Command command, CommandStep commandStep, CancellationToken cancellationToken)
+    public async Task<TelegramUser> UpdateLastCommandUser(long id, string command, CancellationToken cancellationToken)
     {
         var existingUser = await GetUser(id, cancellationToken: cancellationToken);
 
         if (existingUser == null) throw new StorageException("User not found");
 
-        existingUser.Command = command;
-        existingUser.CommandStep = commandStep;
+        existingUser.LastCommand = command;
         
         await dbContext.SaveChangesAsync(cancellationToken);
         

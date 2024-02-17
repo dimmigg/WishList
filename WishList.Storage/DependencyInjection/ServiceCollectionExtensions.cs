@@ -15,8 +15,6 @@ public static class ServiceCollectionExtensions
             .AddScoped<IWishListStorage, WishListStorage>()
             .AddDbContextPool<WishListDbContext>(options => options
             .UseNpgsql(dbConnectionString));
-        services.AddAutoMapper(config => config
-            .AddMaps(Assembly.GetAssembly(typeof(WishListDbContext))));
         return services;
     }
 }

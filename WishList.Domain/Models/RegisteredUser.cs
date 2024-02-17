@@ -12,9 +12,7 @@ public class RegisteredUser
     
     public string? Username { get; set; }
     
-    public Command Command { get; set; }
-    
-    public CommandStep CommandStep { get; set; }
+    public string LastCommand  { get; set; }
     
     public ICollection<WishList> WishLists { get; set; }
     

@@ -3,5 +3,10 @@
 public enum Command
 {
     Null,
-    CreateWishList
+    CreateWishList,
+    EditWishList,
+    EditWishLists,
+    CreatePresent,
+    EditPresent,
+    EditPresents,
 }

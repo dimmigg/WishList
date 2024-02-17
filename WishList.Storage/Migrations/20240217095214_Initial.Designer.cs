@@ -11,8 +11,8 @@ using WishList.Storage;
 namespace WishList.Storage.Migrations
 {
     [DbContext(typeof(WishListDbContext))]
-    [Migration("20240215173552_EditCommand")]
-    partial class EditCommand
+    [Migration("20240217095214_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,13 +92,11 @@ namespace WishList.Storage.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("Command")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CommandStep")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastCommand")
                         .IsRequired()
                         .HasColumnType("text");
 

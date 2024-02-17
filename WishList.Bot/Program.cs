@@ -25,8 +25,8 @@ builder.Services.AddHttpClient("telegram_bot_client")
 builder.Services.AddScoped<UpdateHandlers>();
 builder.Services.AddHostedService<ConfigureWebhook>();
 builder.Services
-    .AddDomain()
     .AddStorage(connectionString)
+    .AddDomain()
     .AddControllers()
     .AddNewtonsoftJson();
 

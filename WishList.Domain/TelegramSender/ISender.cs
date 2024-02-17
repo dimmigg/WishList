@@ -1,5 +1,4 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -12,9 +11,9 @@ public interface ISender
         ChatId chatId,
         int messageId,
         string text,
-        ParseMode? parseMode = default,
+        ParseMode? parseMode = ParseMode.Markdown,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        bool? disableWebPagePreview = true,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default);
 
@@ -22,7 +21,7 @@ public interface ISender
         ChatId chatId,
         string text,
         int? messageThreadId = default,
-        ParseMode? parseMode = default,
+        ParseMode? parseMode = ParseMode.Markdown,
         IEnumerable<MessageEntity>? entities = default,
         bool? disableWebPagePreview = default,
         bool? disableNotification = default,

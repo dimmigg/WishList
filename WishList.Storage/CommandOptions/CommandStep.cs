@@ -8,4 +8,6 @@ public enum CommandStep
     Third,
     Fourth,
     Fifth,
+    Sixth,
+    Back
 }

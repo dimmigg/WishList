@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <Folder Include="Received\" />
+      <Folder Include="UseCases\" />
     </ItemGroup>
 
 </Project>

@@ -89,14 +89,11 @@ namespace WishList.Storage.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("Command")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CommandStep")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastCommand")
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")

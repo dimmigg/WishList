@@ -14,4 +14,9 @@ public static class StringExtensions
         way = parseWay;
         step = parseStep;
     }
+    
+    public static void ParseCommand(this string command,  out string[] commands)
+    {
+        commands = command.Split("</>");
+    }
 }
