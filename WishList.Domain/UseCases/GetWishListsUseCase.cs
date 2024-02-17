@@ -7,7 +7,7 @@ using WishList.Storage.Storages.WishLists;
 namespace WishList.Domain.UseCases;
 
 public class GetWishListsUseCase(
-    BuildParam param,
+    UseCaseParam param,
     ISender sender,
     IWishListStorage wishListStorage)
     : IUseCase
@@ -37,7 +37,7 @@ public class GetWishListsUseCase(
         ]);
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "<= Назад", "main")
+                "« Назад", "main")
         ]);
 
 

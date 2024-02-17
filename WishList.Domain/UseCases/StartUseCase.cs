@@ -1,40 +1,19 @@
-﻿using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 
 namespace WishList.Domain.UseCases;
 
 public class StartUseCase(
-    BuildParam param,
+    UseCaseParam? param,
     ISender sender) : IUseCase
 {
-    public async Task Execute(Message message, RegisteredUser user, CancellationToken cancellationToken)
-    {
-        List<List<InlineKeyboardButton>> keyboard =
-        [
-            [
-                InlineKeyboardButton.WithCallbackData(
-                    "Мои списки", "my-wish-lists")
-            ],
-            [
-                InlineKeyboardButton.WithCallbackData(
-                    "Кому подарить", "subscritbe-wish-lists")
-            ]
-        ];
-
-        const string usage = "*Главное меню*.\n" +
-                             "Я помогу узнать, что хотят получить твои друзья! А также рассказать им, что хочешь получить ты!";
-
-        await sender.SendTextMessageAsync(
-            chatId: message.Chat.Id,
-            text: usage,
-            replyMarkup: new InlineKeyboardMarkup(keyboard),
-            cancellationToken: cancellationToken);
-    }
-
     public async Task Execute(CancellationToken cancellationToken)
     {
+        if (param == null || (param?.Message == null && param?.CallbackQuery == null))
+            throw new DomainException("Параметы команды не валидны");
+        
         List<List<InlineKeyboardButton>> keyboard =
         [
             [

@@ -20,14 +20,14 @@ public class ReceivedService(
             return;
 
         var user = await updateUserUseCase.CreateOrUpdateUser(tgUser, cancellationToken);
-        var param = new BuildParam
+        var param = new UseCaseParam
         {
             User = user,
             Command = string.IsNullOrWhiteSpace(user.LastCommand) ? "main" : user.LastCommand,
             Message = message
         };
-        var useCase = useCaseBuilder.Build(param);
-        await useCase.Execute(cancellationToken);
+        
+        await ExecuteUseCaseAsync(param, cancellationToken);
     }
     
     public async Task CallbackQueryReceivedAsync(CallbackQuery callbackQuery,
@@ -37,16 +37,22 @@ public class ReceivedService(
            callbackQuery.From is not { } tgUser) return;
         
         var user = await updateUserUseCase.CreateOrUpdateUser(tgUser, cancellationToken);
-        var param = new BuildParam
+        var param = new UseCaseParam
         {
             User = user,
             Command = callbackQuery.Data,
             CallbackQuery = callbackQuery
         };
+        
+        await ExecuteUseCaseAsync(param, cancellationToken);
+    }
+
+    private async Task ExecuteUseCaseAsync(UseCaseParam param, CancellationToken cancellationToken)
+    {
         var useCase = useCaseBuilder.Build(param);
         await useCase.Execute(cancellationToken);
     }
-    
+
     public async Task InlineQueryReceivedAsync(InlineQuery inlineQuery, CancellationToken cancellationToken)
     {
         InlineQueryResult[] results = {

@@ -4,5 +4,5 @@ namespace WishList.Domain.UseCases.Builder;
 
 public interface IUseCaseBuilder
 {
-    IUseCase Build(BuildParam param);
+    IUseCase Build(UseCaseParam param);
 }

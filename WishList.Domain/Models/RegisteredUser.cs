@@ -1,6 +1,4 @@
-﻿using WishList.Storage.CommandOptions;
-
-namespace WishList.Domain.Models;
+﻿namespace WishList.Domain.Models;
 
 public class RegisteredUser
 {

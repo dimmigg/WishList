@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot.Types;
-using WishList.Storage.CommandOptions;
 using WishList.Storage.Entities;
 using WishList.Storage.Exceptions;
 
