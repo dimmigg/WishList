@@ -18,13 +18,13 @@ public class StartUseCaseShould
     private string callbackId = "1";
     private readonly Mock<ISender> sender;
     private readonly UseCaseParam param;
-    private readonly StartUseCase sut;
+    private readonly MainUseCase sut;
 
     public StartUseCaseShould()
     {
         param = new UseCaseParam();
         sender = new Mock<ISender>();
-        sut = new StartUseCase(param, sender.Object);
+        sut = new MainUseCase(param, sender.Object);
     }
 
     [Fact]

@@ -5,6 +5,8 @@ using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases;
 using WishList.Domain.UseCases.Builder;
+using WishList.Storage.Storages.Presents;
+using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.UseCases;
@@ -19,6 +21,8 @@ public class UseCaseBuilderShould
         param = new UseCaseParam();
         sut = new UseCaseBuilder(
             new Mock<IWishListStorage>().Object,
+            new Mock<IUserStorage>().Object,
+            new Mock<IPresentStorage>().Object,
             new Mock<ISender>().Object);
     }
 
@@ -29,7 +33,7 @@ public class UseCaseBuilderShould
         sut
             .Build(param)
             .Should()
-            .BeOfType<StartUseCase>();
+            .BeOfType<MainUseCase>();
     }
     
     [Fact]
@@ -39,7 +43,7 @@ public class UseCaseBuilderShould
         sut
             .Build(param)
             .Should()
-            .BeOfType<GetWishListsUseCase>();
+            .BeOfType<MyWishListsUseCase>();
     }    
     
     [Fact]

@@ -5,7 +5,7 @@ using WishList.Domain.TelegramSender;
 
 namespace WishList.Domain.UseCases;
 
-public class StartUseCase(
+public class MainUseCase(
     UseCaseParam? param,
     ISender sender) : IUseCase
 {
@@ -26,8 +26,7 @@ public class StartUseCase(
             ]
         ];
 
-        const string usage = "*Главное меню*.\n" +
-                             "Я помогу узнать, что хотят получить твои друзья! А также рассказать им, что хочешь получить ты!";
+        const string usage = "Я помогу узнать, что хотят получить твои друзья!\nА им расскажу, что хочешь получить ты!";
 
         if (param.Message != null)
         {

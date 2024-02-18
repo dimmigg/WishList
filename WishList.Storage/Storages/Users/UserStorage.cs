@@ -41,7 +41,7 @@ public class UserStorage(
         return existingUser;
     }
 
-    public async Task<TelegramUser> UpdateLastCommandUser(long id, string command, CancellationToken cancellationToken)
+    public async Task<TelegramUser> UpdateLastCommandUser(long id, string? command, CancellationToken cancellationToken)
     {
         var existingUser = await GetUser(id, cancellationToken: cancellationToken);
 

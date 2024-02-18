@@ -1,18 +1,16 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WishList.Storage.Exceptions;
 
 namespace WishList.Storage.Storages.WishLists;
 
 public class WishListStorage(
-    WishListDbContext dbContext,
-    IMapper mapper) : IWishListStorage
+    WishListDbContext dbContext) : IWishListStorage
 {
     public async Task<Entities.WishList> AddWishList(string name, long userId, CancellationToken cancellationToken)
     {
         var wishList = new Entities.WishList()
         {
-            Name = name,
+            Name = name.Trim(),
             AuthorId = userId
         };
         await dbContext.WishLists.AddAsync(wishList, cancellationToken);

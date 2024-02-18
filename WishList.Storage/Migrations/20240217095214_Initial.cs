@@ -20,7 +20,7 @@ namespace WishList.Storage.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Username = table.Column<string>(type: "text", nullable: true),
-                    LastCommand = table.Column<string>(type: "text", nullable: false)
+                    LastCommand = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

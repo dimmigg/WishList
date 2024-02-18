@@ -6,7 +6,7 @@ using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.UseCases;
 
-public class GetWishListsUseCase(
+public class MyWishListsUseCase(
     UseCaseParam param,
     ISender sender,
     IWishListStorage wishListStorage)
@@ -17,27 +17,31 @@ public class GetWishListsUseCase(
     {
         if(param.CallbackQuery == null) return;
         
-        var sb = new StringBuilder("*Управление списками*\n");
         List<List<InlineKeyboardButton>> keyboard = [];
         var wishLists = await wishListStorage.GetWishLists(param.User.Id, cancellationToken);
+        var sb = new StringBuilder();
         if (wishLists.Length != 0)
         {
-            sb.AppendLine("Ваши списки:");
+            sb.AppendLine("*Ваши списки:*");
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(wishList.Name, $"my-wish-lists-item<?>{wishList.Id}"),
+                    InlineKeyboardButton.WithCallbackData(wishList.Name, $"my-wish-list-info<?>{wishList.Id}"),
                 }).ToList();
             
+        }
+        else
+        {
+            sb.AppendLine("Еще нет списков");
         }
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "+ Добавить", $"my-wish-lists-item-add")
+                "+ Добавить", $"my-wish-list-name-request")
         ]);
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "« Назад", "main")
+                "« Главное меню", "main")
         ]);
 
 
