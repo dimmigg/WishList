@@ -24,7 +24,7 @@ public class MyPresentEditNameUseCase(
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var presentId))
         {
-            const string textMessage = "Название изменено.";
+            const string textMessage = "Название изменено";
 
             await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
             var present = await presentStorage.UpdateName(param.Message.Text, presentId, cancellationToken);

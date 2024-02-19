@@ -24,7 +24,7 @@ public class MyPresentAddUseCase(
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var wishListId))
         {
-            const string textMessage = "Отлично! Запись добавлена.";
+            const string textMessage = "Отлично\\! Запись добавлена";
 
             await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
             await presentStorage.AddPresent(param.Message.Text, wishListId, cancellationToken);

@@ -24,7 +24,7 @@ public class MyPresentEditCommentUseCase(
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var presentId))
         {
-            const string textMessage = "Комментарий изменен.";
+            const string textMessage = "Комментарий изменен";
 
             await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
             var present = await presentStorage.UpdateComment(param.Message.Text, presentId, cancellationToken);

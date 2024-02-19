@@ -22,7 +22,7 @@ public class MyPresentDeleteUseCase(
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var presentId))
         {
-            const string textMessage = "Запись удалена.";
+            const string textMessage = "Запись удалена";
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
             if(present == null) return;
 

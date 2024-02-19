@@ -24,7 +24,7 @@ public class MyPresentDeleteRequestUseCase(
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
             if(present == null) return;
             
-            var textMessage = $"Удалить запись *{present.Name}*?";
+            var textMessage = $"Удалить запись *{present.Name}*\\?";
             
             List<List<InlineKeyboardButton>> keyboard =
             [

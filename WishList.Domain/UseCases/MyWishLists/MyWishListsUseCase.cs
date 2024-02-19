@@ -22,11 +22,11 @@ public class MyWishListsUseCase(
         var sb = new StringBuilder();
         if (wishLists.Length != 0)
         {
-            sb.AppendLine("*Ваши списки:*");
+            sb.AppendLine("Ваши списки:");
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(wishList.Name, $"my-wish-list-info<?>{wishList.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"my-wish-list-info<?>{wishList.Id}"),
                 }).ToList();
             
         }

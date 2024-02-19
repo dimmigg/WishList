@@ -28,6 +28,7 @@ public class WishListStorage(
     public async Task<Entities.WishList[]> GetWishLists(long userId, CancellationToken cancellationToken) =>
         await dbContext.WishLists
             .Where(wl => wl.AuthorId == userId)
+            .Include(wl => wl.Presents)
             .ToArrayAsync(cancellationToken);
 
     public async Task<Entities.WishList> UpdateNameWishList(int wishListId, string name, long authorId, CancellationToken cancellationToken)

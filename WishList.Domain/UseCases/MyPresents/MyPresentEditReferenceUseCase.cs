@@ -24,7 +24,7 @@ public class MyPresentEditReferenceUseCase(
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var presentId))
         {
-            const string textMessage = "Ссылка изменена.";
+            const string textMessage = "Ссылка изменена";
 
             await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
             var present = await presentStorage.UpdateReference(param.Message.Text, presentId, cancellationToken);

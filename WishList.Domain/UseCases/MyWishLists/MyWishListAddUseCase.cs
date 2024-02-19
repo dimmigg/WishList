@@ -18,7 +18,7 @@ public class MyWishListAddUseCase(
     {
         if(param.Message == null || string.IsNullOrWhiteSpace(param.Message.Text)) return;
         
-        const string textMessage = "Отлично! Список добавлен.";
+        const string textMessage = "Отлично\\! Список добавлен";
 
         await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
         await wishListStorage.AddWishList(param.Message.Text, param.User.Id, cancellationToken);

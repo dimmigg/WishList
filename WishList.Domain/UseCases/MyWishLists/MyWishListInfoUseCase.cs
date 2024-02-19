@@ -24,7 +24,7 @@ public class MyWishListInfoUseCase(
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList == null) return;
             var sb = new StringBuilder($"Список: *{wishList.Name}*\n");
-            sb.AppendLine($"Кол-во записей: *{wishList.Presents.Count}*");
+            sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
             var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
             sb.AppendLine($"Приватность: *{isPrivate}*");
             

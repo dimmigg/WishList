@@ -42,7 +42,7 @@ public class MyPresentsUseCase(
         }
         else
         {
-            sb.AppendLine($"Список *{wishList.Name}* пуст."); 
+            sb.AppendLine($"Список *{wishList.Name}* пуст"); 
         }
         
         keyboard.Add([
