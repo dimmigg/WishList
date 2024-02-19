@@ -4,7 +4,7 @@ using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.WishLists;
 
-namespace WishList.Domain.UseCases;
+namespace WishList.Domain.UseCases.MyWishLists;
 
 public class MyWishListsUseCase(
     UseCaseParam param,

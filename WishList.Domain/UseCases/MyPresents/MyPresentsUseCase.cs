@@ -5,7 +5,7 @@ using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.WishLists;
 
-namespace WishList.Domain.UseCases;
+namespace WishList.Domain.UseCases.MyPresents;
 
 public class MyPresentsUseCase(
     UseCaseParam param,
@@ -47,7 +47,7 @@ public class MyPresentsUseCase(
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "+ Добавить", $"my-present-name-request")
+                "+ Добавить", $"my-present-add-request<?>{wishList.Id}")
         ]);
         keyboard.Add([
             

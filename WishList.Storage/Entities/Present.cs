@@ -10,9 +10,9 @@ public class Present
 
     public string Name { get; set; }
     
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
-    public string Reference { get; set; }
+    public string? Reference { get; set; }
     
     public int WishListId { get; set; }
     

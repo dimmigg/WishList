@@ -4,7 +4,7 @@ using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
-namespace WishList.Domain.UseCases;
+namespace WishList.Domain.UseCases.MyWishLists;
 
 public class MyWishListAddUseCase(
     UseCaseParam param,
@@ -27,10 +27,7 @@ public class MyWishListAddUseCase(
         [
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "« Мои списки", $"my-wish-lists")
-            ],
-
-            [
+                    "« Назад", $"my-wish-lists"),
                 InlineKeyboardButton.WithCallbackData(
                     "« Главное меню", "main")
             ]

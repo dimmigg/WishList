@@ -5,6 +5,7 @@ using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases;
 using WishList.Domain.UseCases.Builder;
+using WishList.Domain.UseCases.MyWishLists;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;

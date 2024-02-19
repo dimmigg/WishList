@@ -60,7 +60,6 @@ namespace WishList.Storage.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -68,7 +67,6 @@ namespace WishList.Storage.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Reference")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("WishListId")
