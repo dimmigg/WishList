@@ -53,4 +53,12 @@ public class UserStorage(
         
         return existingUser;
     }
+
+    public async Task<TelegramUser[]?> FindUsers(string findText, CancellationToken cancellationToken)
+    {
+        long.TryParse(findText, out var id);
+        return await dbContext.Users
+            .Where(u => (u.Username != null && u.Username.ToLower().Contains(findText.ToLower())) || u.Id == id)
+            .ToArrayAsync(cancellationToken);
+    }
 }

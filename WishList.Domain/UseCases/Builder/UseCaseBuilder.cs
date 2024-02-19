@@ -3,6 +3,7 @@ using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.MyPresents;
 using WishList.Domain.UseCases.MyWishLists;
+using WishList.Domain.UseCases.Users;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
@@ -40,6 +41,10 @@ public class UseCaseBuilder(
             "my-present-delete-request" => new MyPresentDeleteRequestUseCase(param, sender,presentStorage),
             "my-present-delete" => new MyPresentDeleteUseCase(param, sender, presentStorage),
             "my-present-new-name" => new MyPresentEditNameRequestUseCase(param, sender, userStorage),
+            
+            "find-users-request" => new UsersFindRequestUseCase(param, sender, userStorage),
+            "find-users" => new UsersFindUseCase(param, sender, userStorage),
+            "how-to-find-me" => new HowToFindMeUseCase(param, sender),
             _ => throw new DomainException("Команда не распознана")
         };
     }
