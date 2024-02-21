@@ -1,8 +1,10 @@
 ﻿using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.MyPresents;
 using WishList.Domain.UseCases.MyWishLists;
+using WishList.Domain.UseCases.SubscribeWishLists;
 using WishList.Domain.UseCases.Users;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.Users;
@@ -41,9 +43,15 @@ public class UseCaseBuilder(
             "my-present-delete-request" => new MyPresentDeleteRequestUseCase(param, sender,presentStorage),
             "my-present-delete" => new MyPresentDeleteUseCase(param, sender, presentStorage),
             "my-present-new-name" => new MyPresentEditNameRequestUseCase(param, sender, userStorage),
+            "user-wish-lists-find" => new UserWishListsFindInfoUseCase(param, sender, wishListStorage, userStorage),
+            "user-wish-list-subscribe-request" => new UserWishListSubscribeRequestUseCase(param, sender, wishListStorage, userStorage),
+            "user-wish-list-subscribe" => new UserWishListSubscribeUseCase(param, sender, wishListStorage, userStorage),
             
-            "find-users-request" => new UsersFindRequestUseCase(param, sender, userStorage),
-            "find-users" => new UsersFindUseCase(param, sender, userStorage),
+            "subscribe-wish-lists" => new SubscribeWishListsUseCase(param, sender, wishListStorage),
+            "subscribe-wish-list-info" => new SubscribeWishListInfoUseCase(param, sender, wishListStorage),
+            
+            "users-find-request" => new UsersFindRequestUseCase(param, sender, userStorage),
+            "users-find" => new UsersFindUseCase(param, sender, userStorage),
             "how-to-find-me" => new HowToFindMeUseCase(param, sender),
             _ => throw new DomainException("Команда не распознана")
         };

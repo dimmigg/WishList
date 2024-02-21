@@ -18,7 +18,7 @@ public class WishList
 
     public bool IsPrivate { get; set; }
 
-    [InverseProperty(nameof(TelegramUser.ReadWishLists))]
+    [InverseProperty(nameof(TelegramUser.SubscribeWishLists))]
     public ICollection<TelegramUser> ReadUsers { get; set; }
     
     [InverseProperty(nameof(TelegramUser.WriteWishLists))]

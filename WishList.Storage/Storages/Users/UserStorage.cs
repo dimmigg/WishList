@@ -23,7 +23,7 @@ public class UserStorage(
         dbContext.Users
             .Where(u => u.Id == id)
             .Include(u => u.WishLists)
-            //.Include(u => u.ReadWishLists)
+            .Include(u => u.SubscribeWishLists)
             //.Include(u => u.WriteWishLists)
             .FirstOrDefaultAsync(cancellationToken);
     
@@ -60,5 +60,17 @@ public class UserStorage(
         return await dbContext.Users
             .Where(u => (u.Username != null && u.Username.ToLower().Contains(findText.ToLower())) || u.Id == id)
             .ToArrayAsync(cancellationToken);
+    }
+
+    public async Task AddSubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
+    {
+        var user = await GetUser(userId, cancellationToken);
+        var wishList = await dbContext.WishLists
+            .FirstOrDefaultAsync(w => w.Id == wishListId, cancellationToken);
+        if (user != null && wishList != null)
+        {
+            user.SubscribeWishLists.Add(wishList);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }

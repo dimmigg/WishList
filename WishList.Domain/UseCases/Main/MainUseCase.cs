@@ -3,9 +3,9 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 
-namespace WishList.Domain.UseCases;
+namespace WishList.Domain.UseCases.Main;
 
-public class HowToFindMeUseCase(
+public class MainUseCase(
     UseCaseParam? param,
     ISender sender) : IUseCase
 {
@@ -18,12 +18,23 @@ public class HowToFindMeUseCase(
         [
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "« Главное меню", "main")
+                    "Мои списки", "my-wish-lists")
+            ],
+            [
+                InlineKeyboardButton.WithCallbackData(
+                    "Кому подарить", "subscribe-wish-lists")
+            ],
+            [
+                InlineKeyboardButton.WithCallbackData(
+                    "Поиск списка", "users-find-request")
+            ],
+            [
+                InlineKeyboardButton.WithCallbackData(
+                    "Как меня найти?", "how-to-find-me")
             ]
         ];
 
-        var textMessage = $"Логин: `{param.User.Username}`\n" +
-                          $"Идентификатор: `{param.User.Id}`";
+        const string textMessage = "Я помогу узнать, что хотят получить твои друзья\\!\nА им расскажу, что хочешь получить ты\\!";
 
         if (param.Message != null)
         {

@@ -14,7 +14,7 @@ public class RegisteredUser
     
     public ICollection<WishList> WishLists { get; set; }
     
-    public ICollection<WishList> ReadWishLists { get; set; }
+    public ICollection<WishList> SubscribeWishLists { get; set; }
     
     public ICollection<WishList> WriteWishLists { get; set; }
     

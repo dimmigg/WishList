@@ -29,7 +29,7 @@ public class UsersFindUseCase(
             keyboard = users
                 .Select(user => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(user.ToString(), $"find-user-wish-lists<?>{user.Id}"),
+                    InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\",""), $"user-wish-lists-find<?>{user.Id}"),
                 }).ToList();
         }
 

@@ -20,11 +20,11 @@ public class TelegramUser
     public ICollection<WishList> WishLists { get; set; }
     
     [InverseProperty(nameof(WishList.ReadUsers))]
-    public ICollection<WishList> ReadWishLists { get; set; }
+    public ICollection<WishList> SubscribeWishLists { get; set; }
     
     [InverseProperty(nameof(WishList.WriteUsers))]
     public ICollection<WishList> WriteWishLists { get; set; }
     
     public override string ToString() =>
-        $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} ({Id})";
+        $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} \\({Id}\\)";
 }
