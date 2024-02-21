@@ -54,6 +54,21 @@ public class WishListStorage(
 
     }
 
+    public async Task UnsubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
+    {
+        var user = await dbContext.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.SubscribeWishLists)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (user == null) throw new StorageException("Пользователь не найден");
+
+        var wishList = await GetWishList(wishListId, cancellationToken);
+        if(wishList == null) throw new StorageException("Список не найден");
+
+        user.SubscribeWishLists.Remove(wishList);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<Entities.WishList> UpdatePrivateWishList(int wishListId, bool isPrivate, CancellationToken cancellationToken)
     {
         var existingWishList = await GetWishList(wishListId, cancellationToken: cancellationToken);

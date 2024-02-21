@@ -23,17 +23,17 @@ public class SubscribeWishListInfoUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList == null) return;
-            var sb = new StringBuilder($"Список: *{wishList.Name}*\n");
+            var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Список желаний", $"subscire-presents<?>{wishListId}"),
+                        "Список желаний", $"subscribe-presents<?>{wishListId}"),
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Отписаться", $"subscribe-wish-list-delete<?>{wishListId}")
+                        "Отписаться", $"unsubscribe-wish-list-request<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(

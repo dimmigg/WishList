@@ -32,17 +32,17 @@ public class MyPresentsUseCase(
         var presents = await presentStorage.GetPresents(wishListId, cancellationToken);
         if (presents.Length != 0)
         {
-            sb.AppendLine($"Ваши записи из списка *{wishList.Name}*:");
+            sb.AppendLine($"Ваши записи из списка *{wishList.Name.MarkForbiddenChar()}*:");
             keyboard = presents
                 .Select(present => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(present.Name, $"my-present-info<?>{present.Id}"),
+                    InlineKeyboardButton.WithCallbackData(present.Name.MarkForbiddenChar(), $"my-present-info<?>{present.Id}"),
                 }).ToList();
             
         }
         else
         {
-            sb.AppendLine($"Список *{wishList.Name}* пуст"); 
+            sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* пуст"); 
         }
         
         keyboard.Add([

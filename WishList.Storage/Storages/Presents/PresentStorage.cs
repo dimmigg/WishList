@@ -78,4 +78,7 @@ public class PresentStorage(
         dbContext.Remove(present);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<Present[]> GetSubscribePresents(int wishListId, CancellationToken cancellationToken) => 
+        await dbContext.Presents.Where(p => p.WishListId == wishListId).ToArrayAsync(cancellationToken);
 }

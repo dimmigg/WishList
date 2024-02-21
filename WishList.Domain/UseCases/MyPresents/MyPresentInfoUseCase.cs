@@ -23,12 +23,12 @@ public class MyPresentInfoUseCase(
         {
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
             if (present == null) return;
-            var sb = new StringBuilder($"Запись: *{present.Name}*\n");
+            var sb = new StringBuilder($"Запись: *{present.Name.MarkForbiddenChar()}*\n");
             var reference = string.IsNullOrWhiteSpace(present.Reference) ?
                 "_не заполнено_"
-                : $"[тык]({present.Reference})";
+                : $"[тык]({present.Reference.MarkForbiddenChar()})";
             sb.AppendLine($"Ссылка: {reference}");
-            sb.AppendLine($"Комментарий: *{present.Comment}*");
+            sb.AppendLine($"Комментарий: *{present.Comment.MarkForbiddenChar()}*");
             
             List<List<InlineKeyboardButton>> keyboard =
             [

@@ -1,17 +1,18 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+﻿using System.Text;
+using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
-using WishList.Storage.Storages.Presents;
-using WishList.Storage.Storages.Users;
+using WishList.Storage.Storages.WishLists;
 
-namespace WishList.Domain.UseCases.MyPresents;
+namespace WishList.Domain.UseCases.SubscribeWishLists;
 
-public class MyPresentDeleteRequestUseCase(
+public class UnsubscribeWishListUseCase(
     UseCaseParam param,
     ISender sender,
-    IPresentStorage presentStorage)
+    IWishListStorage wishListStorage)
     : IUseCase
 {
+
     public async Task Execute(CancellationToken cancellationToken)
     {
         if (param.CallbackQuery == null) return;
@@ -19,36 +20,36 @@ public class MyPresentDeleteRequestUseCase(
         var lastCommand = commands[^1];
         var command = lastCommand.Split("<?>");
         if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (int.TryParse(command[1], out var wishListId))
         {
-            var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if(present == null) return;
+            var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
+            if(wishList == null) return;
             
-            var textMessage = $"Удалить запись *{present.Name.MarkForbiddenChar()}*\\?";
-            
+            await wishListStorage.UnsubscribeWishList(param.User.Id, wishListId, cancellationToken);
+            var sb = new StringBuilder();
+            sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* удалён из избранного");
+
             List<List<InlineKeyboardButton>> keyboard =
             [
-                [InlineKeyboardButton.WithCallbackData(
-                    "Да", $"my-present-delete<?>{present.Id}"),
-                ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-present-info<?>{present.Id}"),
+                        "« Назад", "subscribe-wish-lists")
+                ],
+                [
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]
             ];
-            
+
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             var messageId = param.CallbackQuery.Message?.MessageId;
             if (!(chatId.HasValue && messageId.HasValue)) return;
             await sender.EditMessageTextAsync(
                 chatId: chatId.Value,
                 messageId: messageId.Value,
-                text: textMessage,
+                text: sb.ToString(),
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);
         }
     }
-
 }
