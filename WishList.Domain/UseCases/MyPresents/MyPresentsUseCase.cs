@@ -36,7 +36,7 @@ public class MyPresentsUseCase(
             keyboard = presents
                 .Select(present => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(present.Name.MarkForbiddenChar(), $"my-present-info<?>{present.Id}"),
+                    InlineKeyboardButton.WithCallbackData(present.Name, $"my-present-info<?>{present.Id}"),
                 }).ToList();
             
         }
