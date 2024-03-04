@@ -3,7 +3,6 @@ using Moq;
 using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
-using WishList.Domain.UseCases;
 using WishList.Domain.UseCases.Builder;
 using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.MyWishLists;

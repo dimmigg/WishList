@@ -38,7 +38,7 @@ public class MyWishListInfoUseCase(
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Удалить список", $"my-wish-list-delete<?>{wishListId}")
+                        "Удалить список", $"my-wish-list-delete-request<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(

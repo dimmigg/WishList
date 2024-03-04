@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.Users;
@@ -17,6 +16,11 @@ public static class ServiceCollectionExtensions
             .AddScoped<IPresentStorage, PresentStorage>()
             .AddDbContextPool<WishListDbContext>(options => options
             .UseNpgsql(dbConnectionString));
+        
+        using var scope = services.BuildServiceProvider().CreateScope();
+                var serviceProvider = scope.ServiceProvider;
+                var dbContext = serviceProvider.GetRequiredService<WishListDbContext>();
+                dbContext.Database.Migrate();
         return services;
     }
 }

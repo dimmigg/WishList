@@ -37,6 +37,7 @@ public class ReceivedService(
            callbackQuery.From is not { } tgUser) return;
         
         var user = await updateUserUseCase.CreateOrUpdateUser(tgUser, cancellationToken);
+        await updateUserUseCase.ClearLastCommandUser(user.Id, cancellationToken);
         var param = new UseCaseParam
         {
             User = user,

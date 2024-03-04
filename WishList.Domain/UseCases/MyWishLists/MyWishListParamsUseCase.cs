@@ -1,14 +1,15 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+﻿using System.Text;
+using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
-using WishList.Storage.Storages.Presents;
+using WishList.Storage.Storages.WishLists;
 
-namespace WishList.Domain.UseCases.MyPresents;
+namespace WishList.Domain.UseCases.MyWishLists;
 
-public class MyPresentDeleteRequestUseCase(
+public class MyWishListParamsUseCase(
     UseCaseParam param,
     ISender sender,
-    IPresentStorage presentStorage)
+    IWishListStorage wishListStorage)
     : IUseCase
 {
     public async Task Execute(CancellationToken cancellationToken)
@@ -18,36 +19,40 @@ public class MyPresentDeleteRequestUseCase(
         var lastCommand = commands[^1];
         var command = lastCommand.Split("<?>");
         if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (int.TryParse(command[1], out var wishListId))
         {
-            var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if(present == null) return;
-            
-            var textMessage = $"Удалить запись *{present.Name.MarkForbiddenChar()}*\\?";
+            var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
+            if (wishList == null) return;
+            var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
+            sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
+            var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
+            sb.AppendLine($"Приватность: *{isPrivate}*");
             
             List<List<InlineKeyboardButton>> keyboard =
             [
-                [InlineKeyboardButton.WithCallbackData(
-                    "Да", $"my-present-delete<?>{present.Id}"),
+                [
+                    InlineKeyboardButton.WithCallbackData(
+                        "Изменить название", $"my-wish-list-edit-name-request<?>{wishListId}"),
+                    InlineKeyboardButton.WithCallbackData(
+                        "Изменить приватность", $"my-wish-list-security-request<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-present-info<?>{present.Id}"),
+                        "« Назад", $"my-wish-list-info<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]
             ];
-            
+
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             var messageId = param.CallbackQuery.Message?.MessageId;
             if (!(chatId.HasValue && messageId.HasValue)) return;
             await sender.EditMessageTextAsync(
                 chatId: chatId.Value,
                 messageId: messageId.Value,
-                text: textMessage,
+                text: sb.ToString(),
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);
         }
     }
-
 }

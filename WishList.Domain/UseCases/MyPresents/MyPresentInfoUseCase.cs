@@ -27,8 +27,11 @@ public class MyPresentInfoUseCase(
             var reference = string.IsNullOrWhiteSpace(present.Reference) ?
                 "_не заполнено_"
                 : $"[тык]({present.Reference.MarkForbiddenChar()})";
-            sb.AppendLine($"Ссылка: {reference}");
-            sb.AppendLine($"Комментарий: *{present.Comment.MarkForbiddenChar()}*");
+            sb.AppendLine($"Ссылка: *{reference}*");
+            var comment = string.IsNullOrWhiteSpace(present.Comment) ?
+                "_не заполнено_"
+                : present.Comment.MarkForbiddenChar();
+            sb.AppendLine($"Комментарий: *{comment}*");
             
             List<List<InlineKeyboardButton>> keyboard =
             [

@@ -4,6 +4,7 @@ using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.MyPresents;
 using WishList.Domain.UseCases.MyWishLists;
+using WishList.Domain.UseCases.Other;
 using WishList.Domain.UseCases.SubscribePresents;
 using WishList.Domain.UseCases.SubscribeWishLists;
 using WishList.Domain.UseCases.Users;
@@ -31,6 +32,13 @@ public class UseCaseBuilder(
             "my-wish-list-name-request" => new MyWishListNameRequestUseCase(param, sender, userStorage),
             "my-wish-list-add" => new MyWishListAddUseCase(param, sender, wishListStorage, userStorage),
             "my-wish-list-info" => new MyWishListInfoUseCase(param, sender, wishListStorage),
+            "my-wish-list-params" => new MyWishListParamsUseCase(param, sender, wishListStorage),
+            "my-wish-list-edit-name-request" => new MyWishListEditNameRequestUseCase(param, sender, wishListStorage, userStorage),
+            "my-wish-list-edit-name" => new MyWishListEditNameUseCase(param, sender, wishListStorage, userStorage),
+            "my-wish-list-security-request" => new NotImplementedUseCase(param, sender),
+            "my-wish-list-delete-request" => new MyWishListDeleteRequestUseCase(param, sender, wishListStorage),
+            "my-wish-list-delete" => new MyWishListDeleteUseCase(param, sender, wishListStorage),
+            
             "my-presents" => new MyPresentsUseCase(param, sender, wishListStorage, presentStorage),
             "my-present-info" => new MyPresentInfoUseCase(param, sender, presentStorage),
             "my-present-add-request" => new MyPresentAddRequestUseCase(param, sender, userStorage),
@@ -58,7 +66,7 @@ public class UseCaseBuilder(
             "users-find-request" => new UsersFindRequestUseCase(param, sender, userStorage),
             "users-find" => new UsersFindUseCase(param, sender, userStorage),
             "how-to-find-me" => new HowToFindMeUseCase(param, sender),
-            _ => throw new DomainException("Команда не распознана")
+            _ => throw new DomainException($"Команда не распознана {lastCommand}")
         };
     }
 }

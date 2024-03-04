@@ -15,4 +15,9 @@ public class UpdateUserUseCase(
         var result = await userStorage.UpdateUser(user, cancellationToken);
         return mapper.Map<RegisteredUser>(result);
     }
+
+    public async Task ClearLastCommandUser(long id, CancellationToken cancellationToken)
+    {
+        await userStorage.UpdateLastCommandUser(id, null, cancellationToken);
+    }
 }

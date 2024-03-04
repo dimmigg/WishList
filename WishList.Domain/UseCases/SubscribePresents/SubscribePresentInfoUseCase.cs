@@ -3,7 +3,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Presents;
-using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.UseCases.SubscribePresents;
 
