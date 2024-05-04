@@ -11,9 +11,8 @@ public class NotImplementedUseCase(
     public async Task Execute(CancellationToken cancellationToken)
     {
         if (param.CallbackQuery == null) return;
-        var commands = param.Command.Split("</>");
-        var lastCommand = commands[^1];
-        var command = lastCommand.Split("<?>");
+
+        var command = param.Command.Split("<?>");
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var wishListId))
         {

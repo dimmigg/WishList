@@ -24,8 +24,7 @@ public class UseCaseBuilder(
 {
     public IUseCase Build(UseCaseParam param)
     {
-        var commands = param.Command.Split("</>");
-        var lastCommand = commands[^1].Split("<?>")[0];
+        var lastCommand = param.Command.Split("<?>")[0];
         return lastCommand switch
         {
             "main" => new MainUseCase(param, sender),
@@ -58,7 +57,7 @@ public class UseCaseBuilder(
             "user-wish-list-subscribe" => new UserWishListSubscribeUseCase(param, sender, wishListStorage, userStorage),
             
             "subscribe-wish-lists" => new SubscribeWishListsUseCase(param, sender, wishListStorage),
-            "subscribe-wish-list-info" => new SubscribeWishListInfoUseCase(param, sender, wishListStorage),
+            "subscribe-wish-list-info" => new SubscribeWishListInfoUseCase(param, sender, wishListStorage, presentStorage),
             "unsubscribe-wish-list-request" => new UnsubscribeWishListRequestUseCase(param, sender, wishListStorage),
             "unsubscribe-wish-list" => new UnsubscribeWishListUseCase(param, sender, wishListStorage),
             "subscribe-presents" => new SubscribePresentsUseCase(param, sender, presentStorage, wishListStorage),

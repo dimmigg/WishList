@@ -14,9 +14,8 @@ public class ReservePresentUseCase(
     public async Task Execute(CancellationToken cancellationToken)
     {
         if (param.CallbackQuery == null) return;
-        var commands = param.Command.Split("</>");
-        var lastCommand = commands[^1];
-        var command = lastCommand.Split("<?>");
+
+        var command = param.Command.Split("<?>");
         if (command.Length < 3) return;
         if (int.TryParse(command[1], out var presentId) &&
             long.TryParse(command[2], out var reservedUserId))

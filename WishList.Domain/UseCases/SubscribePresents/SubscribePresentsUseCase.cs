@@ -4,6 +4,7 @@ using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.WishLists;
+using Present = WishList.Storage.Entities.Present;
 
 namespace WishList.Domain.UseCases.SubscribePresents;
 
@@ -18,9 +19,8 @@ public class SubscribePresentsUseCase(
     public async Task Execute(CancellationToken cancellationToken)
     {
         if (param.CallbackQuery == null) return;
-        var commands = param.Command.Split("</>");
-        var lastCommand = commands[^1];
-        var command = lastCommand.Split("<?>");
+
+        var command = param.Command.Split("<?>");
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var wishListId))
         {
@@ -29,17 +29,31 @@ public class SubscribePresentsUseCase(
 
             List<List<InlineKeyboardButton>> keyboard = [];
             var wishLists = await presentStorage.GetSubscribePresents(wishListId, cancellationToken);
+            
             var sb = new StringBuilder();
             if (wishLists.Length != 0)
             {
-                sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}*:");
-                keyboard = wishLists
-                    .Select(present => new List<InlineKeyboardButton>
-                    {
-                        InlineKeyboardButton.WithCallbackData(present.Name,
-                            $"subscribe-present-info<?>{present.Id}"),
-                    }).ToList();
-
+                if (command.Length == 3)
+                {
+                    sb.AppendLine($"Мои резервы из списока *{wishList.Name.MarkForbiddenChar()}*:");
+                    wishLists = wishLists.Where(p => p.ReserveForUserId == param.User.Id).ToArray();
+                    keyboard = wishLists
+                        .Select(present => new List<InlineKeyboardButton>
+                        {
+                            InlineKeyboardButton.WithCallbackData(present.Name,
+                                $"subscribe-present-info<?>{present.Id}"),
+                        }).ToList();
+                }
+                else
+                {
+                    sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}*:");
+                    keyboard = wishLists
+                        .Select(present => new List<InlineKeyboardButton>
+                        {
+                            InlineKeyboardButton.WithCallbackData(present.Name,
+                                $"subscribe-present-info<?>{present.Id}"),
+                        }).ToList();
+                }
             }
             else
             {
