@@ -23,25 +23,39 @@ public class SubscribePresentInfoUseCase(
         if (int.TryParse(command[1], out var presentId))
         {
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if(present == null) return; 
+            if(present == null) return;
+
+            var keyboard = new List<List<InlineKeyboardButton>>();
             
             var sb = new StringBuilder();
             sb.AppendLine($"Подарок: *{present.Name.MarkForbiddenChar()}*");
             sb.AppendLine($"Ссылка: *{present.Reference?.MarkForbiddenChar()}*");
             sb.AppendLine($"Комментарий: *{present.Comment?.MarkForbiddenChar()}*");
+            if (present.ReserveForUserId.HasValue)
+            {
+                sb.AppendLine("*Подарок зарезервирован*");
+                if(present.ReserveForUserId.Value == param.User.Id)
+                    keyboard.Add([
+                        InlineKeyboardButton.WithCallbackData(
+                            "Убрать из резерва", $"remove-reserve-present<?>{present.Id}")
+                    ]);
+            }
+            else
+            {
+                keyboard.Add([
+                    InlineKeyboardButton.WithCallbackData(
+                        "Зарезервировать", $"reserve-present<?>{present.Id}<?>{param.User.Id}")
+                ]);
+            }
             
-            List<List<InlineKeyboardButton>> keyboard =
-            [
-                [
-                    InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"subscribe-presents<?>{present.WishListId}")
-                ],
-                [
-                    InlineKeyboardButton.WithCallbackData(
-                        "« Главное меню", "main")
-                ]
-
-            ];
+            keyboard.Add([
+                InlineKeyboardButton.WithCallbackData(
+                    "« Назад", $"subscribe-presents<?>{present.WishListId}")
+            ]);
+            keyboard.Add([
+                InlineKeyboardButton.WithCallbackData(
+                    "« Главное меню", "main")
+            ]);
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             var messageId = param.CallbackQuery.Message?.MessageId;

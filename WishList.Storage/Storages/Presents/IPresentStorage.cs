@@ -13,4 +13,6 @@ public interface IPresentStorage
     Task<Present> UpdateComment(string comment, int presentId, CancellationToken cancellationToken);
     Task Delete(int presentId, CancellationToken cancellationToken);
     Task<Present[]> GetSubscribePresents(int wishListId, CancellationToken cancellationToken);
+    Task Reserve(int presentId, long reservedUserId, CancellationToken cancellationToken);
+    Task RemoveReserve(int presentId, CancellationToken cancellationToken);
 }

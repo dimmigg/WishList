@@ -81,4 +81,22 @@ public class PresentStorage(
 
     public async Task<Present[]> GetSubscribePresents(int wishListId, CancellationToken cancellationToken) => 
         await dbContext.Presents.Where(p => p.WishListId == wishListId).ToArrayAsync(cancellationToken);
+
+    public async Task Reserve(int presentId, long reservedUserId, CancellationToken cancellationToken)
+    {
+        var present = await GetPresent(presentId, cancellationToken);
+        if (present == null)
+            throw new StorageException("Запись не найдена");
+        present.ReserveForUserId = reservedUserId;
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RemoveReserve(int presentId, CancellationToken cancellationToken)
+    {
+        var present = await GetPresent(presentId, cancellationToken);
+        if (present == null)
+            throw new StorageException("Запись не найдена");
+        present.ReserveForUserId = null;
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

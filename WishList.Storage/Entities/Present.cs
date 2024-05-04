@@ -18,4 +18,5 @@ public class Present
     
     [ForeignKey(nameof(WishListId))]
     public WishList WishList { get; set; }
+    public long? ReserveForUserId { get; set; }
 }

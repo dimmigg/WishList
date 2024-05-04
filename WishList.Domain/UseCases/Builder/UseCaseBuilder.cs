@@ -1,5 +1,6 @@
 ﻿using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
+using WishList.Domain.Received;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.MyPresents;
@@ -62,6 +63,8 @@ public class UseCaseBuilder(
             "unsubscribe-wish-list" => new UnsubscribeWishListUseCase(param, sender, wishListStorage),
             "subscribe-presents" => new SubscribePresentsUseCase(param, sender, presentStorage, wishListStorage),
             "subscribe-present-info" => new SubscribePresentInfoUseCase(param, sender, presentStorage),
+            "reserve-present" => new ReservePresentUseCase(param, sender, presentStorage),
+            "remove-reserve-present" => new RemoveReservePresentUseCase(param, sender, presentStorage),
             
             "users-find-request" => new UsersFindRequestUseCase(param, sender, userStorage),
             "users-find" => new UsersFindUseCase(param, sender, userStorage),
