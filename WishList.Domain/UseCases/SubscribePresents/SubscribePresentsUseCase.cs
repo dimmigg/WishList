@@ -35,23 +35,35 @@ public class SubscribePresentsUseCase(
             {
                 if (command.Length == 3)
                 {
-                    sb.AppendLine($"Мои резервы из списока *{wishList.Name.MarkForbiddenChar()}*:");
+                    sb.AppendLine($"Мои резервы из списка *{wishList.Name.MarkForbiddenChar()}*:");
                     wishLists = wishLists.Where(p => p.ReserveForUserId == param.User.Id).ToArray();
                     keyboard = wishLists
-                        .Select(present => new List<InlineKeyboardButton>
+                        .Select(present =>
                         {
-                            InlineKeyboardButton.WithCallbackData(present.Name,
+                            var isReserve = present.ReserveForUserId.HasValue
+                                ? present.ReserveForUserId.Value == param.User.Id ? "🟡 " : "🔴 "
+                                : "🟢 ";
+                            return new List<InlineKeyboardButton>
+                            {
+                                InlineKeyboardButton.WithCallbackData($"{isReserve}{present.Name}",
                                 $"spi<?>{present.Id}<?>r"),
+                            };
                         }).ToList();
                 }
                 else
                 {
                     sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}*:");
                     keyboard = wishLists
-                        .Select(present => new List<InlineKeyboardButton>
+                        .Select(present =>
                         {
-                            InlineKeyboardButton.WithCallbackData(present.Name,
-                                $"spi<?>{present.Id}"),
+                            var isReserve = present.ReserveForUserId.HasValue
+                                ? present.ReserveForUserId.Value == param.User.Id ? "🟡 " : "🔴 "
+                                : "🟢 ";
+                            return new List<InlineKeyboardButton>
+                            {
+                                InlineKeyboardButton.WithCallbackData($"{isReserve}{present.Name}",
+                                    $"spi<?>{present.Id}"),
+                            };
                         }).ToList();
                 }
             }
