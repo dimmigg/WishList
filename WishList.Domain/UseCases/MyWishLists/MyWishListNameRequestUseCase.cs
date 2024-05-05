@@ -17,7 +17,7 @@ public class MyWishListNameRequestUseCase(
         
         const string textMessage = "Введите название нового списка";
 
-        await userStorage.UpdateLastCommandUser(param.User.Id, "my-wish-list-add", cancellationToken);
+        await userStorage.UpdateLastCommandUser(param.User.Id, "mwla", cancellationToken);
 
         var chatId = param.CallbackQuery.Message?.Chat.Id;
         if(!chatId.HasValue) return;

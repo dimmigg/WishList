@@ -17,7 +17,7 @@ public class UsersFindRequestUseCase(
 
         const string textMessage = "Введи идентификатор или логин пользователя, чей список нужно добавить";
 
-        await userStorage.UpdateLastCommandUser(param.User.Id, "users-find", cancellationToken);
+        await userStorage.UpdateLastCommandUser(param.User.Id, "uf", cancellationToken);
 
         List<List<InlineKeyboardButton>> keyboard =
         [

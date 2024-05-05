@@ -41,7 +41,7 @@ public class SubscribePresentsUseCase(
                         .Select(present => new List<InlineKeyboardButton>
                         {
                             InlineKeyboardButton.WithCallbackData(present.Name,
-                                $"subscribe-present-info<?>{present.Id}"),
+                                $"spi<?>{present.Id}<?>r"),
                         }).ToList();
                 }
                 else
@@ -51,7 +51,7 @@ public class SubscribePresentsUseCase(
                         .Select(present => new List<InlineKeyboardButton>
                         {
                             InlineKeyboardButton.WithCallbackData(present.Name,
-                                $"subscribe-present-info<?>{present.Id}"),
+                                $"spi<?>{present.Id}"),
                         }).ToList();
                 }
             }
@@ -62,7 +62,7 @@ public class SubscribePresentsUseCase(
 
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "« Назад", $"subscribe-wish-list-info<?>{wishList.Id}")
+                    "« Назад", $"swli<?>{wishList.Id}")
             ]);
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(

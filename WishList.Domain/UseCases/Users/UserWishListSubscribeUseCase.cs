@@ -34,7 +34,7 @@ public class UserWishListSubscribeUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"user-wish-lists-find<?>{foundUser.Id}"),
+                        "« Назад", $"uwlf<?>{foundUser.Id}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

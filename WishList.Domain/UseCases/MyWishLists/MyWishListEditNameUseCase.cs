@@ -31,7 +31,7 @@ public class MyWishListEditNameUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-wish-lists"),
+                        "« Назад", $"mwl"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

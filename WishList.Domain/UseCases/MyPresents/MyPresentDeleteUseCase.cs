@@ -29,7 +29,7 @@ public class MyPresentDeleteUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-presents<?>{present.WishListId}"),
+                        "« Назад", $"mp<?>{present.WishListId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

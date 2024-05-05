@@ -29,7 +29,7 @@ public class MyWishListDeleteUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-wish-lists"),
+                        "« Назад", $"mwl"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

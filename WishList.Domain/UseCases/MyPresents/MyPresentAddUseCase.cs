@@ -31,7 +31,7 @@ public class MyPresentAddUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-presents<?>{wishListId}"),
+                        "« Назад", $"mp<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

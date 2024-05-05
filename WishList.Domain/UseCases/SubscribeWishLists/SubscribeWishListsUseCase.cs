@@ -26,7 +26,7 @@ public class SubscribeWishListsUseCase(
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"subscribe-wish-list-info<?>{wishList.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"swli<?>{wishList.Id}"),
                 }).ToList();
             
         }

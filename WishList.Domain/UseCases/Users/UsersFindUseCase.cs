@@ -15,7 +15,7 @@ public class UsersFindUseCase(
     public async Task Execute(CancellationToken cancellationToken)
     {
         if (param.Message == null || string.IsNullOrWhiteSpace(param.Message.Text)) return;
-        await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
+        
         var users = await userStorage.FindUsers(param.Message.Text, cancellationToken);
         var sb = new StringBuilder();
         List<List<InlineKeyboardButton>> keyboard = [];
@@ -29,7 +29,7 @@ public class UsersFindUseCase(
             keyboard = users
                 .Select(user => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\",""), $"user-wish-lists-find<?>{user.Id}"),
+                    InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\",""), $"uwlf<?>{user.Id}"),
                 }).ToList();
         }
 

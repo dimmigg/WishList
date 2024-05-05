@@ -27,11 +27,11 @@ public class MyPresentDeleteRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                    "Да", $"my-present-delete<?>{present.Id}"),
+                    "Да", $"mpd<?>{present.Id}"),
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-present-info<?>{present.Id}"),
+                        "« Назад", $"mpi<?>{present.Id}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

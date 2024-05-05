@@ -32,7 +32,7 @@ public class UnsubscribeWishListUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", "subscribe-wish-lists")
+                        "« Назад", "swl")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(

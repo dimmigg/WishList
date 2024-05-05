@@ -22,7 +22,7 @@ public class MyPresentEditCommentRequestUseCase(
 
             const string textMessage = "Введите комментарий записи";
 
-            await userStorage.UpdateLastCommandUser(param.User.Id, $"my-present-edit-comment<?>{presentId}", cancellationToken);
+            await userStorage.UpdateLastCommandUser(param.User.Id, $"mpec<?>{presentId}", cancellationToken);
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             if (!chatId.HasValue) return;

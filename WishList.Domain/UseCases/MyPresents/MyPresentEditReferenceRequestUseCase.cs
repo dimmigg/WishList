@@ -22,7 +22,7 @@ public class MyPresentEditReferenceRequestUseCase(
 
             const string textMessage = "Введите ссылку записи";
 
-            await userStorage.UpdateLastCommandUser(param.User.Id, $"my-present-edit-reference<?>{presentId}", cancellationToken);
+            await userStorage.UpdateLastCommandUser(param.User.Id, $"mper<?>{presentId}", cancellationToken);
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             if (!chatId.HasValue) return;

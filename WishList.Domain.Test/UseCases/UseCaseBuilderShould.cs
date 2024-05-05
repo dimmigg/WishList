@@ -40,7 +40,7 @@ public class UseCaseBuilderShould
     [Fact]
     public void ReturnGetWishListUseCase_WhenValidCommand()
     {
-        param.Command = "my-wish-lists";
+        param.Command = "mwl";
         sut
             .Build(param)
             .Should()

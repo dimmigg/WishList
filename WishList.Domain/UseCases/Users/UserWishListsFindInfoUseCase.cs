@@ -25,7 +25,8 @@ public class UserWishListsFindInfoUseCase(
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
             var user = await userStorage.GetUser(userId, cancellationToken);
             var sb = new StringBuilder();
-
+            
+            await userStorage.UpdateLastCommandUser(param.User.Id, null, cancellationToken);
             List<List<InlineKeyboardButton>> keyboard = [];
             
             if (wishLists.Length == 0)
@@ -38,7 +39,7 @@ public class UserWishListsFindInfoUseCase(
                 keyboard = wishLists
                     .Select(wishList => new List<InlineKeyboardButton>
                     {
-                        InlineKeyboardButton.WithCallbackData(wishList.Name, $"user-wish-list-subscribe-request<?>{wishList.Id}"),
+                        InlineKeyboardButton.WithCallbackData(wishList.Name, $"uwlsr<?>{wishList.Id}"),
                     }).ToList();
             }
  

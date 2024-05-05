@@ -24,7 +24,7 @@ public class MyWishListEditNameRequestUseCase(
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList == null) return;
             var textMessage = $"Введите новое название списка *`{wishList.Name.MarkForbiddenChar()}`*";
-            await userStorage.UpdateLastCommandUser(param.User.Id, $"my-wish-list-edit-name<?>{wishList.Id}", cancellationToken);
+            await userStorage.UpdateLastCommandUser(param.User.Id, $"mwlen<?>{wishList.Id}", cancellationToken);
             
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             if (!chatId.HasValue) return;

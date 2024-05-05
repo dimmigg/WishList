@@ -18,19 +18,19 @@ public class MainUseCase(
         [
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "Мои списки", "my-wish-lists")
+                    "📝 Мои списки", "mwl")
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "Кому подарить", "subscribe-wish-lists")
+                    "🤍 Список друзей", "swl")
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "Поиск списка", "users-find-request")
+                    "🔍 Поиск списка", "ufr")
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "Как меня найти?", "how-to-find-me")
+                    "❓ Как меня найти?", "htfm")
             ]
         ];
 

@@ -31,11 +31,11 @@ public class UserWishListSubscribeRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "Да", $"user-wish-list-subscribe<?>{wishList.Id}"),
+                        "Да", $"uwls<?>{wishList.Id}"),
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"user-wish-lists-find<?>{user.Id}"),
+                        "« Назад", $"uwlf<?>{user.Id}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

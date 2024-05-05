@@ -22,7 +22,7 @@ public class MyPresentEditNameRequestUseCase(
 
             const string textMessage = "Введите название записи";
 
-            await userStorage.UpdateLastCommandUser(param.User.Id, $"my-present-edit-name<?>{presentId}", cancellationToken);
+            await userStorage.UpdateLastCommandUser(param.User.Id, $"mpen<?>{presentId}", cancellationToken);
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             if (!chatId.HasValue) return;

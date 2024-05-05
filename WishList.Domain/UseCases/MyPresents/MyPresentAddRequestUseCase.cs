@@ -21,7 +21,7 @@ public class MyPresentAddRequestUseCase(
 
             const string textMessage = "Введите название новой записи";
 
-            await userStorage.UpdateLastCommandUser(param.User.Id, $"my-present-add<?>{wishListId}", cancellationToken);
+            await userStorage.UpdateLastCommandUser(param.User.Id, $"mpa<?>{wishListId}", cancellationToken);
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             if (!chatId.HasValue) return;

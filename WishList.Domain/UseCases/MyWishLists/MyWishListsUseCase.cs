@@ -26,18 +26,18 @@ public class MyWishListsUseCase(
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"my-wish-list-info<?>{wishList.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"mwli<?>{wishList.Id}"),
                 }).ToList();
             
         }
         else
         {
-            sb.AppendLine("Еще нет списков");
+            sb.AppendLine("🏖 Еще нет списков");
         }
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "+ Добавить", $"my-wish-list-name-request")
+                "+ Добавить", $"mwlnr")
         ]);
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(

@@ -31,7 +31,7 @@ public class SubscribeWishListInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Список желаний", $"subscribe-presents<?>{wishListId}")
+                        "Список желаний", $"sp<?>{wishListId}")
                 ],
             ];
 
@@ -41,14 +41,14 @@ public class SubscribeWishListInfoUseCase(
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "Мои резервы", $"subscribe-presents<?>{wishListId}<?>reserve")
+                        "Мои резервы", $"sp<?>{wishListId}<?>r")
                 ]);
             }
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "Отписаться", $"unsubscribe-wish-list-request<?>{wishListId}"),
+                    "Отписаться", $"uwlr<?>{wishListId}"),
                 InlineKeyboardButton.WithCallbackData(
-                    "« Назад", $"subscribe-wish-lists"),
+                    "« Назад", $"swl"),
                 InlineKeyboardButton.WithCallbackData(
                     "« Главное меню", "main")
             ]);

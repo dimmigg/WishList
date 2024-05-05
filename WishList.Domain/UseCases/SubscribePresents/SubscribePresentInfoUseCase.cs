@@ -36,21 +36,32 @@ public class SubscribePresentInfoUseCase(
                 if(present.ReserveForUserId.Value == param.User.Id)
                     keyboard.Add([
                         InlineKeyboardButton.WithCallbackData(
-                            "Убрать из резерва", $"remove-reserve-present<?>{present.Id}")
+                            "Убрать из резерва", $"rrp<?>{present.Id}")
                     ]);
             }
             else
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "Зарезервировать", $"reserve-present<?>{present.Id}<?>{param.User.Id}")
+                        "Зарезервировать", $"rp<?>{present.Id}<?>{param.User.Id}")
+                ]);
+            }
+
+            if (command.Length == 3)
+            {
+                keyboard.Add([
+                    InlineKeyboardButton.WithCallbackData(
+                        "« Назад", $"sp<?>{present.WishListId}<?>r")
+                ]);
+            }
+            else
+            {
+                keyboard.Add([
+                    InlineKeyboardButton.WithCallbackData(
+                        "« Назад", $"sp<?>{present.WishListId}")
                 ]);
             }
             
-            keyboard.Add([
-                InlineKeyboardButton.WithCallbackData(
-                    "« Назад", $"subscribe-presents<?>{present.WishListId}")
-            ]);
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
                     "« Главное меню", "main")

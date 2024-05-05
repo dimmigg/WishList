@@ -32,7 +32,7 @@ public class MyPresentEditCommentUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-present-info<?>{present.Id}"),
+                        "« Назад", $"mpi<?>{present.Id}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

@@ -31,13 +31,13 @@ public class MyWishListParamsUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить название", $"my-wish-list-edit-name-request<?>{wishListId}"),
+                        "Изменить название", $"mwlenr<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить приватность", $"my-wish-list-security-request<?>{wishListId}")
+                        "Изменить приватность", $"mwlsr<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-wish-list-info<?>{wishListId}"),
+                        "« Назад", $"mwli<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

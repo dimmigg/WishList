@@ -36,19 +36,19 @@ public class MyPresentInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить название", $"my-present-edit-name-request<?>{presentId}"),
+                        "Изменить название", $"mpenr<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить ссылку", $"my-present-edit-reference-request<?>{presentId}")
+                        "Изменить ссылку", $"mperr<?>{presentId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить комментарий", $"my-present-edit-comment-request<?>{presentId}"),
+                        "Изменить комментарий", $"mpecr<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Удалить", $"my-present-delete-request<?>{presentId}")
+                        "Удалить", $"mpdr<?>{presentId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-presents<?>{present.WishListId}"),
+                        "« Назад", $"mp<?>{present.WishListId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

@@ -35,7 +35,7 @@ public class MyPresentsUseCase(
             keyboard = presents
                 .Select(present => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData(present.Name, $"my-present-info<?>{present.Id}"),
+                    InlineKeyboardButton.WithCallbackData(present.Name, $"mpi<?>{present.Id}"),
                 }).ToList();
             
         }
@@ -46,12 +46,12 @@ public class MyPresentsUseCase(
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "+ Добавить", $"my-present-add-request<?>{wishList.Id}")
+                "+ Добавить", $"mpar<?>{wishList.Id}")
         ]);
         keyboard.Add([
             
             InlineKeyboardButton.WithCallbackData(
-            "« Назад", $"my-wish-list-info<?>{wishList.Id}"),
+            "« Назад", $"mwli<?>{wishList.Id}"),
             InlineKeyboardButton.WithCallbackData(
                 "« Главное меню", "main")
         ]);

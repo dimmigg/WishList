@@ -6,6 +6,7 @@ public static class StringExtensions
     {
         return text
             .Replace("_", "\\_")
+            .Replace(@"\", @"\\")
             .Replace("*", "\\*")
             .Replace("[", "\\[")
             .Replace("]", "\\]")

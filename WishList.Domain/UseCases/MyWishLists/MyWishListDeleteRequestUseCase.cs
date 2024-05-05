@@ -26,11 +26,11 @@ public class MyWishListDeleteRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "Да", $"my-wish-list-delete<?>{wishList.Id}"),
+                        "Да", $"mwld<?>{wishList.Id}"),
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"my-wish-list-info<?>{wishList.Id}"),
+                        "« Назад", $"mwli<?>{wishList.Id}"),
                     InlineKeyboardButton.WithCallbackData(
                         "« Главное меню", "main")
                 ]

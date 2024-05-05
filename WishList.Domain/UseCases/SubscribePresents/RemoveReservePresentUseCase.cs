@@ -26,7 +26,7 @@ public class RemoveReservePresentUseCase(
                 "Подарок удалён из зарезервирова!",
                 cancellationToken: cancellationToken);
 
-            param.Command = $"subscribe-present-info<?>{presentId}";
+            param.Command = $"spi<?>{presentId}";
             var useCase = new SubscribePresentInfoUseCase(param, sender, presentStorage);
             await useCase.Execute(cancellationToken);
         }

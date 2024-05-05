@@ -32,11 +32,11 @@ public class UnsubscribeWishListRequestUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Да", $"unsubscribe-wish-list<?>{wishListId}")
+                        "Да", $"uwl<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"subscribe-wish-list-info<?>{wishListId}")
+                        "« Назад", $"swli<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
