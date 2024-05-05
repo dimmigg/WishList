@@ -33,10 +33,11 @@ public class SubscribePresentInfoUseCase(
             if (present.ReserveForUserId.HasValue)
             {
                 sb.AppendLine("*Подарок зарезервирован*");
+                var fromReserve = command.Length == 3 ? "<?>r" : "";
                 if(present.ReserveForUserId.Value == param.User.Id)
                     keyboard.Add([
                         InlineKeyboardButton.WithCallbackData(
-                            "Убрать из резерва", $"rrp<?>{present.Id}")
+                            "Убрать из резерва", $"rrp<?>{present.Id}{fromReserve}")
                     ]);
             }
             else

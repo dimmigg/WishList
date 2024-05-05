@@ -25,8 +25,8 @@ public class RemoveReservePresentUseCase(
                 param.CallbackQuery.Id,
                 "Подарок удалён из зарезервирова!",
                 cancellationToken: cancellationToken);
-
-            param.Command = $"spi<?>{presentId}";
+            var fromReserve = command.Length == 3 ? "<?>r" : "";
+            param.Command = $"spi<?>{presentId}{fromReserve}";
             var useCase = new SubscribePresentInfoUseCase(param, sender, presentStorage);
             await useCase.Execute(cancellationToken);
         }
