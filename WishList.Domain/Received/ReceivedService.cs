@@ -48,12 +48,11 @@ public class ReceivedService(
         await ExecuteUseCaseAsync(param, cancellationToken);
     }
 
-    private async Task ExecuteUseCaseAsync(UseCaseParam param, CancellationToken cancellationToken)
-    {
-        var useCase = useCaseBuilder.Build(param);
-        await useCase.Execute(cancellationToken);
-    }
-
+    private  Task ExecuteUseCaseAsync(UseCaseParam param, CancellationToken cancellationToken) =>
+        useCaseBuilder
+            .Build(param)
+            .Execute(cancellationToken);
+    
     public async Task InlineQueryReceivedAsync(InlineQuery inlineQuery, CancellationToken cancellationToken)
     {
         InlineQueryResult[] results = {
