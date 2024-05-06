@@ -74,13 +74,10 @@ public class SubscribePresentsUseCase(
 
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "« Назад", $"swli<?>{wishList.Id}")
-            ]);
-            keyboard.Add([
+                    "« Назад", $"swli<?>{wishList.Id}"),
                 InlineKeyboardButton.WithCallbackData(
                     "« Главное меню", "main")
             ]);
-
 
             var chatId = param.CallbackQuery.Message?.Chat.Id;
             var messageId = param.CallbackQuery.Message?.MessageId;

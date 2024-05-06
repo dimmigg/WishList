@@ -30,17 +30,16 @@ public class UnsubscribeWishListRequestUseCase(
 
             List<List<InlineKeyboardButton>> keyboard =
             [
+
                 [
                     InlineKeyboardButton.WithCallbackData(
                         "Да", $"uwl<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "« Назад", $"swli<?>{wishListId}")
-                ],
-                [
+                        "« Назад", $"swli<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "« Главное меню", "main")
+                    "« Главное меню", "main")
                 ]
             ];
 

@@ -26,5 +26,5 @@ public class TelegramUser
     public ICollection<WishList> WriteWishLists { get; set; }
     
     public override string ToString() =>
-        $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} \\({Id}\\)";
+        $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} ({Id})";
 }

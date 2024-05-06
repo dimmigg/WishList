@@ -20,7 +20,7 @@ public class UserWishListsFindInfoUseCase(
 
         var command = param.Command.Split("<?>");
         if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var userId))
+        if (long.TryParse(command[1], out var userId))
         {
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
             var user = await userStorage.GetUser(userId, cancellationToken);

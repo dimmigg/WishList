@@ -26,7 +26,7 @@ public class UserWishListSubscribeRequestUseCase(
             var user = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
             if(user == null) return;
             
-            var textMessage = $"Подписаться на список *{wishList.Name}* пользователя {user} \\?";
+            var textMessage = $"Подписаться на список *{wishList.Name.MarkForbiddenChar()}* пользователя {user.ToString().MarkForbiddenChar()} \\?";
             
             List<List<InlineKeyboardButton>> keyboard =
             [

@@ -46,7 +46,9 @@ public class SubscribeWishListInfoUseCase(
             }
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "Отписаться", $"uwlr<?>{wishListId}"),
+                    "Отписаться", $"uwlr<?>{wishListId}")
+            ]);
+            keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
                     "« Назад", $"swl"),
                 InlineKeyboardButton.WithCallbackData(
