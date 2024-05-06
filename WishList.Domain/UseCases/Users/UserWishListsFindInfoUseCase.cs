@@ -31,11 +31,11 @@ public class UserWishListsFindInfoUseCase(
             
             if (wishLists.Length == 0)
             {
-                sb.AppendLine($"У пользователя {user} нет списков");
+                sb.AppendLine($"У пользователя {user?.ToString().MarkForbiddenChar()} нет списков");
             }
             else
             {
-                sb.AppendLine($"Списки пользователя {user}\\:");
+                sb.AppendLine($"Списки пользователя {user?.ToString().MarkForbiddenChar()}\\:");
                 keyboard = wishLists
                     .Select(wishList => new List<InlineKeyboardButton>
                     {
