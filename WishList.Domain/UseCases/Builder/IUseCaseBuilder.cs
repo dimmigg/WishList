@@ -1,8 +1,9 @@
-﻿using WishList.Domain.Models;
+﻿using MediatR;
+using WishList.Domain.Models;
 
 namespace WishList.Domain.UseCases.Builder;
 
 public interface IUseCaseBuilder
 {
-    IUseCase Build(UseCaseParam param);
+    IRequest Build(UseCaseParam param);
 }

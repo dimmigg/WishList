@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Domain.Mapper;
+using WishList.Domain.Models;
 using WishList.Domain.Received;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Builder;
@@ -18,6 +19,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISender, Sender>();
         services.AddAutoMapper(config => config
             .AddMaps(Assembly.GetAssembly(typeof(WishListProfile))));
+        services
+            .AddMediatR(cfg => cfg
+                .RegisterServicesFromAssemblyContaining<RegisteredUser>());
         return services;
     }
 }

@@ -8,4 +8,5 @@ public class UseCaseParam
     public RegisteredUser User { get; set; }
     public Message? Message  { get; set; }
     public CallbackQuery? CallbackQuery  { get; set; }
+    public string LastCommand => Command.Split("</>")[^1].Split("<?>")[0];
 }

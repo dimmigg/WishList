@@ -1,16 +1,18 @@
-﻿using Telegram.Bot.Types;
+﻿using MediatR;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using WishList.Domain.Models;
-using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Builder;
 using WishList.Domain.UseCases.UpdateUser;
+using ISender = WishList.Domain.TelegramSender.ISender;
 
 namespace WishList.Domain.Received;
 
 public class ReceivedService(
     ISender sender,
     IUseCaseBuilder useCaseBuilder,
-    IUpdateUserUseCase updateUserUseCase
+    IUpdateUserUseCase updateUserUseCase,
+    IMediator mediator
     ) : IReceivedService
 {
     public async Task MessageReceivedAsync(Message message, CancellationToken cancellationToken)
@@ -48,10 +50,11 @@ public class ReceivedService(
         await ExecuteUseCaseAsync(param, cancellationToken);
     }
 
-    private  Task ExecuteUseCaseAsync(UseCaseParam param, CancellationToken cancellationToken) =>
-        useCaseBuilder
-            .Build(param)
-            .Execute(cancellationToken);
+    private async Task ExecuteUseCaseAsync(UseCaseParam param, CancellationToken cancellationToken)
+    {
+        var request = useCaseBuilder.Build(param);
+        await mediator.Send(request, cancellationToken);
+    }
     
     public async Task InlineQueryReceivedAsync(InlineQuery inlineQuery, CancellationToken cancellationToken)
     {
