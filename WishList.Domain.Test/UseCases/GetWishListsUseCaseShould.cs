@@ -7,6 +7,7 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Main;
+using WishList.Domain.UseCases.Main.Main;
 
 namespace WishList.Domain.Test.UseCases;
 
