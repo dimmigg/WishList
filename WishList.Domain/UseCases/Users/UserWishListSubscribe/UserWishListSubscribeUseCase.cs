@@ -1,21 +1,19 @@
 ﻿using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
-using ISender = WishList.Domain.TelegramSender.ISender;
 
 namespace WishList.Domain.UseCases.Users.UserWishListSubscribe;
 
 public class UserWishListSubscribeUseCase(
-    ISender sender,
+    ITelegramSender telegramSender,
     IWishListStorage wishListStorage,
     IUserStorage userStorage)
     : IRequestHandler<UserWishListSubscribeCommand>
 {
     public async Task Handle(UserWishListSubscribeCommand request, CancellationToken cancellationToken)
     {
-        if (request.Param.CallbackQuery == null) return;
-
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var wishListId))
@@ -33,12 +31,7 @@ public class UserWishListSubscribeUseCase(
                 new List<List<InlineKeyboardButton>>().AddBaseFooter(
                     $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{foundUser.Id}");
             
-            var chatId = request.Param.CallbackQuery.Message?.Chat.Id;
-            var messageId = request.Param.CallbackQuery.Message?.MessageId;
-            if (!(chatId.HasValue && messageId.HasValue)) return;
-            await sender.EditMessageTextAsync(
-                chatId: chatId.Value,
-                messageId: messageId.Value,
+            await telegramSender.EditMessageAsync(
                 text: textMessage,
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);

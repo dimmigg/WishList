@@ -6,7 +6,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
-using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.Main.Main;
 
 namespace WishList.Domain.Test.UseCases;
@@ -17,13 +16,13 @@ public class GetWishListsUseCaseShould
     private int messageId = 1;
     private long userId = 1;
     private string callbackId = "1";
-    private readonly Mock<ISender> sender;
+    private readonly Mock<ITelegramSender> sender;
     private readonly UseCaseParam param;
     private readonly MainUseCase sut;
     public GetWishListsUseCaseShould()
     {
         param = new UseCaseParam();
-        sender = new Mock<ISender>();
+        sender = new Mock<ITelegramSender>();
         sut = new MainUseCase(param, sender.Object);
     }
     
@@ -57,7 +56,7 @@ public class GetWishListsUseCaseShould
         SetValidParamSetups();
         param.Message = null;
         await sut.Execute(CancellationToken.None);
-        sender.Verify(s => s.EditMessageTextAsync(
+        sender.Verify(s => s.EditMessageAsync(
                 chatId,
                 messageId,
                 It.IsAny<string>(),

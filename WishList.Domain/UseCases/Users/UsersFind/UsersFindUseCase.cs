@@ -1,20 +1,18 @@
 ﻿using System.Text;
 using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
-using ISender = WishList.Domain.TelegramSender.ISender;
 
 namespace WishList.Domain.UseCases.Users.UsersFind;
 
 public class UsersFindUseCase(
-    ISender sender,
+    ITelegramSender telegramSender,
     IUserStorage userStorage)
     : IRequestHandler<UsersFindCommand>
 {
     public async Task Handle(UsersFindCommand request, CancellationToken cancellationToken)
     {
-        if (request.Param.Message == null || string.IsNullOrWhiteSpace(request.Param.Message.Text)) return;
-        
         var users = await userStorage.FindUsers(request.Param.Message.Text, cancellationToken);
         var sb = new StringBuilder();
         List<List<InlineKeyboardButton>> keyboard = [];
@@ -34,8 +32,7 @@ public class UsersFindUseCase(
 
         keyboard = keyboard.AddBaseFooter();
         
-        await sender.SendTextMessageAsync(
-            chatId: request.Param.Message.Chat.Id,
+        await telegramSender.SendMessageAsync(
             text: sb.ToString(),
             replyMarkup: new InlineKeyboardMarkup(keyboard),
             cancellationToken: cancellationToken);

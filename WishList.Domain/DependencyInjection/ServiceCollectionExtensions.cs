@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Domain.Mapper;
 using WishList.Domain.Models;
+using WishList.Domain.PipelineBehavior;
 using WishList.Domain.Received;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Builder;
@@ -16,11 +17,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IReceivedService, ReceivedService>();
         services.AddScoped<IUseCaseBuilder, UseCaseBuilder>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
-        services.AddScoped<ISender, Sender>();
+        services.AddScoped<ITelegramSender, TelegramSender.TelegramSender>();
         services.AddAutoMapper(config => config
             .AddMaps(Assembly.GetAssembly(typeof(WishListProfile))));
         services
             .AddMediatR(cfg => cfg
+                .AddOpenBehavior(typeof(Validate<,>))
+                .AddOpenBehavior(typeof(ServiceFiller<,>))
                 .RegisterServicesFromAssemblyContaining<RegisteredUser>());
         return services;
     }

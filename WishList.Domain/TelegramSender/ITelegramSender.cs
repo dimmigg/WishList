@@ -1,25 +1,30 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace WishList.Domain.TelegramSender;
 
-public interface ISender
+public interface ITelegramSender
 {
-    Task<Message> EditMessageTextAsync(
-        ChatId chatId,
-        int messageId,
+    int? MessageId { get; set; }
+    ChatId? ChatId { get; set; }
+    string? InlineQueryId { get; set; }
+    string? CallbackQueryId { get; set; }
+    
+    Task<Message> EditMessageAsync(
         string text,
+        InlineKeyboardMarkup? replyMarkup = default,
+        ChatId? chatId = default,
+        int? messageId = default,
         ParseMode? parseMode = ParseMode.MarkdownV2,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = true,
-        InlineKeyboardMarkup? replyMarkup = default,
+        bool? disableWebPagePreview = default,
         CancellationToken cancellationToken = default);
 
-    Task<Message> SendTextMessageAsync(
-        ChatId chatId,
+    Task<Message> SendMessageAsync(
         string text,
+        IReplyMarkup? replyMarkup = default,
+        ChatId? chatId = default,
         int? messageThreadId = default,
         ParseMode? parseMode = ParseMode.MarkdownV2,
         IEnumerable<MessageEntity>? entities = default,
@@ -28,30 +33,19 @@ public interface ISender
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
-        IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default);
 
-    Task AnswerInlineQueryAsync(
-        string inlineQueryId,
-        IEnumerable<InlineQueryResult> results,
-        int? cacheTime = default,
-        bool? isPersonal = default,
-        string? nextOffset = default,
-        InlineQueryResultsButton? button = default,
-        CancellationToken cancellationToken = default
-    );
-
     Task AnswerCallbackQueryAsync(
-        string callbackQueryId,
         string? text = default,
+        string? callbackQueryId = default,
         bool? showAlert = default,
         string? url = default,
         int? cacheTime = default,
         CancellationToken cancellationToken = default);
 
     Task DeleteMessageAsync(
-        ChatId chatId,
-        int messageId,
+        ChatId? chatId = default,
+        int? messageId = default,
         CancellationToken cancellationToken = default);
 
 }

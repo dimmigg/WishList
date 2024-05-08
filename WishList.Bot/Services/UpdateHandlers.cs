@@ -15,9 +15,6 @@ public class UpdateHandlers(IReceivedService received)
                 { EditedMessage: { } message } => received.MessageReceivedAsync(message, cancellationToken),
                 { CallbackQuery: { } callbackQuery } => received.CallbackQueryReceivedAsync(callbackQuery,
                     cancellationToken),
-                { InlineQuery: { } inlineQuery } => received.InlineQueryReceivedAsync(inlineQuery, cancellationToken),
-                { ChosenInlineResult: { } chosenInlineResult } => received.ChosenInlineResultReceivedAsync(
-                    chosenInlineResult, cancellationToken),
                 _ => received.UnknownUpdateHandlerAsync(update, cancellationToken)
             };
 

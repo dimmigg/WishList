@@ -1,15 +1,12 @@
 ﻿using MediatR;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.InlineQueryResults;
 using WishList.Domain.Models;
 using WishList.Domain.UseCases.Builder;
 using WishList.Domain.UseCases.UpdateUser;
-using ISender = WishList.Domain.TelegramSender.ISender;
 
 namespace WishList.Domain.Received;
 
 public class ReceivedService(
-    ISender sender,
     IUseCaseBuilder useCaseBuilder,
     IUpdateUserUseCase updateUserUseCase,
     IMediator mediator
@@ -54,32 +51,6 @@ public class ReceivedService(
     {
         var request = useCaseBuilder.Build(param);
         await mediator.Send(request, cancellationToken);
-    }
-    
-    public async Task InlineQueryReceivedAsync(InlineQuery inlineQuery, CancellationToken cancellationToken)
-    {
-        InlineQueryResult[] results = {
-            // displayed result
-            new InlineQueryResultArticle(
-                id: "1",
-                title: "TgBots",
-                inputMessageContent: new InputTextMessageContent("hello"))
-        };
-
-        await sender.AnswerInlineQueryAsync(
-            inlineQueryId: inlineQuery.Id,
-            results: results,
-            cacheTime: 0,
-            isPersonal: true,
-            cancellationToken: cancellationToken);
-    }
-    
-    public async Task ChosenInlineResultReceivedAsync(ChosenInlineResult chosenInlineResult, CancellationToken cancellationToken)
-    {
-        await sender.SendTextMessageAsync(
-            chatId: chosenInlineResult.From.Id,
-            text: $"You chose result with Id: {chosenInlineResult.ResultId}",
-            cancellationToken: cancellationToken);
     }
     
     public Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)

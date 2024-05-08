@@ -4,9 +4,7 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Builder;
-using WishList.Domain.UseCases.Main;
 using WishList.Domain.UseCases.Main.Main;
-using WishList.Domain.UseCases.MyWishLists;
 using WishList.Domain.UseCases.MyWishLists.MyWishLists;
 using WishList.Storage.Storages.Presents;
 using WishList.Storage.Storages.Users;
@@ -26,7 +24,7 @@ public class UseCaseBuilderShould
             new Mock<IWishListStorage>().Object,
             new Mock<IUserStorage>().Object,
             new Mock<IPresentStorage>().Object,
-            new Mock<ISender>().Object);
+            new Mock<ITelegramSender>().Object);
     }
 
     [Fact]

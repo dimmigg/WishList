@@ -1,19 +1,17 @@
 ﻿using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
-using ISender = WishList.Domain.TelegramSender.ISender;
 
 namespace WishList.Domain.UseCases.MyPresents.MyPresentEditReferenceRequest;
 
 public class MyPresentEditReferenceRequestUseCase(
-    ISender sender,
+    ITelegramSender telegramSender,
     IUserStorage userStorage)
     : IRequestHandler<MyPresentEditReferenceRequestCommand>
 {
     public async Task Handle(MyPresentEditReferenceRequestCommand request, CancellationToken cancellationToken)
     {
-        if (request.Param.CallbackQuery == null) return;
-
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2) return;
         if (int.TryParse(command[1], out var presentId))
@@ -24,16 +22,11 @@ public class MyPresentEditReferenceRequestUseCase(
             
             var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
             
-            var chatId = request.Param.CallbackQuery.Message?.Chat.Id;
-            if (!chatId.HasValue) return;
-            
-            await sender.AnswerCallbackQueryAsync(
-                callbackQueryId: request.Param.CallbackQuery.Id,
+            await telegramSender.AnswerCallbackQueryAsync(
                 text: textMessage,
                 cancellationToken: cancellationToken);
             
-            await sender.SendTextMessageAsync(
-                chatId: chatId.Value,
+            await telegramSender.SendMessageAsync(
                 text: textMessage,
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);

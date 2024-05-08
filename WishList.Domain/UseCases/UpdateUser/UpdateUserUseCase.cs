@@ -12,12 +12,10 @@ public class UpdateUserUseCase(
 {
     public async Task<RegisteredUser> CreateOrUpdateUser(User user, CancellationToken cancellationToken)
     {
-        var result = await userStorage.UpdateUser(user, cancellationToken);
-        return mapper.Map<RegisteredUser>(result);
+        var tgUser = await userStorage.UpdateUser(user, cancellationToken);
+        return mapper.Map<RegisteredUser>(tgUser);
     }
 
-    public async Task ClearLastCommandUser(long id, CancellationToken cancellationToken)
-    {
-        await userStorage.UpdateLastCommandUser(id, null, cancellationToken);
-    }
+    public Task ClearLastCommandUser(long id, CancellationToken cancellationToken) =>
+        userStorage.UpdateLastCommandUser(id, null, cancellationToken);
 }
