@@ -12,7 +12,7 @@ public class UsersFindRequestUseCase(
 {
     public async Task Handle(UsersFindRequestCommand request, CancellationToken cancellationToken)
     {
-        const string textMessage = "Введи идентификатор или логин пользователя, чей список нужно добавить";
+        const string textMessage = "Введите идентификатор или логин пользователя, чей список нужно добавить";
 
         await userStorage.UpdateLastCommandUser(request.Param.User.Id, Commands.USERS_FIND, cancellationToken);
 

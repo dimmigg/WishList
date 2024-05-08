@@ -33,7 +33,7 @@ public class MyWishListsUseCase(
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "+ Добавить", Commands.MY_WISH_LIST_ADD_REQUEST)
+                "✌️ Добавить", Commands.MY_WISH_LIST_ADD_REQUEST)
         ]);
         keyboard.AddBaseFooter();
 

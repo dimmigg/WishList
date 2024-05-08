@@ -28,7 +28,7 @@ public class UserWishListSubscribeRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "Да", $"{Commands.USERS_WISH_LIST_SUBSCRIBE}<?>{wishList.Id}"),
+                        "👌 Да", $"{Commands.USERS_WISH_LIST_SUBSCRIBE}<?>{wishList.Id}"),
                 ],
             ];
 

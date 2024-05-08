@@ -24,7 +24,7 @@ public class MyPresentDeleteRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "Да", $"{Commands.MY_PRESENT_DELETE}<?>{present.Id}"),
+                        "👌 Да", $"{Commands.MY_PRESENT_DELETE}<?>{present.Id}"),
                 ]
             ];
             keyboard = keyboard.AddBaseFooter($"{Commands.MY_PRESENT_INFO}<?>{present.Id}");

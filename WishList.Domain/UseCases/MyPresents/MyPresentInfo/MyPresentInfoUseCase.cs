@@ -33,15 +33,15 @@ public class MyPresentInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить название", $"{Commands.MY_PRESENT_EDIT_NAME_REQUEST}<?>{presentId}"),
+                        "🪪 Название", $"{Commands.MY_PRESENT_EDIT_NAME_REQUEST}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить ссылку", $"{Commands.MY_PRESENT_EDIT_REFERENCE_REQUEST}<?>{presentId}")
+                        "📝 Ссылка", $"{Commands.MY_PRESENT_EDIT_REFERENCE_REQUEST}<?>{presentId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить комментарий", $"{Commands.MY_PRESENT_EDIT_COMMENT_REQUEST}<?>{presentId}"),
+                        "📄 Комментарий", $"{Commands.MY_PRESENT_EDIT_COMMENT_REQUEST}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Удалить", $"{Commands.MY_PRESENT_DELETE_REQUEST}<?>{presentId}")
+                        "🗑 Удалить", $"{Commands.MY_PRESENT_DELETE_REQUEST}<?>{presentId}")
                 ],
             ];
             

@@ -8,8 +8,8 @@ public static class InlineKeyboardButtonExtensions
     public static List<List<InlineKeyboardButton>> AddBaseFooter(this List<List<InlineKeyboardButton>> keyboard,
         string? backCommand = null)
     {
-        var backButton = InlineKeyboardButton.WithCallbackData("« Назад", backCommand ?? string.Empty);
-        var homeButton = InlineKeyboardButton.WithCallbackData("« Главное меню", Commands.MAIN);
+        var backButton = InlineKeyboardButton.WithCallbackData("👈 Назад", backCommand ?? string.Empty);
+        var homeButton = InlineKeyboardButton.WithCallbackData("🖖 Главное меню", Commands.MAIN);
         
         if (!string.IsNullOrWhiteSpace(backCommand))
             keyboard.Add([backButton, homeButton]);

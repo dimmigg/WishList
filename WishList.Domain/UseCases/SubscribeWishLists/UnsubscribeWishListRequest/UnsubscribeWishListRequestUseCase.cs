@@ -28,7 +28,7 @@ public class UnsubscribeWishListRequestUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Да", $"{Commands.UNSUBSCRIBE_WISH_LIST}<?>{wishListId}")
+                        "👌 Да", $"{Commands.UNSUBSCRIBE_WISH_LIST}<?>{wishListId}")
                 ],
             ];
 

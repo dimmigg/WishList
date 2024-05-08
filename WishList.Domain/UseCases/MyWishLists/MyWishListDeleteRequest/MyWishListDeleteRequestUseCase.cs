@@ -23,7 +23,7 @@ public class MyWishListDeleteRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "Да", $"{Commands.MY_WISH_LIST_DELETE}<?>{wishList.Id}"),
+                        "👌 Да", $"{Commands.MY_WISH_LIST_DELETE}<?>{wishList.Id}"),
                 ],
             ];
             keyboard = keyboard.AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}");

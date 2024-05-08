@@ -41,7 +41,7 @@ public class MyPresentsUseCase(
         
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "+ Добавить", $"{Commands.MY_PRESENT_ADD_REQUEST}<?>{wishList.Id}")
+                    "✌️ Добавить", $"{Commands.MY_PRESENT_ADD_REQUEST}<?>{wishList.Id}")
             ]);
             keyboard = keyboard.AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}");
 

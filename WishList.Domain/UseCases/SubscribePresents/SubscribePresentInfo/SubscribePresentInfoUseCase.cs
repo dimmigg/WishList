@@ -24,8 +24,12 @@ public class SubscribePresentInfoUseCase(
             
             var sb = new StringBuilder();
             sb.AppendLine($"Подарок: *{present.Name.MarkForbiddenChar()}*");
-            sb.AppendLine($"Ссылка: *{present.Reference?.MarkForbiddenChar()}*");
-            sb.AppendLine($"Комментарий: *{present.Comment?.MarkForbiddenChar()}*");
+            
+            if(!string.IsNullOrWhiteSpace(present.Reference))
+                sb.AppendLine($"Ссылка: *[тык]({present.Reference.MarkForbiddenChar()})*");
+            
+            if(!string.IsNullOrWhiteSpace(present.Comment))
+                sb.AppendLine($"Комментарий: *{present.Comment?.MarkForbiddenChar()}*");
             if (present.ReserveForUserId.HasValue)
             {
                 sb.AppendLine("*Подарок зарезервирован*");
@@ -33,14 +37,14 @@ public class SubscribePresentInfoUseCase(
                 if(present.ReserveForUserId.Value == request.Param.User.Id)
                     keyboard.Add([
                         InlineKeyboardButton.WithCallbackData(
-                            "Убрать из резерва", $"{Commands.REMOVE_RESERVE_PRESENT}<?>{present.Id}{fromReserve}")
+                            "⭕️ Убрать из резерва", $"{Commands.REMOVE_RESERVE_PRESENT}<?>{present.Id}{fromReserve}")
                     ]);
             }
             else
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "Зарезервировать", $"{Commands.RESERVE_PRESENT}<?>{present.Id}<?>{request.Param.User.Id}")
+                        "📌 Зарезервировать", $"{Commands.RESERVE_PRESENT}<?>{present.Id}<?>{request.Param.User.Id}")
                 ]);
             }
 

@@ -18,7 +18,7 @@ public interface ITelegramSender
         int? messageId = default,
         ParseMode? parseMode = ParseMode.MarkdownV2,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        bool? disableWebPagePreview = true,
         CancellationToken cancellationToken = default);
 
     Task<Message> SendMessageAsync(
@@ -29,7 +29,7 @@ public interface ITelegramSender
         ParseMode? parseMode = ParseMode.MarkdownV2,
         IEnumerable<MessageEntity>? entities = default,
         bool? disableWebPagePreview = default,
-        bool? disableNotification = default,
+        bool? disableNotification = true,
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,

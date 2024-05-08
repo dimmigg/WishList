@@ -28,7 +28,7 @@ public class SubscribeWishListInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Список желаний", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}")
+                        "🧾 Список желаний", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}")
                 ],
             ];
 
@@ -38,12 +38,12 @@ public class SubscribeWishListInfoUseCase(
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "Мои резервы", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}<?>{Commands.RESERVED}")
+                        "📌 Мои резервы", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}<?>{Commands.RESERVED}")
                 ]);
             }
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "Отписаться", $"{Commands.UNSUBSCRIBE_WISH_LIST_REQUEST}<?>{wishListId}")
+                    "👋 Отписаться", $"{Commands.UNSUBSCRIBE_WISH_LIST_REQUEST}<?>{wishListId}")
             ]);
 
             keyboard = keyboard.AddBaseFooter(Commands.SUBSCRIBE_WISH_LISTS);

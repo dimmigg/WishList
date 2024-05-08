@@ -21,7 +21,7 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
         int? messageId = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        bool? disableWebPagePreview = true,
         CancellationToken cancellationToken = default)
     {
         if ((chatId is not null || ChatId is not null) &&
@@ -46,7 +46,7 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
         int? messageThreadId = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        bool? disableWebPagePreview = true,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,

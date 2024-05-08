@@ -18,11 +18,11 @@ public class UsersFindUseCase(
         List<List<InlineKeyboardButton>> keyboard = [];
         if (users == null || users.Length == 0)
         {
-            sb.AppendLine("Пользователи не найдены");
+            sb.AppendLine("Пользователи не найдены 🧐");
         }
         else
         {
-            sb.AppendLine($"Найдены пользователи:");
+            sb.AppendLine("Найдены пользователи:");
             keyboard = users
                 .Select(user => new List<InlineKeyboardButton>
                 {

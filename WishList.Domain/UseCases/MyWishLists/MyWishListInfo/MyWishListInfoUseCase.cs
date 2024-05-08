@@ -28,13 +28,13 @@ public class MyWishListInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "✏️ Изменить список", $"{Commands.MY_PRESENTS}<?>{wishListId}"),
+                        "✏️ Список", $"{Commands.MY_PRESENTS}<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "⚙ Параметры списка", $"{Commands.MY_WISH_LIST_PARAMS}<?>{wishListId}")
+                        "⚙ Параметры", $"{Commands.MY_WISH_LIST_PARAMS}<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🗑 Удалить список", $"{Commands.MY_WISH_LIST_DELETE_REQUEST}<?>{wishListId}")
+                        "🗑 Удалить", $"{Commands.MY_WISH_LIST_DELETE_REQUEST}<?>{wishListId}")
                 ],
             ];
 

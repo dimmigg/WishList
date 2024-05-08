@@ -28,9 +28,9 @@ public class MyWishListParamsUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить название", $"{Commands.MY_WISH_LIST_EDIT_NAME_REQUEST}<?>{wishListId}"),
+                        "🪪 Название", $"{Commands.MY_WISH_LIST_EDIT_NAME_REQUEST}<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "Изменить приватность", $"{Commands.MY_WISH_LIST_EDIT_SECURITY_REQUEST}<?>{wishListId}")
+                        "🔒 Приватность", $"{Commands.MY_WISH_LIST_EDIT_SECURITY_REQUEST}<?>{wishListId}")
                 ],
             ];
             
