@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
 
 namespace WishList.Domain.UseCases.Main.Main;
@@ -25,7 +26,7 @@ public class MainUseCase(
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "❓ Как меня найти?", UseCases.Commands.HOW_TO_FIND_ME)
+                    "❓ Как меня найти?", Commands.HOW_TO_FIND_ME)
             ]
         ];
 

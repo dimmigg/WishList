@@ -1,5 +1,5 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
-using WishList.Domain.UseCases;
+using WishList.Domain.Constants;
 
 namespace System;
 

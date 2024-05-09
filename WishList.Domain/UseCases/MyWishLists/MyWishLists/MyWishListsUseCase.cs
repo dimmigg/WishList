@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.WishLists;
 
@@ -24,7 +25,6 @@ public class MyWishListsUseCase(
                 {
                     InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}"),
                 }).ToList();
-            
         }
         else
         {

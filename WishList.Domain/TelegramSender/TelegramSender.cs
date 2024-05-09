@@ -3,6 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
+using WishList.Domain.Constants;
 using WishList.Domain.Exceptions;
 
 namespace WishList.Domain.TelegramSender;
@@ -38,6 +39,22 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
         else
             throw new DomainException("Chat or Message not found");
     }
+    
+    public async Task<Message> EditMessageAsync(
+        string text,
+        InlineKeyboardMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default)
+    {
+        if (ChatId is not null && MessageId.HasValue)
+            return await botClient.EditMessageTextAsync(
+                chatId: ChatId,
+                messageId: MessageId.Value,
+                text: text,
+                replyMarkup: replyMarkup,
+                cancellationToken: cancellationToken);
+        else
+            throw new DomainException("Chat or Message not found");
+    }
 
     public async Task<Message> SendMessageAsync(
         string text,
@@ -67,6 +84,21 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
                 allowSendingWithoutReply,
                 replyMarkup,
                 cancellationToken);
+        else
+            throw new DomainException("Chat not found");
+    }
+    
+    public async Task<Message> SendMessageAsync(
+        string text,
+        IReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default)
+    {
+        if (ChatId is not null)
+            return await botClient.SendTextMessageAsync(
+                chatId: ChatId,
+                text: text,
+                replyMarkup: replyMarkup,
+                cancellationToken: cancellationToken);
         else
             throw new DomainException("Chat not found");
     }
@@ -112,6 +144,18 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
             await botClient.DeleteMessageAsync(
                 chatId ?? ChatId!,
                 messageId ?? MessageId!.Value,
+                cancellationToken);
+    }
+
+    public async Task ShowAlertAsync(string message, CancellationToken cancellationToken = default)
+    {
+        if (CallbackQueryId is not null)
+            await botClient.AnswerCallbackQueryAsync(
+                CallbackQueryId,
+                BaseMessages.COMMAND_NOT_RECOGNIZED,
+                true,
+                default,
+                default,
                 cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WishList.Domain.Constants;
 using WishList.Domain.Exceptions;
 using WishList.Domain.Models;
 using WishList.Domain.UseCases.Main.HowToFindMe;

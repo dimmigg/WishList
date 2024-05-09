@@ -20,6 +20,11 @@ public interface ITelegramSender
         IEnumerable<MessageEntity>? entities = default,
         bool? disableWebPagePreview = true,
         CancellationToken cancellationToken = default);
+    
+    Task<Message> EditMessageAsync(
+        string text,
+        InlineKeyboardMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default);
 
     Task<Message> SendMessageAsync(
         string text,
@@ -34,6 +39,11 @@ public interface ITelegramSender
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         CancellationToken cancellationToken = default);
+    
+    Task<Message> SendMessageAsync(
+        string text,
+        IReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default);
 
     Task AnswerCallbackQueryAsync(
         string? text = default,
@@ -47,5 +57,7 @@ public interface ITelegramSender
         ChatId? chatId = default,
         int? messageId = default,
         CancellationToken cancellationToken = default);
+    
+    Task ShowAlertAsync(string message, CancellationToken cancellationToken = default);
 
 }

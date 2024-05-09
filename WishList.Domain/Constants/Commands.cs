@@ -1,4 +1,4 @@
-﻿namespace WishList.Domain.UseCases;
+﻿namespace WishList.Domain.Constants;
 
 public static class Commands
 {
