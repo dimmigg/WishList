@@ -19,7 +19,7 @@ public class SubscribeWishListsUseCase(
         var sb = new StringBuilder();
         if (wishLists.Length != 0)
         {
-            sb.AppendLine("Ваши подписки:");
+            sb.AppendLine("Ваши список друзей:");
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
