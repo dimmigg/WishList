@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
+using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.WishLists;
 
@@ -16,20 +17,14 @@ public class MyWishListDeleteUseCase(
         var command = request.Param.Command.Split("<?>");
 
         if (command.Length < 2)
-        {
-            await telegramSender.ShowAlertAsync(BaseMessages.COMMAND_NOT_RECOGNIZED, cancellationToken);
-            return;
-        }
+            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
         
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
 
             if (wishList == null)
-            {
-                await telegramSender.ShowAlertAsync(BaseMessages.WISH_LIST_NOT_FOUND, cancellationToken);
-                return;
-            }
+                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
             await wishListStorage.Delete(wishListId, cancellationToken);
 
@@ -43,7 +38,7 @@ public class MyWishListDeleteUseCase(
         }
         else
         {
-            await telegramSender.ShowAlertAsync(BaseMessages.COMMAND_NOT_RECOGNIZED, cancellationToken);
+            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
         }
     }
 }

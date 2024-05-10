@@ -133,6 +133,17 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
                 cacheTime,
                 cancellationToken);
     }
+    
+    public async Task AnswerCallbackQueryAsync(
+        string? text = default,
+        CancellationToken cancellationToken = default)
+    {
+        if (CallbackQueryId is not null)
+            await botClient.AnswerCallbackQueryAsync(
+                callbackQueryId: CallbackQueryId!,
+                text: text,
+                cancellationToken: cancellationToken);
+    }
 
     public async Task DeleteMessageAsync(
         ChatId? chatId = default,

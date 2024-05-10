@@ -4,23 +4,26 @@ using Moq.Language.Flow;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
-using WishList.Domain.UseCases.MyWishLists.MyWishListDelete;
+using WishList.Domain.UseCases.MyWishLists.MyWishListEditNameRequest;
+using WishList.Domain.UseCases.MyWishLists.MyWishListInfo;
+using WishList.Storage.Entities;
+using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.UseCases.MyWishLists;
 
-public class MyWishListDeleteUseCaseShould : UseCaseBase
+public class MyWishListInfoUseCaseShould : UseCaseBase
 {
     private readonly Mock<ITelegramSender> sender;
-    private readonly MyWishListDeleteUseCase sut;
+    private readonly MyWishListInfoUseCase sut;
     private readonly ISetup<IWishListStorage,Task<Storage.Entities.WishList?>> wlStorageGetWishListSetup;
 
-    public MyWishListDeleteUseCaseShould()
+    public MyWishListInfoUseCaseShould()
     {
         sender = new Mock<ITelegramSender>();
         var wishListStorage = new Mock<IWishListStorage>();
         wlStorageGetWishListSetup = wishListStorage.Setup(wl => wl.GetWishList(It.IsAny<int>(), It.IsAny<CancellationToken>()));
-        sut = new MyWishListDeleteUseCase(sender.Object, wishListStorage.Object);
+        sut = new MyWishListInfoUseCase(sender.Object, wishListStorage.Object);
     }
     
     [Fact]
@@ -29,10 +32,13 @@ public class MyWishListDeleteUseCaseShould : UseCaseBase
         var param = GetCallbackQueryParamValid();
         const int wishListId = 1;
         param.Command = $"command<?>{wishListId}";
-        var request = new MyWishListDeleteCommand(param);
+        var request = new MyWishListInfoCommand(param);
         var wishList = new Storage.Entities.WishList()
         {
-            Name = "wishList"
+            Id = 1,
+            Name = "wishList",
+            Presents = new List<Present>(),
+            IsPrivate = true,
         };
         wlStorageGetWishListSetup.ReturnsAsync(wishList);
         
@@ -46,20 +52,18 @@ public class MyWishListDeleteUseCaseShould : UseCaseBase
     }
     
     [Fact]
-    public async Task ThrowDomainException_WhenIncompleteParams()
+    public async Task ThrowDomainException_WhenWishListNotFound()
     {
         var param = GetCallbackQueryParamValid();
-        var request = new MyWishListDeleteCommand(param);
-        var wishList = new Storage.Entities.WishList()
-        {
-            Name = "wishList"
-        };
-        wlStorageGetWishListSetup.ReturnsAsync(wishList);
+        const int wishListId = 1;
+        param.Command = $"command<?>{wishListId}";
+        var request = new MyWishListInfoCommand(param);
+
+        wlStorageGetWishListSetup.ReturnsAsync((Storage.Entities.WishList)null!);
         
         await sut.Invoking(s => s.Handle(request, CancellationToken.None))
             .Should().ThrowAsync<DomainException>();
-        
-        sender.Verify(s => s.EditMessageAsync(
+        sender.Verify(s => s.SendMessageAsync(
                 It.IsAny<string>(),
                 It.IsAny<InlineKeyboardMarkup?>(),
                 It.IsAny<CancellationToken>()),
@@ -67,17 +71,16 @@ public class MyWishListDeleteUseCaseShould : UseCaseBase
     }
     
     [Fact]
-    public async Task ThrowDomainException_WhenWishListNotFound()
+    public async Task ThrowDomainException_WhenIncompleteParams()
     {
         var param = GetCallbackQueryParamValid();
-        const int wishListId = 1;
-        param.Command = $"command<?>{wishListId}";
-        var request = new MyWishListDeleteCommand(param);
+        param.Command = "command";
+        var request = new MyWishListInfoCommand(param);
         
         await sut.Invoking(s => s.Handle(request, CancellationToken.None))
             .Should().ThrowAsync<DomainException>();
         
-        sender.Verify(s => s.EditMessageAsync(
+        sender.Verify(s => s.SendMessageAsync(
                 It.IsAny<string>(),
                 It.IsAny<InlineKeyboardMarkup?>(),
                 It.IsAny<CancellationToken>()),
@@ -90,12 +93,12 @@ public class MyWishListDeleteUseCaseShould : UseCaseBase
         var param = GetCallbackQueryParamValid();
         const string commandParams = "InvalidParams";
         param.Command = $"command<?>{commandParams}";
-        var request = new MyWishListDeleteCommand(param);
+        var request = new MyWishListInfoCommand(param);
         
         await sut.Invoking(s => s.Handle(request, CancellationToken.None))
             .Should().ThrowAsync<DomainException>();
         
-        sender.Verify(s => s.EditMessageAsync(
+        sender.Verify(s => s.SendMessageAsync(
                 It.IsAny<string>(),
                 It.IsAny<InlineKeyboardMarkup?>(),
                 It.IsAny<CancellationToken>()),

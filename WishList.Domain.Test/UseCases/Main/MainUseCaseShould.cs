@@ -1,6 +1,4 @@
 ﻿using Moq;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.Main.Main;
@@ -29,11 +27,6 @@ public class MainUseCaseShould : UseCaseBase
         sender.Verify(s => s.EditMessageAsync(
                 It.IsAny<string>(),
                 It.IsAny<InlineKeyboardMarkup?>(),
-                It.IsAny<ChatId?>(),
-                It.IsAny<int?>(),
-                It.IsAny<ParseMode?>(),
-                It.IsAny<IEnumerable<MessageEntity>?>(),
-                It.IsAny<bool?>(),
                 It.IsAny<CancellationToken>()),
             Times.Once);
     }

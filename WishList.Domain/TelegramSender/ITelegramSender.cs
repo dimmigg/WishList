@@ -52,6 +52,10 @@ public interface ITelegramSender
         string? url = default,
         int? cacheTime = default,
         CancellationToken cancellationToken = default);
+    
+    Task AnswerCallbackQueryAsync(
+        string? text = default,
+        CancellationToken cancellationToken = default);
 
     Task DeleteMessageAsync(
         ChatId? chatId = default,

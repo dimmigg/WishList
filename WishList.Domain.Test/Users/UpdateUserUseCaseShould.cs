@@ -39,7 +39,7 @@ public class UpdateUserUseCaseShould
     }
 
     [Fact]
-    public async Task AddUser_WhenUserInDb()
+    public async Task UpdateUser_WhenUserInDb()
     {
         const long userId = 123;
         var user = new User
@@ -51,4 +51,13 @@ public class UpdateUserUseCaseShould
         userStorage.Verify(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
         userStorage.Verify(u => u.UpdateUser(user, It.IsAny<CancellationToken>()), Times.Once);
     }
+    
+    [Fact]
+    public async Task ClearLastCommandUser_WhenUserInDb()
+    {
+        const long userId = 123;
+
+        await sut.ClearLastCommandUser(userId, CancellationToken.None);
+        userStorage.Verify(u => u.UpdateLastCommandUser(It.IsAny<long>(), null,It.IsAny<CancellationToken>()), Times.Once);
+        }
 }
