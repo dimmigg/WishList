@@ -22,6 +22,7 @@ public class MyWishListInfoUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
+            
             if (wishList == null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
                 
