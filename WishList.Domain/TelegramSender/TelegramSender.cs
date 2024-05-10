@@ -51,6 +51,8 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
                 messageId: MessageId.Value,
                 text: text,
                 replyMarkup: replyMarkup,
+                parseMode: ParseMode.MarkdownV2,
+                disableWebPagePreview: true,
                 cancellationToken: cancellationToken);
         else
             throw new DomainException("Chat or Message not found");
@@ -98,6 +100,8 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
                 chatId: ChatId,
                 text: text,
                 replyMarkup: replyMarkup,
+                parseMode: ParseMode.MarkdownV2,
+                disableWebPagePreview: true,
                 cancellationToken: cancellationToken);
         else
             throw new DomainException("Chat not found");

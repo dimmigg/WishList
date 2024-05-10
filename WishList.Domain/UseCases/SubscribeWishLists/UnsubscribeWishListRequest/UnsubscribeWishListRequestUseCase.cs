@@ -21,7 +21,6 @@ public class UnsubscribeWishListRequestUseCase(
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if(wishList == null) return;
             
-            await wishListStorage.UnsubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             var sb = new StringBuilder();
             sb.AppendLine($"Вы действительно хотите удалить список *{wishList.Name.MarkForbiddenChar()}* из избранного?");
 
