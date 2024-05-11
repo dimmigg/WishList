@@ -21,7 +21,7 @@ public class RemoveReservePresentUseCase(
             await presentStorage.RemoveReserve(presentId, cancellationToken);
 
             await telegramSender.AnswerCallbackQueryAsync(
-                "Подарок удалён из зарезервирова!",
+                "Подарок удалён из резервирова. Теперь его может зарезервировать кто-нибудь другой.",
                 cancellationToken: cancellationToken);
             var fromReserve = command.Length == 3 ? $"<?>{Commands.RESERVED}" : "";
             

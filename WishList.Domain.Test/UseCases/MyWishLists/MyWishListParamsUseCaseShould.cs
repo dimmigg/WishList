@@ -4,11 +4,8 @@ using Moq.Language.Flow;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
-using WishList.Domain.UseCases.MyWishLists.MyWishListEditNameRequest;
-using WishList.Domain.UseCases.MyWishLists.MyWishListInfo;
 using WishList.Domain.UseCases.MyWishLists.MyWishListParams;
 using WishList.Storage.Entities;
-using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.UseCases.MyWishLists;

@@ -31,7 +31,8 @@ public static class Commands
     public const string MY_PRESENT_ADD_REQUEST = "mpar";
     public const string MY_PRESENT_ADD = "mpa";
     
-    public const string SUBSCRIBE_WISH_LISTS = "swl";
+    public const string SUBSCRIBE_USERS = "su";
+    public const string SUBSCRIBE_USER_WISH_LISTS = "suwl";
     public const string SUBSCRIBE_WISH_LIST_INFO = "swli";
     public const string UNSUBSCRIBE_WISH_LIST_REQUEST = "uwlr";
     public const string UNSUBSCRIBE_WISH_LIST = "uwl";

@@ -18,7 +18,7 @@ public class MainUseCase(
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "🤍 Список друзей", Commands.SUBSCRIBE_WISH_LISTS)
+                    "🤍 Список друзей", Commands.SUBSCRIBE_USERS)
             ],
             [
                 InlineKeyboardButton.WithCallbackData(

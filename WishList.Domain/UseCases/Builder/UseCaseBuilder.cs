@@ -31,8 +31,9 @@ using WishList.Domain.UseCases.SubscribePresents.RemoveReservePresent;
 using WishList.Domain.UseCases.SubscribePresents.ReservePresent;
 using WishList.Domain.UseCases.SubscribePresents.SubscribePresentInfo;
 using WishList.Domain.UseCases.SubscribePresents.SubscribePresents;
+using WishList.Domain.UseCases.SubscribeWishLists.SubscribeUsers;
+using WishList.Domain.UseCases.SubscribeWishLists.SubscribeUserWishLists;
 using WishList.Domain.UseCases.SubscribeWishLists.SubscribeWishListInfo;
-using WishList.Domain.UseCases.SubscribeWishLists.SubscribeWishLists;
 using WishList.Domain.UseCases.SubscribeWishLists.UnsubscribeWishList;
 using WishList.Domain.UseCases.SubscribeWishLists.UnsubscribeWishListRequest;
 using WishList.Domain.UseCases.Users.UsersFind;
@@ -79,7 +80,8 @@ public class UseCaseBuilder()
             Commands.MY_PRESENT_ADD_REQUEST => new MyPresentAddRequestCommand(param),
             Commands.MY_PRESENT_ADD => new MyPresentAddCommand(param),
             
-            Commands.SUBSCRIBE_WISH_LISTS => new SubscribeWishListsCommand(param),
+            Commands.SUBSCRIBE_USERS => new SubscribeUsersCommand(param),
+            Commands.SUBSCRIBE_USER_WISH_LISTS => new SubscribeUserWishListsCommand(param),
             Commands.SUBSCRIBE_WISH_LIST_INFO => new SubscribeWishListInfoCommand(param),
             Commands.UNSUBSCRIBE_WISH_LIST_REQUEST => new UnsubscribeWishListRequestCommand(param),
             Commands.UNSUBSCRIBE_WISH_LIST => new UnsubscribeWishListCommand(param),

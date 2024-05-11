@@ -47,7 +47,7 @@ public class SubscribeWishListInfoUseCase(
                     "👋 Отписаться", $"{Commands.UNSUBSCRIBE_WISH_LIST_REQUEST}<?>{wishListId}")
             ]);
 
-            keyboard = keyboard.AddBaseFooter(Commands.SUBSCRIBE_WISH_LISTS);
+            keyboard = keyboard.AddBaseFooter($"{Commands.SUBSCRIBE_USER_WISH_LISTS}<?>{wishList.AuthorId}");
             
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

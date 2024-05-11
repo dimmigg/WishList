@@ -30,11 +30,16 @@ public class PresentStorage(
         await dbContext.Presents
             .Where(wl => wl.Id == presentId)
             .FirstOrDefaultAsync(cancellationToken);
+    
+    private IQueryable<Present> GetDbPresent(int presentId) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .AsTracking();
 
     public async Task<Present> UpdateName(string name, int presentId, CancellationToken cancellationToken)
     {
 
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
 
@@ -47,7 +52,7 @@ public class PresentStorage(
     public async Task<Present> UpdateReference(string reference, int presentId, CancellationToken cancellationToken)
     {
 
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
 
@@ -60,7 +65,7 @@ public class PresentStorage(
     public async Task<Present> UpdateComment(string comment, int presentId, CancellationToken cancellationToken)
     {
 
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
 
@@ -72,7 +77,7 @@ public class PresentStorage(
 
     public async Task Delete(int presentId, CancellationToken cancellationToken)
     {
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
         dbContext.Remove(present);
@@ -84,7 +89,7 @@ public class PresentStorage(
 
     public async Task Reserve(int presentId, long reservedUserId, CancellationToken cancellationToken)
     {
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
         present.ReserveForUserId = reservedUserId;
@@ -93,7 +98,7 @@ public class PresentStorage(
 
     public async Task RemoveReserve(int presentId, CancellationToken cancellationToken)
     {
-        var present = await GetPresent(presentId, cancellationToken);
+        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
         if (present == null)
             throw new StorageException("Запись не найдена");
         present.ReserveForUserId = null;

@@ -24,7 +24,7 @@ public class UserStorage(
             .Where(u => u.Id == id)
             .Include(u => u.WishLists)
             .Include(u => u.SubscribeWishLists)
-            //.Include(u => u.WriteWishLists)
+            .ThenInclude(swl => swl.Author)
             .FirstOrDefaultAsync(cancellationToken);
     
     public async Task<TelegramUser> UpdateUser(User user, CancellationToken cancellationToken)
@@ -43,7 +43,10 @@ public class UserStorage(
 
     public async Task<TelegramUser> UpdateLastCommandUser(long id, string? command, CancellationToken cancellationToken)
     {
-        var existingUser = await GetUser(id, cancellationToken: cancellationToken);
+        var existingUser = await  dbContext.Users
+            .Where(u => u.Id == id)
+            .AsTracking()
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (existingUser == null) throw new StorageException("User not found");
 
@@ -64,7 +67,10 @@ public class UserStorage(
 
     public async Task AddSubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
     {
-        var user = await GetUser(userId, cancellationToken);
+        var user = await  dbContext.Users
+            .Where(u => u.Id == userId)
+            .AsTracking()
+            .FirstOrDefaultAsync(cancellationToken);
         var wishList = await dbContext.WishLists
             .FirstOrDefaultAsync(w => w.Id == wishListId, cancellationToken);
         if (user != null && wishList != null)

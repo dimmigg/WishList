@@ -14,8 +14,11 @@ public static class ServiceCollectionExtensions
             .AddScoped<IUserStorage, UserStorage>()
             .AddScoped<IWishListStorage, WishListStorage>()
             .AddScoped<IPresentStorage, PresentStorage>()
-            .AddDbContextPool<WishListDbContext>(options => options
-            .UseNpgsql(dbConnectionString));
+            .AddDbContextPool<WishListDbContext>(options =>
+            {
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseNpgsql(dbConnectionString);
+            });
         
         using var scope = services.BuildServiceProvider().CreateScope();
                 var serviceProvider = scope.ServiceProvider;

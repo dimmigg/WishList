@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using WishList.Storage.Exceptions;
 
 namespace WishList.Storage.Storages.WishLists;
 
 public class WishListStorage(
-    WishListDbContext dbContext) : IWishListStorage
+    WishListDbContext dbContext,
+    IMapper mapper) : IWishListStorage
 {
     public async Task<Entities.WishList> AddWishList(string name, long userId, CancellationToken cancellationToken)
     {
@@ -21,7 +24,7 @@ public class WishListStorage(
 
     public async Task<Entities.WishList> EditNameWishList(string name, int wishListId, CancellationToken cancellationToken)
     {
-        var wishList = await GetWishList(wishListId, cancellationToken);
+        var wishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken);
         if (wishList is null) throw new StorageException("Список не найден");
         wishList.Name = name;
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -35,6 +38,11 @@ public class WishListStorage(
             .Include(wl => wl.Presents)
             .FirstOrDefaultAsync(cancellationToken);
 
+    private IQueryable<Entities.WishList> GetDbWishList(int id) =>
+        dbContext.WishLists
+            .Where(wl => wl.Id == id)
+            .AsTracking();
+
     public async Task<Entities.WishList[]> GetWishLists(long userId, CancellationToken cancellationToken) =>
         await dbContext.WishLists
             .Where(wl => wl.AuthorId == userId)
@@ -43,7 +51,7 @@ public class WishListStorage(
 
     public async Task<Entities.WishList> UpdateNameWishList(int wishListId, string name, long authorId, CancellationToken cancellationToken)
     {
-        var existingWishList = await GetWishList(wishListId, cancellationToken: cancellationToken) ??
+        var existingWishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken) ??
                                await AddWishList(name, authorId, cancellationToken);
 
         existingWishList.Name = name;
@@ -57,11 +65,12 @@ public class WishListStorage(
         var user = await dbContext.Users
             .Where(u => u.Id == userId)
             .Include(u => u.SubscribeWishLists)
+            .ThenInclude(w => w.Author)
+            .Include(u => u.SubscribeWishLists)
             .ThenInclude(w => w.Presents)
             .FirstOrDefaultAsync(cancellationToken);
         if (user is null) throw new StorageException("Пользователь не найден");
         return user.SubscribeWishLists;
-
     }
 
     public async Task UnsubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
@@ -69,10 +78,11 @@ public class WishListStorage(
         var user = await dbContext.Users
             .Where(u => u.Id == userId)
             .Include(u => u.SubscribeWishLists)
+            .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
         if (user is null) throw new StorageException("Пользователь не найден");
 
-        var wishList = await GetWishList(wishListId, cancellationToken);
+        var wishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken);
         if(wishList is null) throw new StorageException("Список не найден");
 
         user.SubscribeWishLists.Remove(wishList);
@@ -81,7 +91,7 @@ public class WishListStorage(
     
     public async Task Delete(int wishListId, CancellationToken cancellationToken)
     {
-        var wishList = await GetWishList(wishListId, cancellationToken);
+        var wishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken);
         if (wishList == null)
             throw new StorageException("Список не найден");
         dbContext.Remove(wishList);
@@ -90,7 +100,7 @@ public class WishListStorage(
 
     public async Task<Entities.WishList> UpdatePrivateWishList(int wishListId, bool isPrivate, CancellationToken cancellationToken)
     {
-        var existingWishList = await GetWishList(wishListId, cancellationToken: cancellationToken);
+        var existingWishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken);
         if(existingWishList is null) throw new StorageException("WishList was not found");
         
         existingWishList.IsPrivate = isPrivate;
