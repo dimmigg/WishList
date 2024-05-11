@@ -69,6 +69,7 @@ public class UserStorage(
     {
         var user = await  dbContext.Users
             .Where(u => u.Id == userId)
+            .Include(u => u.SubscribeWishLists)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
         var wishList = await dbContext.WishLists
