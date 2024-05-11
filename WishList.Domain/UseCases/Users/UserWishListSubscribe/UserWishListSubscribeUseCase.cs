@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
+using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
@@ -16,13 +17,20 @@ public class UserWishListSubscribeUseCase(
     public async Task Handle(UserWishListSubscribeCommand request, CancellationToken cancellationToken)
     {
         var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
+        
+        if (command.Length < 2)
+            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+        
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if(wishList == null) return;
+            
+            if(wishList == null) 
+                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+            
             var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
-            if(foundUser == null) return;
+            if(foundUser == null)
+                throw new DomainException(BaseMessages.USER_NOT_FOUND);
 
             await userStorage.AddSubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             
@@ -36,6 +44,10 @@ public class UserWishListSubscribeUseCase(
                 text: textMessage,
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);
+        }
+        else
+        {
+            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
         }
     }
 }
