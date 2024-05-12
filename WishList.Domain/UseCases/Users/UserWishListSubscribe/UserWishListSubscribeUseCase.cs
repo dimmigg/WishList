@@ -34,7 +34,7 @@ public class UserWishListSubscribeUseCase(
 
             await userStorage.AddSubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             
-            var textMessage = $"Список *{wishList.Name}* добавлен в избранное";
+            var textMessage = $"Список *{wishList.Name.MarkForbiddenChar()}* добавлен в избранное";
 
             var keyboard =
                 new List<List<InlineKeyboardButton>>().AddBaseFooter(
