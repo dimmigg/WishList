@@ -38,9 +38,16 @@ public class UserWishListsFindInfoUseCase(
             {
                 sb.AppendLine($"Списки пользователя {user?.ToString().MarkForbiddenChar()}\\:");
                 keyboard = wishLists
-                    .Select(wishList => new List<InlineKeyboardButton>
+                    .Select(wishList =>
                     {
-                        InlineKeyboardButton.WithCallbackData(wishList.Name, $"{Commands.USERS_WISH_LIST_SUBSCRIBE_REQUEST}<?>{wishList.Id}"),
+                        var isSubscribe = request.Param.User.SubscribeWishLists.Any(wl => wl.Id == wishList.Id)
+                            ? "✔️ " : "";
+                        return new List<InlineKeyboardButton>
+                        {
+                            InlineKeyboardButton.WithCallbackData(
+                            $"{isSubscribe}{wishList.Name}",
+                            $"{Commands.USERS_WISH_LIST_SUBSCRIBE_REQUEST}<?>{wishList.Id}"),
+                        };
                     }).ToList();
             }
 

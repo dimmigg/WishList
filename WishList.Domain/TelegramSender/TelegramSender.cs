@@ -3,7 +3,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
-using WishList.Domain.Constants;
 using WishList.Domain.Exceptions;
 
 namespace WishList.Domain.TelegramSender;
@@ -167,7 +166,7 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
         if (CallbackQueryId is not null)
             await botClient.AnswerCallbackQueryAsync(
                 CallbackQueryId,
-                BaseMessages.COMMAND_NOT_RECOGNIZED,
+                message,
                 true,
                 default,
                 default,
