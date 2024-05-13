@@ -14,25 +14,34 @@ public class UsersFindUseCase(
 {
     public async Task Handle(UsersFindCommand request, CancellationToken cancellationToken)
     {
-        var users = await userStorage.FindUsers(request.Param.Message.Text, cancellationToken);
+        var messageText = request.Param.Message!.Text!;
         var sb = new StringBuilder();
         List<List<InlineKeyboardButton>> keyboard = [];
-        if (users == null || users.Length == 0)
+        if (messageText.Length < 5)
         {
-            sb.AppendLine("Пользователи не найдены 🧐");
+            sb.AppendLine("Необходимо ввести не менее пяти символов");
         }
         else
         {
-            sb.AppendLine("Найдены пользователи:");
-            keyboard = users
-                .Select(user => new List<InlineKeyboardButton>
-                {
-                    InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\",""), $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{user.Id}"),
-                }).ToList();
+            var users = await userStorage.FindUsers(messageText, cancellationToken);
+            if (users == null || users.Length == 0)
+            {
+                sb.AppendLine("Пользователи не найдены 🧐");
+            }
+            else
+            {
+                sb.AppendLine("Найдены пользователи:");
+                keyboard = users
+                    .Select(user => new List<InlineKeyboardButton>
+                    {
+                        InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\", ""),
+                            $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{user.Id}"),
+                    }).ToList();
+            }
         }
 
         keyboard = keyboard.AddBaseFooter();
-        
+
         await telegramSender.SendMessageAsync(
             text: sb.ToString(),
             replyMarkup: new InlineKeyboardMarkup(keyboard),
