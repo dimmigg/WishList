@@ -22,7 +22,8 @@ public class SubscribeUsersUseCase(
             keyboard = users
                 .Select(gr => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{gr.Key} ({gr.Count()})", $"{Commands.SUBSCRIBE_USER_WISH_LISTS}<?>{gr.Key.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{gr.Key} ({gr.Count()})",
+                        $"{Commands.SUBSCRIBE_USER_WISH_LISTS}<?>{gr.Key.Id}"),
                 }).ToList();
         }
         else
@@ -30,6 +31,11 @@ public class SubscribeUsersUseCase(
             sb.AppendLine("Еще нет подписок");
         }
 
+        keyboard.Add(
+        [
+            InlineKeyboardButton.WithCallbackData(
+                "🔍 Поиск", Commands.USERS_FIND_REQUEST)
+        ]);
         keyboard = keyboard.AddBaseFooter();
 
         await telegramSender.EditMessageAsync(

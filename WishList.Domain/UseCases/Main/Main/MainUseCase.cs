@@ -18,11 +18,7 @@ public class MainUseCase(
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "🤍 Список друзей", Commands.SUBSCRIBE_USERS)
-            ],
-            [
-                InlineKeyboardButton.WithCallbackData(
-                    "🔍 Поиск списка", Commands.USERS_FIND_REQUEST)
+                    "🤍 Друзья", Commands.SUBSCRIBE_USERS)
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
