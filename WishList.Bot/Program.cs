@@ -27,9 +27,11 @@ builder.Services
     .AddDomain()
     .AddControllers()
     .AddNewtonsoftJson();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
 app.MapBotWebhookRoute<BotController>(route: botConfiguration?.Route);
 app.MapControllers();
+app.UseHealthChecks("/health");
 app.Run();
