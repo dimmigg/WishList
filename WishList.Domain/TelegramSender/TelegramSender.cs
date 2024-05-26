@@ -172,4 +172,13 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
                 default,
                 cancellationToken);
     }
+
+    public async Task SendChatActionAsync(ChatAction action, CancellationToken cancellationToken)
+    {
+        if (ChatId is not null)
+            await botClient.SendChatActionAsync(
+                chatId: ChatId,
+                chatAction: action,
+                cancellationToken: cancellationToken);
+    }
 }

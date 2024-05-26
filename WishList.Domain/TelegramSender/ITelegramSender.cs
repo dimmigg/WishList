@@ -63,5 +63,7 @@ public interface ITelegramSender
         CancellationToken cancellationToken = default);
     
     Task ShowAlertAsync(string message, CancellationToken cancellationToken = default);
+    
+    Task SendChatActionAsync(ChatAction action, CancellationToken cancellationToken);   
 
 }
