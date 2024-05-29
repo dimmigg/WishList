@@ -1,11 +1,14 @@
-﻿using Telegram.Bot.Types;
+﻿using Telegram.Bot;
+using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
 using WishList.Domain.Received;
 
 namespace WishList.Bot.Services;
 
-public class UpdateHandlers(IReceivedService received)
+public class UpdateHandlers(IReceivedService received,
+    ILogger<UpdateHandlers> logger)  : IUpdateHandler
 {
-    public async Task HandleUpdateAsync(Update update, CancellationToken cancellationToken)
+    public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
         try
         {
@@ -22,7 +25,15 @@ public class UpdateHandlers(IReceivedService received)
         }
         catch (Exception e)
         {
+            logger.LogError(e, "Error with HandleUpdateAsync");
             Console.WriteLine(e);
         }
+    }
+
+    public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+    {
+        logger.LogError(exception, "Error with HandleUpdateAsync");
+        Console.WriteLine(exception);
+        return Task.CompletedTask;
     }
 }
