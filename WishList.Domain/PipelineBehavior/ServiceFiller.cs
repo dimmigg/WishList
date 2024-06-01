@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases;
@@ -22,7 +24,7 @@ public class ServiceFiller<TRequest, TResponse>(
 
         try
         {
-            await telegramSender.SendChatActionAsync(ChatAction.Typing, cancellationToken: cancellationToken);
+            await telegramSender.AnswerCallbackQueryAsync(null, cancellationToken: cancellationToken);
             var response = await next.Invoke();
             logger.LogInformation("Command successfully handled {Command}", request);
             return response;
