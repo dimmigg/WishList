@@ -13,11 +13,10 @@ public interface ITelegramSender
     
     Task<Message> EditMessageAsync(
         string text,
+        ChatId chatId,
+        int messageId,
         InlineKeyboardMarkup? replyMarkup = default,
-        ChatId? chatId = default,
-        int? messageId = default,
         ParseMode? parseMode = ParseMode.MarkdownV2,
-        IEnumerable<MessageEntity>? entities = default,
         bool? disableWebPagePreview = true,
         CancellationToken cancellationToken = default);
     

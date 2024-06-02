@@ -16,27 +16,21 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
 
     public async Task<Message> EditMessageAsync(
         string text,
+        ChatId chatId,
+        int messageId = default,
         InlineKeyboardMarkup? replyMarkup = default,
-        ChatId? chatId = default,
-        int? messageId = default,
-        ParseMode? parseMode = default,
-        IEnumerable<MessageEntity>? entities = default,
+        ParseMode? parseMode = ParseMode.MarkdownV2,
         bool? disableWebPagePreview = true,
         CancellationToken cancellationToken = default)
     {
-        if ((chatId is not null || ChatId is not null) &&
-            (messageId.HasValue || MessageId.HasValue))
             return await botClient.EditMessageTextAsync(
-                chatId ?? ChatId!,
-                messageId ?? MessageId!.Value,
-                text,
-                parseMode,
-                entities,
-                disableWebPagePreview,
-                replyMarkup,
-                cancellationToken);
-        else
-            throw new DomainException("Chat or Message not found");
+                chatId: chatId,
+                messageId: messageId,
+                text: text,
+                replyMarkup: replyMarkup,
+                parseMode: parseMode,
+                disableWebPagePreview: disableWebPagePreview,
+                cancellationToken: cancellationToken);
     }
     
     public async Task<Message> EditMessageAsync(

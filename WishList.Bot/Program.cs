@@ -3,6 +3,7 @@ using WishList.Bot.Controllers;
 using WishList.Bot.Services;
 using Telegram.Bot;
 using WishList.Domain.DependencyInjection;
+using WishList.Domain.Received;
 using WishList.Storage.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,11 @@ builder.Services.AddHttpClient("telegram_bot_client")
         TelegramBotClientOptions options = new(botConfig.BotToken);
         return new TelegramBotClient(options, httpClient);
     });
+builder.Services.AddScoped<IReceivedService, ReceivedService>();
 builder.Services.AddScoped<UpdateHandlers>();
-builder.Services.AddHostedService<ConfigureWebhook>();
+builder.Services.AddScoped<ReceiverService>();
+builder.Services.AddHostedService<PollingService>();
+
 builder.Services
     .AddStorage(connectionString)
     .AddDomain()

@@ -1,8 +1,148 @@
-bin
-obj
-.idea
-bundles
-.vs
+# Общее
+.DS_Store
+Thumbs.db
+
+# Windows
+*.log
+*.vspscc
+*.vssscc
+._*
+*.suo
 *.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vscode/
+.vscode/**/*
+.vs/
+.vs/**/*
+*.code-workspace
+# Бэкапы
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+
+# MSTest
+*.testsettings
+*.vsmdi
+*.appxrecipe
+*.appxmanifest
+*.manifest
+*.map
+*.pfx
+*.publishsettings
+
+# Радиация кодировки (Scc и Codemap)
+*.sc
+
+# Временные файлы разработчиков
+_$RECYCLE.BIN
+*.nupkg
+*.nuspec
+.project
+.idea/
+*.sln.ide
 launchSettings.json
 appsettings.Development.json
+# Кэш NuGet
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+# Mono Auto Generated Files
+mono_crash.*
+
+# Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Ll]ogFiles/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# MS SQL Server CE
+*.sdf
+
+# Локальные настройки среды
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Rider directories
+.idea/
+.idea/**/*
+*.sln.iml
+
+# StyleCop
+StyleCopReport.xml
+
+# CodeRush
+.cr/*
+*.cr
+
+# Roslyn generated files
+*.g.cs
+*.g.i.cs
+*.g.h
+
+# Coverlet
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Project Rider
+.idea/
