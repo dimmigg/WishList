@@ -18,7 +18,7 @@ public class MyPresentDeleteRequestUseCase(
         if (int.TryParse(command[1], out var presentId))
         {
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if(present == null) return;
+            if(present is null) return;
             
             var textMessage = $"Удалить запись *{present.Name.MarkForbiddenChar()}*\\?";
             

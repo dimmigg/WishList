@@ -21,7 +21,7 @@ public class SubscribePresentsUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if(wishList == null) return;
+            if(wishList is null) return;
 
             List<List<InlineKeyboardButton>> keyboard = [];
             var wishLists = await presentStorage.GetSubscribePresents(wishListId, cancellationToken);

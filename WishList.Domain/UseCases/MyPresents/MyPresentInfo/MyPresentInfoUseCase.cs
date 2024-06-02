@@ -19,7 +19,7 @@ public class MyPresentInfoUseCase(
         if (int.TryParse(command[1], out var presentId))
         {
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if (present == null) return;
+            if (present is null) return;
             var sb = new StringBuilder($"Запись: *{present.Name.MarkForbiddenChar()}*\n");
             var reference = string.IsNullOrWhiteSpace(present.Reference) ?
                 "_не заполнено_"

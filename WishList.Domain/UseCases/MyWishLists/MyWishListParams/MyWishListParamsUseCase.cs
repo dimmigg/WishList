@@ -22,7 +22,7 @@ public class MyWishListParamsUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if (wishList == null)
+            if (wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
                 
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");

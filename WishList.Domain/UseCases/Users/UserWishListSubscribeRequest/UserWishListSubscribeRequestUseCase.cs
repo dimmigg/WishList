@@ -23,7 +23,7 @@ public class UserWishListSubscribeRequestUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if (wishList == null)
+            if (wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
 
             if (request.Param.User.SubscribeWishLists.Any(wl => wl.Id == wishList.Id))
@@ -32,8 +32,8 @@ public class UserWishListSubscribeRequestUseCase(
             }
             else
             {
-                var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
-                if (foundUser == null)
+                var foundUser = await userStorage.GetUser(wishList.AuthorId, false, false, cancellationToken);
+                if (foundUser is null)
                     throw new DomainException(BaseMessages.USER_NOT_FOUND);
 
                 var textMessage =

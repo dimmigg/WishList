@@ -19,7 +19,7 @@ public class MyPresentDeleteUseCase(
         {
             const string textMessage = "Запись удалена";
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
-            if(present == null) return;
+            if(present is null) return;
 
             await presentStorage.Delete(presentId, cancellationToken);
             

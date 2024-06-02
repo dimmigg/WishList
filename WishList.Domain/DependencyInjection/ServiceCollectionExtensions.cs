@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Domain.Mapper;
-using WishList.Domain.Models;
 using WishList.Domain.PipelineBehavior;
 using WishList.Domain.Received;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases;
 using WishList.Domain.UseCases.Builder;
 using WishList.Domain.UseCases.UpdateUser;
 
@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
             .AddMediatR(cfg => cfg
                 .AddOpenBehavior(typeof(Validate<,>))
                 .AddOpenBehavior(typeof(ServiceFiller<,>))
-                .RegisterServicesFromAssemblyContaining<RegisteredUser>());
+                .RegisterServicesFromAssemblyContaining<CommandBase>());
         return services;
     }
 }

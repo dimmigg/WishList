@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Moq;
+﻿using Moq;
 using Telegram.Bot.Types;
 using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Entities;
@@ -16,13 +15,13 @@ public class UpdateUserUseCaseShould
     {
         userStorage = new Mock<IUserStorage>();
         userStorage
-            .Setup(s => s.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
+            .Setup(s => s.GetUser(It.IsAny<long>(), It.IsAny<bool>(),It.IsAny<bool>(), It.IsAny<CancellationToken>()));
         userStorage
             .Setup<Task<TelegramUser>>(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()));
         userStorage
             .Setup<Task<TelegramUser>>(u => u.UpdateUser(It.IsAny<User>(), It.IsAny<CancellationToken>()));
         
-        sut = new UpdateUserUseCase(userStorage.Object, new Mock<IMapper>().Object);
+        sut = new UpdateUserUseCase(userStorage.Object);
     }
 
     [Fact]

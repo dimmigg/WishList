@@ -18,42 +18,62 @@ public class UserStorage(
 
         return localUser;
     }
-    
-    public Task<TelegramUser?> GetUser(long id, CancellationToken cancellationToken) =>
+
+    public Task<TelegramUser?> GetUser(long id, bool includeWishLists, bool includeSubscribeWishLists,
+        CancellationToken cancellationToken)
+    {
+        var query = dbContext.Users
+            .Where(u => u.Id == id);
+        if (includeWishLists)
+        {
+            query = query.Include(u => u.WishLists);
+        }
+
+        if (includeSubscribeWishLists)
+        {
+            query = query.Include(u => u.SubscribeWishLists)
+                .ThenInclude(swl => swl.Author);
+        }
+
+        return query.FirstOrDefaultAsync(cancellationToken);
+    }
+
+    private IQueryable<TelegramUser> GetUserAllInclude(long id) =>
         dbContext.Users
             .Where(u => u.Id == id)
             .Include(u => u.WishLists)
             .Include(u => u.SubscribeWishLists)
-            .ThenInclude(swl => swl.Author)
-            .FirstOrDefaultAsync(cancellationToken);
-    
+            .ThenInclude(swl => swl.Author);
+
     public async Task<TelegramUser> UpdateUser(User user, CancellationToken cancellationToken)
     {
-        var existingUser = await GetUser(user.Id, cancellationToken: cancellationToken);
+        var existingUser = await GetUserAllInclude(user.Id)
+            .AsTracking()
+            .FirstOrDefaultAsync(cancellationToken);
 
-        if (existingUser == null) return await AddUser(user, cancellationToken);
+        if (existingUser is null) return await AddUser(user, cancellationToken);
 
         existingUser.Username = user.Username;
         existingUser.FirstName = user.FirstName;
         existingUser.LastName = user.LastName;
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+        dbContext.Entry(existingUser).State = EntityState.Detached;
         return existingUser;
     }
 
     public async Task<TelegramUser> UpdateLastCommandUser(long id, string? command, CancellationToken cancellationToken)
     {
-        var existingUser = await  dbContext.Users
+        var existingUser = await dbContext.Users
             .Where(u => u.Id == id)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (existingUser == null) throw new StorageException("User not found");
+        if (existingUser is null) throw new StorageException("User not found");
 
         existingUser.LastCommand = command;
-        
+
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return existingUser;
     }
 
@@ -67,14 +87,14 @@ public class UserStorage(
 
     public async Task AddSubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
     {
-        var user = await  dbContext.Users
+        var user = await dbContext.Users
             .Where(u => u.Id == userId)
             .Include(u => u.SubscribeWishLists)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
         var wishList = await dbContext.WishLists
             .FirstOrDefaultAsync(w => w.Id == wishListId, cancellationToken);
-        if (user != null && wishList != null)
+        if (user is not null && wishList is not null)
         {
             user.SubscribeWishLists.Add(wishList);
             await dbContext.SaveChangesAsync(cancellationToken);

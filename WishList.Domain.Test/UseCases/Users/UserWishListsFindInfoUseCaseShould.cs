@@ -16,19 +16,27 @@ public class UserWishListsFindInfoUseCaseShould : UseCaseBase
     private readonly Mock<ITelegramSender> sender;
     private readonly UserWishListsFindInfoUseCase sut;
     private readonly ISetup<IWishListStorage,Task<Storage.Entities.WishList[]>> wlStorageGetWishListSetup;
+    private readonly ISetup<IUserStorage,Task<TelegramUser?>> userStorageSetup;
 
     public UserWishListsFindInfoUseCaseShould()
     {
         sender = new Mock<ITelegramSender>();
         var wishListStorage = new Mock<IWishListStorage>();
         wlStorageGetWishListSetup = wishListStorage.Setup(wl => wl.GetWishLists(It.IsAny<long>(), It.IsAny<CancellationToken>()));
-        sut = new UserWishListsFindInfoUseCase(sender.Object, wishListStorage.Object, new Mock<IUserStorage>().Object);
+        var userStorage = new Mock<IUserStorage>();
+        userStorageSetup = userStorage.Setup(us => us.GetUser(It.IsAny<long>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()));
+        sut = new UserWishListsFindInfoUseCase(sender.Object, wishListStorage.Object, userStorage.Object);
     }
     
     [Fact]
     public async Task EditMessage_WhenValidParamsAndWishLists()
     {
         var param = GetCallbackQueryParamValid();
+        var user = new TelegramUser
+        {
+            Id = 1,
+            Username = "user"
+        };
         const int wishListId = 1;
         param.Command = $"command<?>{wishListId}";
         var request = new UserWishListsFindInfoCommand(param);
@@ -40,6 +48,7 @@ public class UserWishListsFindInfoUseCaseShould : UseCaseBase
             IsPrivate = true,
         };
         wlStorageGetWishListSetup.ReturnsAsync([wishList]);
+        userStorageSetup.ReturnsAsync(user);
         
         await sut.Handle(request, CancellationToken.None);
         
@@ -54,10 +63,16 @@ public class UserWishListsFindInfoUseCaseShould : UseCaseBase
     public async Task EditMessage_WhenValidParamsAndEmptyWishLists()
     {
         var param = GetCallbackQueryParamValid();
+        var user = new TelegramUser
+        {
+            Id = 1,
+            Username = "user"
+        };
         const int wishListId = 1;
         param.Command = $"command<?>{wishListId}";
         var request = new UserWishListsFindInfoCommand(param);
         wlStorageGetWishListSetup.ReturnsAsync([]);
+        userStorageSetup.ReturnsAsync(user);
         
         await sut.Handle(request, CancellationToken.None);
         
@@ -92,6 +107,32 @@ public class UserWishListsFindInfoUseCaseShould : UseCaseBase
         const string commandParams = "InvalidParams";
         param.Command = $"command<?>{commandParams}";
         var request = new UserWishListsFindInfoCommand(param);
+        
+        await sut.Invoking(s => s.Handle(request, CancellationToken.None))
+            .Should().ThrowAsync<DomainException>();
+        
+        sender.Verify(s => s.SendMessageAsync(
+                It.IsAny<string>(),
+                It.IsAny<InlineKeyboardMarkup?>(),
+                It.IsAny<CancellationToken>()),
+            Times.Never);
+    }    
+    
+    [Fact]
+    public async Task ThrowDomainException_NotFoundUser()
+    {
+        var param = GetCallbackQueryParamValid();
+        const int wishListId = 1;
+        param.Command = $"command<?>{wishListId}";
+        var request = new UserWishListsFindInfoCommand(param);
+        var wishList = new Storage.Entities.WishList()
+        {
+            Id = 1,
+            Name = "wishList",
+            Presents = new List<Present>(),
+            IsPrivate = true,
+        };
+        wlStorageGetWishListSetup.ReturnsAsync([wishList]);
         
         await sut.Invoking(s => s.Handle(request, CancellationToken.None))
             .Should().ThrowAsync<DomainException>();

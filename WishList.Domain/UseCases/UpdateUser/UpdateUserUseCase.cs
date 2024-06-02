@@ -1,19 +1,17 @@
-﻿using AutoMapper;
-using Telegram.Bot.Types;
-using WishList.Domain.Models;
+﻿using Telegram.Bot.Types;
+using WishList.Storage.Entities;
 using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.UseCases.UpdateUser;
 
 public class UpdateUserUseCase(
-    IUserStorage userStorage,
-    IMapper mapper)
+    IUserStorage userStorage)
     : IUpdateUserUseCase
 {
-    public async Task<RegisteredUser> CreateOrUpdateUser(User user, CancellationToken cancellationToken)
+    public async Task<TelegramUser> CreateOrUpdateUser(User user, CancellationToken cancellationToken)
     {
         var tgUser = await userStorage.UpdateUser(user, cancellationToken);
-        return mapper.Map<RegisteredUser>(tgUser);
+        return tgUser;
     }
 
     public Task ClearLastCommandUser(long id, CancellationToken cancellationToken) =>

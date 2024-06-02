@@ -21,7 +21,7 @@ public class SubscribeWishListInfoUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if (wishList == null) return;
+            if (wishList is null) return;
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
             

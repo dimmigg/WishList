@@ -24,7 +24,7 @@ public class MyWishListEditNameRequestUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
-            if (wishList == null)
+            if (wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
             await userStorage.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.MY_WISH_LIST_EDIT_NAME}<?>{wishList.Id}", cancellationToken);

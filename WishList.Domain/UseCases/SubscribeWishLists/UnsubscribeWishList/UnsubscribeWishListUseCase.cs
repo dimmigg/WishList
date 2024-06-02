@@ -19,7 +19,7 @@ public class UnsubscribeWishListUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if(wishList == null) return;
+            if(wishList is null) return;
             
             await wishListStorage.UnsubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             var sb = new StringBuilder();
