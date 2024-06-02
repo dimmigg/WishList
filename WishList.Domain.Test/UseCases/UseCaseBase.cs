@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using WishList.Domain.Constants;
 using WishList.Domain.Models;
+using WishList.Storage.Entities;
 
 namespace WishList.Domain.Test.UseCases;
 
@@ -21,7 +22,7 @@ public class UseCaseBase
                 Id = CHAT_ID
             }
         };
-        var user = new RegisteredUser
+        var user = new TelegramUser
         {
             Id = MY_USER_ID
         };
@@ -52,9 +53,11 @@ public class UseCaseBase
                 Id = MY_USER_ID
             }
         };
-        var user = new RegisteredUser
+        var user = new TelegramUser
         {
-            Id = MY_USER_ID
+            Id = MY_USER_ID,
+            Username = "Username",
+            SubscribeWishLists = new List<Storage.Entities.WishList>()
         };
         return new UseCaseParam
         {

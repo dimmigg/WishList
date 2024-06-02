@@ -23,7 +23,7 @@ public class MyWishListDeleteUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
 
-            if (wishList == null)
+            if (wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
             await wishListStorage.Delete(wishListId, cancellationToken);

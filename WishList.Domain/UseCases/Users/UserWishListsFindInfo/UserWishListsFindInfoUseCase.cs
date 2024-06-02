@@ -25,18 +25,20 @@ public class UserWishListsFindInfoUseCase(
         if (long.TryParse(command[1], out var userId))
         {
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
-            var user = await userStorage.GetUser(userId, cancellationToken);
+            var user = await userStorage.GetUser(userId, false, false, cancellationToken);
+            if(user is null)
+                throw new DomainException(BaseMessages.USER_NOT_FOUND);
             var sb = new StringBuilder();
             
             List<List<InlineKeyboardButton>> keyboard = [];
             
             if (wishLists.Length == 0)
             {
-                sb.AppendLine($"У пользователя {user?.ToString().MarkForbiddenChar()} нет списков");
+                sb.AppendLine($"У пользователя {user.ToString().MarkForbiddenChar()} нет списков");
             }
             else
             {
-                sb.AppendLine($"Списки пользователя {user?.ToString().MarkForbiddenChar()}\\:");
+                sb.AppendLine($"Списки пользователя {user.ToString().MarkForbiddenChar()}\\:");
                 keyboard = wishLists
                     .Select(wishList =>
                     {

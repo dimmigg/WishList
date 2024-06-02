@@ -28,6 +28,7 @@ public class UsersFindUseCaseShould : UseCaseBase
     public async Task SendMessage_WhenValidParamsAndSubscribeUsers()
     {
         var param = GetMessageParamValid();
+        param.Message!.Text = "FindUser";
         findUsersSetup.ReturnsAsync([
             new TelegramUser
             {
@@ -57,6 +58,24 @@ public class UsersFindUseCaseShould : UseCaseBase
     public async Task SendMessage_WhenValidParamsAndNotSubscribeUsers()
     {
         var param = GetMessageParamValid();
+        param.Message!.Text = "FindUser";
+        findUsersSetup.ReturnsAsync([]);
+        var request = new UsersFindCommand(param);
+        
+        await sut.Handle(request, CancellationToken.None);
+        
+        sender.Verify(s => s.SendMessageAsync(
+                It.IsAny<string>(),
+                It.IsAny<IReplyMarkup?>(),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }    
+    
+    [Fact]
+    public async Task SendMessage_WhenValidParamsAndNotValidMessageAndNotSubscribeUsers()
+    {
+        var param = GetMessageParamValid();
+        param.Message!.Text = "User";
         findUsersSetup.ReturnsAsync([]);
         var request = new UsersFindCommand(param);
         

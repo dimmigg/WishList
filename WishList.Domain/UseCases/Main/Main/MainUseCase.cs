@@ -28,14 +28,14 @@ public class MainUseCase(
 
         const string textMessage = "Я помогу узнать, что хотят получить твои друзья\\!\nА им расскажу, что хочешь получить ты\\!";
 
-        if (request.Param.Message != null)
+        if (request.Param.Message is not null)
         {
             await telegramSender.SendMessageAsync(
                 text: textMessage,
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
                 cancellationToken: cancellationToken);
         }
-        else if(request.Param.CallbackQuery != null)
+        else if(request.Param.CallbackQuery is not null)
         {
             await telegramSender.EditMessageAsync(
                 text: textMessage,

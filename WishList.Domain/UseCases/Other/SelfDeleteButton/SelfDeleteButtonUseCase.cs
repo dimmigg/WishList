@@ -10,7 +10,7 @@ public class SelfDeleteButtonUseCase(
     public async Task Handle(SelfDeleteButtonCommand request, CancellationToken cancellationToken)
     {
         await telegramSender.AnswerCallbackQueryAsync(
-            callbackQueryId: request.Param.CallbackQuery.Id,
+            callbackQueryId: request.Param.CallbackQuery!.Id,
             text: "Ввод отменён",
             cancellationToken: cancellationToken);
         

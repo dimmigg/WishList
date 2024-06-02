@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases;

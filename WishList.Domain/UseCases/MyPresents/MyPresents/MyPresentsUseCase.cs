@@ -21,7 +21,7 @@ public class MyPresentsUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            if (wishList == null) return;
+            if (wishList is null) return;
 
             var sb = new StringBuilder();
             List<List<InlineKeyboardButton>> keyboard = [];
@@ -32,7 +32,7 @@ public class MyPresentsUseCase(
                 keyboard = presents
                     .Select(present => new List<InlineKeyboardButton>
                     {
-                        InlineKeyboardButton.WithCallbackData(present.Name, $"{Commands.MY_PRESENT_INFO}<?>{present.Id}"),
+                        InlineKeyboardButton.WithCallbackData(present!.Name, $"{Commands.MY_PRESENT_INFO}<?>{present.Id}"),
                     }).ToList();
             }
             else

@@ -25,19 +25,24 @@ public class UserWishListSubscribeUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
-            if(wishList == null) 
+            if(wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
-            var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
-            if(foundUser == null)
+            var foundUser = await userStorage.GetUser(wishList.AuthorId, false, false, cancellationToken);
+            if(foundUser is null)
                 throw new DomainException(BaseMessages.USER_NOT_FOUND);
 
             await userStorage.AddSubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             
-            var textMessage = $"Список *{wishList.Name.MarkForbiddenChar()}* добавлен в избранное";
-
-            var keyboard =
-                new List<List<InlineKeyboardButton>>().AddBaseFooter(
+            var textMessage = $"Список *{wishList.Name.MarkForbiddenChar()}* добавлен в избранное\\.";
+            List<List<InlineKeyboardButton>> keyboard =
+            [
+                [
+                    InlineKeyboardButton.WithCallbackData(
+                        "🧾 Список желаний", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}")
+                ],
+            ];
+             keyboard = keyboard.AddBaseFooter(
                     $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{foundUser.Id}");
             
             await telegramSender.EditMessageAsync(

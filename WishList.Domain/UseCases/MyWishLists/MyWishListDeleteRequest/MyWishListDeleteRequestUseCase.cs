@@ -22,7 +22,7 @@ public class MyWishListDeleteRequestUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
-            if (wishList == null)
+            if (wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
             var textMessage = $"Удалить список *{wishList.Name.MarkForbiddenChar()}*?";

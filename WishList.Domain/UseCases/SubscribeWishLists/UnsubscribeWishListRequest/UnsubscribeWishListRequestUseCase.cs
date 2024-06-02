@@ -22,7 +22,8 @@ public class UnsubscribeWishListRequestUseCase(
             if(wishList == null) return;
             
             var sb = new StringBuilder();
-            sb.AppendLine($"Вы действительно хотите удалить список *{wishList.Name.MarkForbiddenChar()}* из избранного?");
+            sb.AppendLine($"Вы действительно хотите удалить список *{wishList.Name.MarkForbiddenChar()}* из избранного?\n" +
+                          $"Все резервы будут удалены\\.");
 
             List<List<InlineKeyboardButton>> keyboard =
             [
