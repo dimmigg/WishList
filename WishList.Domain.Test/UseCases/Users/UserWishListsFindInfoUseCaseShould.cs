@@ -24,7 +24,7 @@ public class UserWishListsFindInfoUseCaseShould : UseCaseBase
         var wishListStorage = new Mock<IWishListStorage>();
         wlStorageGetWishListSetup = wishListStorage.Setup(wl => wl.GetWishLists(It.IsAny<long>(), It.IsAny<CancellationToken>()));
         var userStorage = new Mock<IUserStorage>();
-        userStorageSetup = userStorage.Setup(us => us.GetUser(It.IsAny<long>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()));
+        userStorageSetup = userStorage.Setup(us => us.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
         sut = new UserWishListsFindInfoUseCase(sender.Object, wishListStorage.Object, userStorage.Object);
     }
     

@@ -19,35 +19,20 @@ public class UserStorage(
         return localUser;
     }
 
-    public Task<TelegramUser?> GetUser(long id, bool includeWishLists, bool includeSubscribeWishLists,
-        CancellationToken cancellationToken)
+    public Task<TelegramUser?> GetUser(long id, CancellationToken cancellationToken)
     {
         var query = dbContext.Users
             .Where(u => u.Id == id);
-        if (includeWishLists)
-        {
-            query = query.Include(u => u.WishLists);
-        }
-
-        if (includeSubscribeWishLists)
-        {
-            query = query.Include(u => u.SubscribeWishLists)
-                .ThenInclude(swl => swl.Author);
-        }
-
         return query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    private IQueryable<TelegramUser> GetUserAllInclude(long id) =>
-        dbContext.Users
-            .Where(u => u.Id == id)
-            .Include(u => u.WishLists)
-            .Include(u => u.SubscribeWishLists)
-            .ThenInclude(swl => swl.Author);
-
     public async Task<TelegramUser> UpdateUser(User user, CancellationToken cancellationToken)
     {
-        var existingUser = await GetUserAllInclude(user.Id)
+        var existingUser = await dbContext.Users
+            .Where(u => u.Id == user.Id)
+            .Include(u => u.WishLists)
+            .Include(u => u.SubscribeWishLists)
+            .ThenInclude(swl => swl.Author)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
 

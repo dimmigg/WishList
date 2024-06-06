@@ -25,7 +25,7 @@ public class UserWishListsFindInfoUseCase(
         if (long.TryParse(command[1], out var userId))
         {
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
-            var user = await userStorage.GetUser(userId, false, false, cancellationToken);
+            var user = await userStorage.GetUser(userId, cancellationToken);
             if(user is null)
                 throw new DomainException(BaseMessages.USER_NOT_FOUND);
             var sb = new StringBuilder();

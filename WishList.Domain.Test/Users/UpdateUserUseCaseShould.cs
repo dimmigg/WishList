@@ -15,7 +15,7 @@ public class UpdateUserUseCaseShould
     {
         userStorage = new Mock<IUserStorage>();
         userStorage
-            .Setup(s => s.GetUser(It.IsAny<long>(), It.IsAny<bool>(),It.IsAny<bool>(), It.IsAny<CancellationToken>()));
+            .Setup(s => s.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
         userStorage
             .Setup<Task<TelegramUser>>(u => u.AddUser(It.IsAny<User>(), It.IsAny<CancellationToken>()));
         userStorage

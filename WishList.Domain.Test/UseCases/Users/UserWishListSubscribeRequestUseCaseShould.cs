@@ -24,7 +24,7 @@ public class UserWishListSubscribeRequestUseCaseShould : UseCaseBase
         var wishListStorage = new Mock<IWishListStorage>();
         wlStorageGetWishListSetup = wishListStorage.Setup(wl => wl.GetWishList(It.IsAny<int>(), It.IsAny<CancellationToken>()));
         var userStorage = new Mock<IUserStorage>();
-        getUserSetup = userStorage.Setup(u => u.GetUser(It.IsAny<long>(),It.IsAny<bool>(),It.IsAny<bool>(), It.IsAny<CancellationToken>()));
+        getUserSetup = userStorage.Setup(u => u.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
         sut = new UserWishListSubscribeRequestUseCase(sender.Object, wishListStorage.Object, userStorage.Object);
     }
     

@@ -28,7 +28,7 @@ public class UserWishListSubscribeUseCase(
             if(wishList is null)
                 throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
             
-            var foundUser = await userStorage.GetUser(wishList.AuthorId, false, false, cancellationToken);
+            var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
             if(foundUser is null)
                 throw new DomainException(BaseMessages.USER_NOT_FOUND);
 
