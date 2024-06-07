@@ -24,9 +24,9 @@ public class MyPresentEditNameUseCase(
             const string textMessage = "Название изменено";
 
             await userStorage.UpdateLastCommandUser(request.Param.User.Id, null, cancellationToken);
-            var present = await presentStorage.UpdateName(request.Param.Message.Text, presentId, cancellationToken);
+            await presentStorage.UpdateName(request.Param.Message!.Text!, presentId, cancellationToken);
 
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_PRESENT_INFO}<?>{present.Id}");
+            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_PRESENT_INFO}<?>{presentId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,

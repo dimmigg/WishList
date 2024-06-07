@@ -36,53 +36,28 @@ public class PresentStorage(
             .Where(p => p.Id == presentId)
             .AsTracking();
 
-    public async Task<Present> UpdateName(string name, int presentId, CancellationToken cancellationToken)
-    {
-
-        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
-        if (present == null)
-            throw new StorageException("Запись не найдена");
-
-        present.Name = name;
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return present;
-    }
+    public Task UpdateName(string name, int presentId, CancellationToken cancellationToken) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.Name, name), cancellationToken);
     
-    public async Task<Present> UpdateReference(string reference, int presentId, CancellationToken cancellationToken)
-    {
-
-        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
-        if (present == null)
-            throw new StorageException("Запись не найдена");
-
-        present.Reference = reference;
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return present;
-    }
+    public  Task UpdateReference(string reference, int presentId, CancellationToken cancellationToken) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.Reference, reference), cancellationToken);
     
-    public async Task<Present> UpdateComment(string comment, int presentId, CancellationToken cancellationToken)
-    {
+    public Task UpdateComment(string comment, int presentId, CancellationToken cancellationToken) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.Comment, comment), cancellationToken);
 
-        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
-        if (present == null)
-            throw new StorageException("Запись не найдена");
-
-        present.Comment = comment;
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return present;
-    }
-
-    public async Task Delete(int presentId, CancellationToken cancellationToken)
-    {
-        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
-        if (present == null)
-            throw new StorageException("Запись не найдена");
-        dbContext.Remove(present);
-        await dbContext.SaveChangesAsync(cancellationToken);
-    }
+    public Task Delete(int presentId, CancellationToken cancellationToken) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .ExecuteDeleteAsync(cancellationToken);
 
     public async Task<Present[]> GetSubscribePresents(int wishListId, CancellationToken cancellationToken) => 
         await dbContext.Presents.Where(p => p.WishListId == wishListId).ToArrayAsync(cancellationToken);
@@ -96,12 +71,9 @@ public class PresentStorage(
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveReserve(int presentId, CancellationToken cancellationToken)
-    {
-        var present = await GetDbPresent(presentId).FirstOrDefaultAsync(cancellationToken);
-        if (present == null)
-            throw new StorageException("Запись не найдена");
-        present.ReserveForUserId = null;
-        await dbContext.SaveChangesAsync(cancellationToken);
-    }
+    public Task RemoveReserve(int presentId, CancellationToken cancellationToken) =>
+        dbContext.Presents
+            .Where(p => p.Id == presentId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.ReserveForUserId, (Func<Present, long?>)null!), cancellationToken);
 }

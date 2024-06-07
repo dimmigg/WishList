@@ -39,7 +39,7 @@ public class MyWishListEditNameUseCaseShould : UseCaseBase
                 It.IsAny<CancellationToken>()),
             Times.Once);
         
-        wishListStorage.Verify(s => s.EditNameWishList(
+        wishListStorage.Verify(s => s.EditName(
                 "WishList",
                 wishListId,
                 It.IsAny<CancellationToken>()),
@@ -75,7 +75,7 @@ public class MyWishListEditNameUseCaseShould : UseCaseBase
         await sut.Invoking(s => s.Handle(request, CancellationToken.None))
             .Should().ThrowAsync<DomainException>();
         
-        wishListStorage.Verify(s => s.EditNameWishList(
+        wishListStorage.Verify(s => s.EditName(
                 "WishList",
                 It.IsAny<int>(),
                 It.IsAny<CancellationToken>()),

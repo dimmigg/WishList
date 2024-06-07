@@ -24,7 +24,7 @@ public class MyWishListEditNameUseCase(
         if (int.TryParse(command[1], out var wishListId))
         {
             await userStorage.UpdateLastCommandUser(request.Param.User.Id, null, cancellationToken);
-            await wishListStorage.EditNameWishList(request.Param.Message!.Text!, wishListId, cancellationToken);
+            await wishListStorage.EditName(request.Param.Message!.Text!, wishListId, cancellationToken);
             
             const string textMessage = @"Отлично\! Название списка обновлено\!";
             var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishListId}");
