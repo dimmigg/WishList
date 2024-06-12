@@ -19,18 +19,18 @@ public class UserWishListSubscribeUseCase(
         var command = request.Param.Command.Split("<?>");
         
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
             if(wishList is null)
-                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+                throw new DomainException(BaseMessages.WishListNotFound);
             
             var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
             if(foundUser is null)
-                throw new DomainException(BaseMessages.USER_NOT_FOUND);
+                throw new DomainException(BaseMessages.UserNotFound);
 
             await userStorage.AddSubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
             
@@ -39,11 +39,11 @@ public class UserWishListSubscribeUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🧾 Список желаний", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}")
+                        "🧾 Список желаний", $"{Commands.SubscribePresents}<?>{wishListId}")
                 ],
             ];
              keyboard = keyboard.AddBaseFooter(
-                    $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{foundUser.Id}");
+                    $"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,
@@ -52,7 +52,7 @@ public class UserWishListSubscribeUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

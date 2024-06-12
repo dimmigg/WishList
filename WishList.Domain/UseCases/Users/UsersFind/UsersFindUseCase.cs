@@ -35,7 +35,7 @@ public class UsersFindUseCase(
                     .Select(user => new List<InlineKeyboardButton>
                     {
                         InlineKeyboardButton.WithCallbackData(user.ToString().Replace("\\", ""),
-                            $"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{user.Id}"),
+                            $"{Commands.UsersWishListsFindInfo}<?>{user.Id}"),
                     }).ToList();
             }
         }

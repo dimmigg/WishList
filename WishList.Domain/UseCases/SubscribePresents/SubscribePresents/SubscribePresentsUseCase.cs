@@ -42,7 +42,7 @@ public class SubscribePresentsUseCase(
                             return new List<InlineKeyboardButton>
                             {
                                 InlineKeyboardButton.WithCallbackData($"{isReserve}{present.Name}",
-                                $"{Commands.SUBSCRIBE_PRESENT_INFO}<?>{present.Id}<?>{Commands.RESERVED}"),
+                                $"{Commands.SubscribePresentInfo}<?>{present.Id}<?>{Commands.Reserved}"),
                             };
                         }).ToList();
                 }
@@ -58,7 +58,7 @@ public class SubscribePresentsUseCase(
                             return new List<InlineKeyboardButton>
                             {
                                 InlineKeyboardButton.WithCallbackData($"{isReserve}{present.Name}",
-                                    $"{Commands.SUBSCRIBE_PRESENT_INFO}<?>{present.Id}"),
+                                    $"{Commands.SubscribePresentInfo}<?>{present.Id}"),
                             };
                         }).ToList();
                 }
@@ -68,7 +68,7 @@ public class SubscribePresentsUseCase(
                 sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* пуст");
             }
 
-            keyboard = keyboard.AddBaseFooter($"{Commands.SUBSCRIBE_WISH_LIST_INFO}<?>{wishList.Id}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishList.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

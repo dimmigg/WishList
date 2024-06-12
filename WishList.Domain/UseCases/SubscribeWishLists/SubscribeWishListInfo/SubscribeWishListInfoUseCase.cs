@@ -29,7 +29,7 @@ public class SubscribeWishListInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🧾 Список желаний", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}")
+                        "🧾 Список желаний", $"{Commands.SubscribePresents}<?>{wishListId}")
                 ],
             ];
 
@@ -39,15 +39,15 @@ public class SubscribeWishListInfoUseCase(
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "📌 Мои резервы", $"{Commands.SUBSCRIBE_PRESENTS}<?>{wishListId}<?>{Commands.RESERVED}")
+                        "📌 Мои резервы", $"{Commands.SubscribePresents}<?>{wishListId}<?>{Commands.Reserved}")
                 ]);
             }
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "👋 Отписаться", $"{Commands.UNSUBSCRIBE_WISH_LIST_REQUEST}<?>{wishListId}")
+                    "👋 Отписаться", $"{Commands.UnsubscribeWishListRequest}<?>{wishListId}")
             ]);
 
-            keyboard = keyboard.AddBaseFooter($"{Commands.SUBSCRIBE_USER_WISH_LISTS}<?>{wishList.AuthorId}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.SubscribeUserWishLists}<?>{wishList.AuthorId}");
             
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

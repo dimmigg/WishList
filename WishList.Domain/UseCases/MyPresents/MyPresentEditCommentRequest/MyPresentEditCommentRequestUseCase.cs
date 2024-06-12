@@ -2,13 +2,13 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
-using WishList.Storage.Storages.Users;
+using WishList.Domain.UseCases.UpdateUser;
 
 namespace WishList.Domain.UseCases.MyPresents.MyPresentEditCommentRequest;
 
 public class MyPresentEditCommentRequestUseCase(
     ITelegramSender telegramSender,
-    IUserStorage userStorage)
+    IUpdateUserUseCase updateUserUseCase)
     : IRequestHandler<MyPresentEditCommentRequestCommand>
 {
     public async Task Handle(MyPresentEditCommentRequestCommand request, CancellationToken cancellationToken)
@@ -20,7 +20,7 @@ public class MyPresentEditCommentRequestUseCase(
 
             const string textMessage = "Введите комментарий записи";
 
-            await userStorage.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.MY_PRESENT_EDIT_COMMENT}<?>{presentId}", cancellationToken);
+            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditComment}<?>{presentId}");
 
             var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
             

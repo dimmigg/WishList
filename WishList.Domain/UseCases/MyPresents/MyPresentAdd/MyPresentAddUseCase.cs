@@ -2,17 +2,16 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Storages.Presents;
-using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.UseCases.MyPresents.MyPresentAdd;
 
 public class MyPresentAddUseCase(
     ITelegramSender telegramSender,
     IPresentStorage presentStorage,
-    IUserStorage userStorage
-    )
-    : IRequestHandler<MyPresentAddCommand>
+    IUpdateUserUseCase updateUserUseCase
+    ) : IRequestHandler<MyPresentAddCommand>
 {
     public async Task Handle(MyPresentAddCommand request, CancellationToken cancellationToken)
     {
@@ -22,10 +21,10 @@ public class MyPresentAddUseCase(
         {
             const string textMessage = "Отлично\\! Запись добавлена";
 
-            await userStorage.UpdateLastCommandUser(request.Param.User.Id, null, cancellationToken);
+            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
             await presentStorage.AddPresent(request.Param.Message!.Text!, wishListId, cancellationToken);
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_PRESENTS}<?>{wishListId}");
+            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.Presents}<?>{wishListId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,

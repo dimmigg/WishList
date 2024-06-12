@@ -25,6 +25,8 @@ builder.Services.AddScoped<IReceivedService, ReceivedService>();
 builder.Services.AddScoped<UpdateHandlers>();
 builder.Services.AddScoped<ReceiverService>();
 builder.Services.AddHostedService<PollingService>();
+builder.Services.AddMemoryCache();
+
 
 builder.Services
     .AddStorage(connectionString)

@@ -17,14 +17,14 @@ public class MyWishListInfoUseCase(
     {
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
             
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
             if (wishList is null)
-                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+                throw new DomainException(BaseMessages.WishListNotFound);
                 
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             
@@ -37,17 +37,17 @@ public class MyWishListInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "✏️ Список", $"{Commands.MY_PRESENTS}<?>{wishListId}"),
+                        "✏️ Список", $"{Commands.Presents}<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "⚙ Параметры", $"{Commands.MY_WISH_LIST_PARAMS}<?>{wishListId}")
+                        "⚙ Параметры", $"{Commands.WishListParams}<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🗑 Удалить", $"{Commands.MY_WISH_LIST_DELETE_REQUEST}<?>{wishListId}")
+                        "🗑 Удалить", $"{Commands.WishListDeleteRequest}<?>{wishListId}")
                 ],
             ];
 
-            keyboard = keyboard.AddBaseFooter(Commands.MY_WISH_LISTS);
+            keyboard = keyboard.AddBaseFooter(Commands.WishLists);
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),
@@ -56,7 +56,7 @@ public class MyWishListInfoUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

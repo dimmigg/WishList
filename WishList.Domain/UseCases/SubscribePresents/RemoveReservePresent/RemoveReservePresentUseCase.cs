@@ -23,9 +23,9 @@ public class RemoveReservePresentUseCase(
             await telegramSender.AnswerCallbackQueryAsync(
                 "Подарок удалён из резервирова. Теперь его может зарезервировать кто-нибудь другой.",
                 cancellationToken: cancellationToken);
-            var fromReserve = command.Length == 3 ? $"<?>{Commands.RESERVED}" : "";
+            var fromReserve = command.Length == 3 ? $"<?>{Commands.Reserved}" : "";
             
-            request.Param.Command = $"{Commands.SUBSCRIBE_PRESENT_INFO}<?>{presentId}{fromReserve}";
+            request.Param.Command = $"{Commands.SubscribePresentInfo}<?>{presentId}{fromReserve}";
             await mediator.Send(new SubscribePresentInfoCommand(request.Param), cancellationToken);
         }
     }

@@ -16,24 +16,24 @@ public class MyWishListDeleteRequestUseCase(
     {
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             
             if (wishList is null)
-                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+                throw new DomainException(BaseMessages.WishListNotFound);
             
             var textMessage = $"Удалить список *{wishList.Name.MarkForbiddenChar()}*?";
             
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "👌 Да", $"{Commands.MY_WISH_LIST_DELETE}<?>{wishList.Id}"),
+                        "👌 Да", $"{Commands.WishListDelete}<?>{wishList.Id}"),
                 ],
             ];
-            keyboard = keyboard.AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishList.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,
@@ -42,7 +42,7 @@ public class MyWishListDeleteRequestUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

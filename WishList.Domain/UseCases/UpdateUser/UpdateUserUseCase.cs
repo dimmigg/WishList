@@ -1,19 +1,29 @@
-﻿using Telegram.Bot.Types;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Telegram.Bot.Types;
 using WishList.Storage.Entities;
 using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.UseCases.UpdateUser;
 
 public class UpdateUserUseCase(
-    IUserStorage userStorage)
+    IUserStorage userStorage,
+    IMemoryCache cache)
     : IUpdateUserUseCase
 {
-    public async Task<TelegramUser> CreateOrUpdateUser(User user, CancellationToken cancellationToken)
+    private readonly TimeSpan cacheDuration = TimeSpan.FromHours(24);
+    public async Task<TelegramUser> CreateOrUpdateUserAsync(User user, CancellationToken cancellationToken)
     {
-        var tgUser = await userStorage.UpdateUser(user, cancellationToken);
+        if (cache.TryGetValue(user.Id, out TelegramUser tgUser)) return tgUser;
+        tgUser = await userStorage.UpdateUser(user, cancellationToken);
+        cache.Set(user.Id, tgUser, cacheDuration);
+        
         return tgUser;
     }
 
-    public Task ClearLastCommandUser(long id, CancellationToken cancellationToken) =>
-        userStorage.UpdateLastCommandUser(id, null, cancellationToken);
+    public void UpdateLastCommandUser(long id, string? command = null)
+    {
+        var user = cache.Get<TelegramUser>(id)!;
+        user.LastCommand = command;
+        cache.Set(user.Id, user, cacheDuration);
+    }
 }

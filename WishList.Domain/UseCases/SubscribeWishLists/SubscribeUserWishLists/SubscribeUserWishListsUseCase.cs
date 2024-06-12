@@ -32,7 +32,7 @@ public class SubscribeUserWishListsUseCase(
                     .Select(wishList => new List<InlineKeyboardButton>
                     {
                         InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})",
-                            $"{Commands.SUBSCRIBE_WISH_LIST_INFO}<?>{wishList.Id}"),
+                            $"{Commands.SubscribeWishListInfo}<?>{wishList.Id}"),
                     }).ToList();
             }
             else
@@ -40,7 +40,7 @@ public class SubscribeUserWishListsUseCase(
                 sb.AppendLine("Еще нет подписок");
             }
 
-            keyboard = keyboard.AddBaseFooter(Commands.SUBSCRIBE_USERS);
+            keyboard = keyboard.AddBaseFooter(Commands.SubscribeUsers);
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString().MarkForbiddenChar(),

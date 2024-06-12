@@ -28,7 +28,7 @@ public class UseCaseBase
         };
         return new UseCaseParam
         {
-            Command = Commands.MAIN,
+            Command = Commands.Main,
             User = user,
             Message = msg,
         };
@@ -61,7 +61,7 @@ public class UseCaseBase
         };
         return new UseCaseParam
         {
-            Command = Commands.MAIN,
+            Command = Commands.Main,
             User = user,
             CallbackQuery = cq,
         };

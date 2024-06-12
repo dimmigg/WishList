@@ -14,15 +14,15 @@ public class MainUseCase(
         [
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "📝 Мои списки", Commands.MY_WISH_LISTS)
+                    "📝 Мои списки", Commands.WishLists)
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "🤍 Друзья", Commands.SUBSCRIBE_USERS)
+                    "🤍 Друзья", Commands.SubscribeUsers)
             ],
             [
                 InlineKeyboardButton.WithCallbackData(
-                    "❓ Как меня найти?", Commands.HOW_TO_FIND_ME)
+                    "❓ Как меня найти?", Commands.HowToFindMe)
             ]
         ];
 

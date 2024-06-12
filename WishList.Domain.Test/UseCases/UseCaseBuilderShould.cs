@@ -21,7 +21,7 @@ public class UseCaseBuilderShould
     [Fact]
     public void ReturnStartUseCase_WhenValidCommand()
     {
-        param.Command = Commands.MAIN;
+        param.Command = Commands.Main;
         sut
             .Build(param)
             .Should()
@@ -31,7 +31,7 @@ public class UseCaseBuilderShould
     [Fact]
     public void ReturnGetWishListUseCase_WhenValidCommand()
     {
-        param.Command = Commands.MY_WISH_LISTS;
+        param.Command = Commands.WishLists;
         sut
             .Build(param)
             .Should()

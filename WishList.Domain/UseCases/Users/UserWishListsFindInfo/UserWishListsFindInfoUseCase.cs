@@ -20,14 +20,14 @@ public class UserWishListsFindInfoUseCase(
         var command = request.Param.Command.Split("<?>");
         
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         
         if (long.TryParse(command[1], out var userId))
         {
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
             var user = await userStorage.GetUser(userId, cancellationToken);
             if(user is null)
-                throw new DomainException(BaseMessages.USER_NOT_FOUND);
+                throw new DomainException(BaseMessages.UserNotFound);
             var sb = new StringBuilder();
             
             List<List<InlineKeyboardButton>> keyboard = [];
@@ -48,7 +48,7 @@ public class UserWishListsFindInfoUseCase(
                         {
                             InlineKeyboardButton.WithCallbackData(
                             $"{isSubscribe}{wishList.Name}",
-                            $"{Commands.USERS_WISH_LIST_SUBSCRIBE_REQUEST}<?>{wishList.Id}"),
+                            $"{Commands.UsersWishListSubscribeRequest}<?>{wishList.Id}"),
                         };
                     }).ToList();
             }
@@ -62,7 +62,7 @@ public class UserWishListsFindInfoUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

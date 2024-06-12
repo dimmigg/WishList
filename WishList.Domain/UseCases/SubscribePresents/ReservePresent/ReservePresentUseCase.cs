@@ -25,7 +25,7 @@ public class ReservePresentUseCase(
                 "Подарок зарезервирован!",
                 cancellationToken: cancellationToken);
 
-            request.Param.Command = $"{Commands.SUBSCRIBE_PRESENT_INFO}<?>{presentId}";
+            request.Param.Command = $"{Commands.SubscribePresentInfo}<?>{presentId}";
             await mediator.Send(new SubscribePresentInfoCommand(request.Param), cancellationToken);
         }
     }

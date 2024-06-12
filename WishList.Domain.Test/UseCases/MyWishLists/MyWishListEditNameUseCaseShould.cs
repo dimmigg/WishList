@@ -4,6 +4,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.MyWishLists.MyWishListEditName;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
@@ -19,8 +20,7 @@ public class MyWishListEditNameUseCaseShould : UseCaseBase
     {
         sender = new Mock<ITelegramSender>();
         wishListStorage = new Mock<IWishListStorage>();
-        var userStorage = new Mock<IUserStorage>();
-        sut = new MyWishListEditNameUseCase(sender.Object, wishListStorage.Object, userStorage.Object);
+        sut = new MyWishListEditNameUseCase(sender.Object, wishListStorage.Object, new Mock<IUpdateUserUseCase>().Object);
     }
     
     [Fact]

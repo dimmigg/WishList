@@ -23,7 +23,7 @@ public class MyWishListsUseCase(
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{wishList.Name} ({wishList.Presents.Count})", $"{Commands.WishListInfo}<?>{wishList.Id}"),
                 }).ToList();
         }
         else
@@ -33,7 +33,7 @@ public class MyWishListsUseCase(
         
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "✌️ Добавить", Commands.MY_WISH_LIST_ADD_REQUEST)
+                "✌️ Добавить", Commands.WishListAddRequest)
         ]);
         keyboard.AddBaseFooter();
 

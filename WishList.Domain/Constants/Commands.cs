@@ -2,50 +2,50 @@
 
 public static class Commands
 {
-    public const string MAIN = "main";
-    public const string HOW_TO_FIND_ME = "htfm";
-    public const string SELF_DELETE_BUTTON = "sdb";
-    public const string RESERVED = "r";
+    public const string Main = "main";
+    public const string HowToFindMe = "htfm";
+    public const string SelfDeleteButton = "sdb";
+    public const string Reserved = "r";
     
-    public const string MY_WISH_LISTS = "mwl";
-    public const string MY_WISH_LIST_INFO = "mwli";
-    public const string MY_WISH_LIST_PARAMS = "mwlp";
-    public const string MY_WISH_LIST_EDIT_NAME_REQUEST = "mwlenr";
-    public const string MY_WISH_LIST_EDIT_NAME = "mwlen";
-    public const string MY_WISH_LIST_EDIT_SECURITY_REQUEST = "mwlsr";
-    public const string MY_WISH_LIST_DELETE_REQUEST = "mwldr";
-    public const string MY_WISH_LIST_DELETE = "mwld";
-    public const string MY_WISH_LIST_ADD_REQUEST = "mwlar";
-    public const string MY_WISH_LIST_ADD = "mwla";
+    public const string WishLists = "mwl";
+    public const string WishListInfo = "mwli";
+    public const string WishListParams = "mwlp";
+    public const string WishListEditNameRequest = "mwlenr";
+    public const string WishListEditName = "mwlen";
+    public const string WishListEditSecurityRequest = "mwlsr";
+    public const string WishListDeleteRequest = "mwldr";
+    public const string WishListDelete = "mwld";
+    public const string WishListAddRequest = "mwlar";
+    public const string WishListAdd = "mwla";
     
-    public const string MY_PRESENTS = "mp";
-    public const string MY_PRESENT_INFO = "mpi";
-    public const string MY_PRESENT_EDIT_NAME_REQUEST = "mpenr";
-    public const string MY_PRESENT_EDIT_NAME = "mpen";
-    public const string MY_PRESENT_EDIT_REFERENCE_REQUEST = "mperr";
-    public const string MY_PRESENT_EDIT_REFERENCE = "mper";
-    public const string MY_PRESENT_EDIT_COMMENT_REQUEST = "mpecr";
-    public const string MY_PRESENT_EDIT_COMMENT = "mpec";
-    public const string MY_PRESENT_DELETE_REQUEST = "mpdr";
-    public const string MY_PRESENT_DELETE = "mpd";
-    public const string MY_PRESENT_ADD_REQUEST = "mpar";
-    public const string MY_PRESENT_ADD = "mpa";
+    public const string Presents = "mp";
+    public const string PresentInfo = "mpi";
+    public const string PresentEditNameRequest = "mpenr";
+    public const string PresentEditName = "mpen";
+    public const string PresentEditReferenceRequest = "mperr";
+    public const string PresentEditReference = "mper";
+    public const string PresentEditCommentRequest = "mpecr";
+    public const string PresentEditComment = "mpec";
+    public const string PresentDeleteRequest = "mpdr";
+    public const string PresentDelete = "mpd";
+    public const string PresentAddRequest = "mpar";
+    public const string PresentAdd = "mpa";
     
-    public const string SUBSCRIBE_USERS = "su";
-    public const string SUBSCRIBE_USER_WISH_LISTS = "suwl";
-    public const string SUBSCRIBE_WISH_LIST_INFO = "swli";
-    public const string UNSUBSCRIBE_WISH_LIST_REQUEST = "uwlr";
-    public const string UNSUBSCRIBE_WISH_LIST = "uwl";
+    public const string SubscribeUsers = "su";
+    public const string SubscribeUserWishLists = "suwl";
+    public const string SubscribeWishListInfo = "swli";
+    public const string UnsubscribeWishListRequest = "uwlr";
+    public const string UnsubscribeWishList = "uwl";
     
-    public const string SUBSCRIBE_PRESENTS = "sp";
-    public const string SUBSCRIBE_PRESENT_INFO = "spi";
+    public const string SubscribePresents = "sp";
+    public const string SubscribePresentInfo = "spi";
     
-    public const string REMOVE_RESERVE_PRESENT = "rrp";
-    public const string RESERVE_PRESENT = "rp";
+    public const string RemoveReservePresent = "rrp";
+    public const string ReservePresent = "rp";
     
-    public const string USERS_FIND_REQUEST = "ufr";
-    public const string USERS_FIND = "uf";
-    public const string USERS_WISH_LISTS_FIND_INFO = "uwlfi";
-    public const string USERS_WISH_LIST_SUBSCRIBE_REQUEST = "uwlsr";
-    public const string USERS_WISH_LIST_SUBSCRIBE = "uwls";
+    public const string UsersFindRequest = "ufr";
+    public const string UsersFind = "uf";
+    public const string UsersWishListsFindInfo = "uwlfi";
+    public const string UsersWishListSubscribeRequest = "uwlsr";
+    public const string UsersWishListSubscribe = "uwls";
 }

@@ -46,7 +46,7 @@ public class UserStorage(
         return existingUser;
     }
 
-    public async Task<TelegramUser> UpdateLastCommandUser(long id, string? command, CancellationToken cancellationToken)
+    public async Task<TelegramUser> UpdateLastCommandUser2(long id, string? command, CancellationToken cancellationToken)
     {
         var existingUser = await dbContext.Users
             .Where(u => u.Id == id)

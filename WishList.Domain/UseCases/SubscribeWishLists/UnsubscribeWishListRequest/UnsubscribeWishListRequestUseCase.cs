@@ -29,11 +29,11 @@ public class UnsubscribeWishListRequestUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "👌 Да", $"{Commands.UNSUBSCRIBE_WISH_LIST}<?>{wishListId}")
+                        "👌 Да", $"{Commands.UnsubscribeWishList}<?>{wishListId}")
                 ],
             ];
 
-            keyboard = keyboard.AddBaseFooter($"{Commands.SUBSCRIBE_WISH_LIST_INFO}<?>{wishListId}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

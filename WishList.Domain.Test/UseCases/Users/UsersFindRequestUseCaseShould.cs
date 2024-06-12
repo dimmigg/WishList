@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Domain.UseCases.Users.UsersFindRequest;
 using WishList.Storage.Storages.Users;
 
@@ -10,13 +11,11 @@ public class UsersFindRequestUseCaseShould : UseCaseBase
 {
     private readonly Mock<ITelegramSender> sender;
     private readonly UsersFindRequestUseCase sut;
-    private readonly Mock<IUserStorage> userStorage;
 
     public UsersFindRequestUseCaseShould()
     {
         sender = new Mock<ITelegramSender>();
-        userStorage = new Mock<IUserStorage>();
-        sut = new UsersFindRequestUseCase(sender.Object, userStorage.Object);
+        sut = new UsersFindRequestUseCase(sender.Object, new Mock<IUpdateUserUseCase>().Object);
     }
     
     [Fact]
@@ -26,12 +25,6 @@ public class UsersFindRequestUseCaseShould : UseCaseBase
         var request = new UsersFindRequestCommand(param);
         
         await sut.Handle(request, CancellationToken.None);
-        
-        userStorage.Verify(u => u.UpdateLastCommandUser(
-            It.IsAny<long>(),
-            It.IsAny<string>(),
-            It.IsAny<CancellationToken>()),
-            Times.Once);
 
         sender.Verify(s => s.EditMessageAsync(
                 It.IsAny<string>(),

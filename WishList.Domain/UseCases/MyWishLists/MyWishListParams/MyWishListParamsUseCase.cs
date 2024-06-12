@@ -17,13 +17,13 @@ public class MyWishListParamsUseCase(
     {
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
             
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList is null)
-                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+                throw new DomainException(BaseMessages.WishListNotFound);
                 
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
@@ -34,13 +34,13 @@ public class MyWishListParamsUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🪪 Название", $"{Commands.MY_WISH_LIST_EDIT_NAME_REQUEST}<?>{wishListId}"),
+                        "🪪 Название", $"{Commands.WishListEditNameRequest}<?>{wishListId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "🔒 Приватность", $"{Commands.MY_WISH_LIST_EDIT_SECURITY_REQUEST}<?>{wishListId}")
+                        "🔒 Приватность", $"{Commands.WishListEditSecurityRequest}<?>{wishListId}")
                 ],
             ];
             
-            keyboard = keyboard.AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishListId}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),
@@ -49,7 +49,7 @@ public class MyWishListParamsUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

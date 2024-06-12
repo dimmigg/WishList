@@ -2,14 +2,14 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
-using WishList.Storage.Storages.Users;
+using WishList.Domain.UseCases.UpdateUser;
 
 namespace WishList.Domain.UseCases.MyPresents.MyPresentAddRequest;
 
 public class MyPresentAddRequestUseCase(
     ITelegramSender telegramSender,
-    IUserStorage userStorage)
-    : IRequestHandler<MyPresentAddRequestCommand>
+    IUpdateUserUseCase updateUserUseCase
+    ) : IRequestHandler<MyPresentAddRequestCommand>
 {
     public async Task Handle(MyPresentAddRequestCommand request, CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ public class MyPresentAddRequestUseCase(
         {
             const string textMessage = "Введите название новой записи";
 
-            await userStorage.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.MY_PRESENT_ADD}<?>{wishListId}", cancellationToken);
+            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentAdd}<?>{wishListId}");
             
             var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
             

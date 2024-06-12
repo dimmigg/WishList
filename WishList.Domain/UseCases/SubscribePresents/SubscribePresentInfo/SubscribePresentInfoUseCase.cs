@@ -38,20 +38,20 @@ public class SubscribePresentInfoUseCase(
                 if(present.ReserveForUserId.Value == request.Param.User.Id)
                     keyboard.Add([
                         InlineKeyboardButton.WithCallbackData(
-                            "⭕️ Убрать из резерва", $"{Commands.REMOVE_RESERVE_PRESENT}<?>{present.Id}{fromReserve}")
+                            "⭕️ Убрать из резерва", $"{Commands.RemoveReservePresent}<?>{present.Id}{fromReserve}")
                     ]);
             }
             else
             {
                 keyboard.Add([
                     InlineKeyboardButton.WithCallbackData(
-                        "📌 Зарезервировать", $"{Commands.RESERVE_PRESENT}<?>{present.Id}<?>{request.Param.User.Id}")
+                        "📌 Зарезервировать", $"{Commands.ReservePresent}<?>{present.Id}<?>{request.Param.User.Id}")
                 ]);
             }
 
             keyboard = keyboard.AddBaseFooter(command.Length == 3 
-                ? $"{Commands.SUBSCRIBE_PRESENTS}<?>{present.WishListId}<?>{Commands.RESERVED}" 
-                : $"{Commands.SUBSCRIBE_PRESENTS}<?>{present.WishListId}");
+                ? $"{Commands.SubscribePresents}<?>{present.WishListId}<?>{Commands.Reserved}" 
+                : $"{Commands.SubscribePresents}<?>{present.WishListId}");
             
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

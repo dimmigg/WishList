@@ -25,10 +25,10 @@ public class MyPresentDeleteRequestUseCase(
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [InlineKeyboardButton.WithCallbackData(
-                        "👌 Да", $"{Commands.MY_PRESENT_DELETE}<?>{present.Id}"),
+                        "👌 Да", $"{Commands.PresentDelete}<?>{present.Id}"),
                 ]
             ];
-            keyboard = keyboard.AddBaseFooter($"{Commands.MY_PRESENT_INFO}<?>{present.Id}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.PresentInfo}<?>{present.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,

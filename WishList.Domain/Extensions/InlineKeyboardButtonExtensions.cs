@@ -9,7 +9,7 @@ public static class InlineKeyboardButtonExtensions
         string? backCommand = null)
     {
         var backButton = InlineKeyboardButton.WithCallbackData("👈 Назад", backCommand ?? string.Empty);
-        var homeButton = InlineKeyboardButton.WithCallbackData("🖖 Главное меню", Commands.MAIN);
+        var homeButton = InlineKeyboardButton.WithCallbackData("🖖 Главное меню", Commands.Main);
         
         if (!string.IsNullOrWhiteSpace(backCommand))
             keyboard.Add([backButton, homeButton]);
@@ -23,7 +23,7 @@ public static class InlineKeyboardButtonExtensions
     {
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
-                "❌ Отмена", Commands.SELF_DELETE_BUTTON)
+                "❌ Отмена", Commands.SelfDeleteButton)
         ]);
 
         return keyboard;

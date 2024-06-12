@@ -18,13 +18,13 @@ public class UserWishListSubscribeRequestUseCase(
     {
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2)
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
 
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList is null)
-                throw new DomainException(BaseMessages.WISH_LIST_NOT_FOUND);
+                throw new DomainException(BaseMessages.WishListNotFound);
 
             if (request.Param.User.SubscribeWishLists.Any(wl => wl.Id == wishList.Id))
             {
@@ -34,7 +34,7 @@ public class UserWishListSubscribeRequestUseCase(
             {
                 var foundUser = await userStorage.GetUser(wishList.AuthorId, cancellationToken);
                 if (foundUser is null)
-                    throw new DomainException(BaseMessages.USER_NOT_FOUND);
+                    throw new DomainException(BaseMessages.UserNotFound);
 
                 var textMessage =
                     $"Подписаться на список *{wishList.Name.MarkForbiddenChar()}* пользователя {foundUser.ToString().MarkForbiddenChar()} \\?";
@@ -43,11 +43,11 @@ public class UserWishListSubscribeRequestUseCase(
                 [
                     [
                         InlineKeyboardButton.WithCallbackData(
-                            "👌 Да", $"{Commands.USERS_WISH_LIST_SUBSCRIBE}<?>{wishList.Id}"),
+                            "👌 Да", $"{Commands.UsersWishListSubscribe}<?>{wishList.Id}"),
                     ],
                 ];
 
-                keyboard = keyboard.AddBaseFooter($"{Commands.USERS_WISH_LISTS_FIND_INFO}<?>{foundUser.Id}");
+                keyboard = keyboard.AddBaseFooter($"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
 
                 await telegramSender.EditMessageAsync(
                     text: textMessage,
@@ -57,7 +57,7 @@ public class UserWishListSubscribeRequestUseCase(
         }
         else
         {
-            throw new DomainException(BaseMessages.COMMAND_NOT_RECOGNIZED);
+            throw new DomainException(BaseMessages.CommandNotRecognized);
         }
     }
 }

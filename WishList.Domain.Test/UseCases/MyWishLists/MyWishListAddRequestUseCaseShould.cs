@@ -2,6 +2,7 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.MyWishLists.MyWishListAddRequest;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.Test.UseCases.MyWishLists;
@@ -15,7 +16,7 @@ public class MyWishListAddRequestUseCaseShould : UseCaseBase
         sender = new Mock<ITelegramSender>();
         sut = new MyWishListAddRequestUseCase(
             sender.Object, 
-            new Mock<IUserStorage>().Object);
+            new Mock<IUpdateUserUseCase>().Object);
     }
     
     [Fact]

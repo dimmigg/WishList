@@ -2,15 +2,15 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Storages.Presents;
-using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.UseCases.MyPresents.MyPresentEditReference;
 
 public class MyPresentEditReferenceUseCase(
     ITelegramSender telegramSender,
     IPresentStorage presentStorage,
-    IUserStorage userStorage
+    IUpdateUserUseCase updateUserUseCase
     )
     : IRequestHandler<MyPresentEditReferenceCommand>
 {
@@ -22,10 +22,10 @@ public class MyPresentEditReferenceUseCase(
         {
             const string textMessage = "Ссылка изменена";
 
-            await userStorage.UpdateLastCommandUser(request.Param.User.Id, null, cancellationToken);
+            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, null);
             await presentStorage.UpdateReference(request.Param.Message!.Text!, presentId, cancellationToken);
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_PRESENT_INFO}<?>{presentId}");
+            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.PresentInfo}<?>{presentId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,

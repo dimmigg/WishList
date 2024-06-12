@@ -23,7 +23,7 @@ public class MyPresentDeleteUseCase(
 
             await presentStorage.Delete(presentId, cancellationToken);
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.MY_PRESENTS}<?>{present.WishListId}");
+            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.Presents}<?>{present.WishListId}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,

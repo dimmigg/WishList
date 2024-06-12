@@ -34,19 +34,19 @@ public class MyPresentInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🪪 Название", $"{Commands.MY_PRESENT_EDIT_NAME_REQUEST}<?>{presentId}"),
+                        "🪪 Название", $"{Commands.PresentEditNameRequest}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "📝 Ссылка", $"{Commands.MY_PRESENT_EDIT_REFERENCE_REQUEST}<?>{presentId}")
+                        "📝 Ссылка", $"{Commands.PresentEditReferenceRequest}<?>{presentId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "📄 Комментарий", $"{Commands.MY_PRESENT_EDIT_COMMENT_REQUEST}<?>{presentId}"),
+                        "📄 Комментарий", $"{Commands.PresentEditCommentRequest}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "🗑 Удалить", $"{Commands.MY_PRESENT_DELETE_REQUEST}<?>{presentId}")
+                        "🗑 Удалить", $"{Commands.PresentDeleteRequest}<?>{presentId}")
                 ],
             ];
             
-            keyboard = keyboard.AddBaseFooter($"{Commands.MY_PRESENTS}<?>{present.WishListId}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.Presents}<?>{present.WishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

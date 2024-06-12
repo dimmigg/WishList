@@ -32,7 +32,7 @@ public class MyPresentsUseCase(
                 keyboard = presents
                     .Select(present => new List<InlineKeyboardButton>
                     {
-                        InlineKeyboardButton.WithCallbackData(present!.Name, $"{Commands.MY_PRESENT_INFO}<?>{present.Id}"),
+                        InlineKeyboardButton.WithCallbackData(present!.Name, $"{Commands.PresentInfo}<?>{present.Id}"),
                     }).ToList();
             }
             else
@@ -42,9 +42,9 @@ public class MyPresentsUseCase(
         
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
-                    "✌️ Добавить", $"{Commands.MY_PRESENT_ADD_REQUEST}<?>{wishList.Id}")
+                    "✌️ Добавить", $"{Commands.PresentAddRequest}<?>{wishList.Id}")
             ]);
-            keyboard = keyboard.AddBaseFooter($"{Commands.MY_WISH_LIST_INFO}<?>{wishList.Id}");
+            keyboard = keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishList.Id}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),
