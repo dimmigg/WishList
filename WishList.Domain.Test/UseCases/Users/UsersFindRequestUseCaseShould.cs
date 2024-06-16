@@ -3,7 +3,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.UpdateUser;
 using WishList.Domain.UseCases.Users.UsersFindRequest;
-using WishList.Storage.Storages.Users;
 
 namespace WishList.Domain.Test.UseCases.Users;
 

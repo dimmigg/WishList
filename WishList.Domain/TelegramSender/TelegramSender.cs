@@ -112,33 +112,17 @@ public class TelegramSender(ITelegramBotClient botClient) : ITelegramSender
             nextOffset,
             button,
             cancellationToken);
-
-    public async Task AnswerCallbackQueryAsync(
-        string? text = default,
-        string? callbackQueryId = default,
-        bool? showAlert = default,
-        string? url = default,
-        int? cacheTime = default,
-        CancellationToken cancellationToken = default)
-    {
-        if (callbackQueryId is not null || CallbackQueryId is not null)
-            await botClient.AnswerCallbackQueryAsync(
-                callbackQueryId ?? CallbackQueryId!,
-                text,
-                showAlert,
-                url,
-                cacheTime,
-                cancellationToken);
-    }
     
     public async Task AnswerCallbackQueryAsync(
         string? text = default,
+        bool? showAlert = false,
         CancellationToken cancellationToken = default)
     {
         if (CallbackQueryId is not null)
             await botClient.AnswerCallbackQueryAsync(
                 callbackQueryId: CallbackQueryId!,
                 text: text,
+                showAlert: showAlert,
                 cancellationToken: cancellationToken);
     }
 

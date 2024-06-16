@@ -6,7 +6,6 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.MyWishLists.MyWishListEditNameRequest;
 using WishList.Domain.UseCases.UpdateUser;
-using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.UseCases.MyWishLists;
@@ -43,6 +42,7 @@ public class MyWishListEditNameRequestUseCaseShould : UseCaseBase
         
         sender.Verify(s => s.AnswerCallbackQueryAsync(
                 It.IsAny<string>(),
+                It.IsAny<bool>(),
                 It.IsAny<CancellationToken>()),
             Times.Once);
         sender.Verify(s => s.SendMessageAsync(

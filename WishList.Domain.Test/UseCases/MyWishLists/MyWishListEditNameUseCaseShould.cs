@@ -5,7 +5,6 @@ using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
 using WishList.Domain.UseCases.MyWishLists.MyWishListEditName;
 using WishList.Domain.UseCases.UpdateUser;
-using WishList.Storage.Storages.Users;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.Test.UseCases.MyWishLists;

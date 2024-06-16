@@ -43,17 +43,10 @@ public interface ITelegramSender
         string text,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default);
-
-    Task AnswerCallbackQueryAsync(
-        string? text = default,
-        string? callbackQueryId = default,
-        bool? showAlert = default,
-        string? url = default,
-        int? cacheTime = default,
-        CancellationToken cancellationToken = default);
     
     Task AnswerCallbackQueryAsync(
-        string? text = default,
+        string? text = null,
+        bool? showAlert = false,
         CancellationToken cancellationToken = default);
 
     Task DeleteMessageAsync(

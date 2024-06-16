@@ -4,18 +4,19 @@ using WishList.Domain.UseCases;
 
 namespace WishList.Domain.PipelineBehavior;
 
-public class Validate<TRequest, TResponse>()
-    : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class Validate<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is not CommandBase command) return await next.Invoke();
-        
-        if (command.Param.Message == null && 
-            string.IsNullOrWhiteSpace(command.Param.Message?.Text) &&
-            command.Param.CallbackQuery == null)
-            throw new DomainException("Параметы команды не валидны");
-        
+
+        var hasMessage = command.Param.Message != null && !string.IsNullOrWhiteSpace(command.Param.Message.Text);
+        var hasCallbackQuery = command.Param.CallbackQuery != null;
+
+        if (!hasMessage && !hasCallbackQuery)
+            throw new DomainException("Нет сообщения или коллбэк-запроса для обработки команды.");
+
         return await next.Invoke();
     }
 }

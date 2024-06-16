@@ -21,7 +21,7 @@ public class ServiceFiller<TRequest, TResponse>(
 
         try
         {
-            await telegramSender.AnswerCallbackQueryAsync(null, cancellationToken: cancellationToken);
+            await telegramSender.AnswerCallbackQueryAsync(cancellationToken: cancellationToken);
             var response = await next.Invoke();
             logger.LogInformation("Command successfully handled {Command}", request);
             return response;
