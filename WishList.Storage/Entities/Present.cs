@@ -6,6 +6,7 @@ namespace WishList.Storage.Entities;
 public class Present
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     public string Name { get; set; }
