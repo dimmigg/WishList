@@ -20,7 +20,8 @@ public class MyWishListAddUseCase(
         updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, null);
         await wishListStorage.AddWishList(request.Param.Message!.Text!, request.Param.User.Id, cancellationToken);
 
-        var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter(Commands.WishLists);
+        var keyboard = new List<List<InlineKeyboardButton>>();
+        keyboard.AddBaseFooter(Commands.WishLists);
         
         await telegramSender.SendMessageAsync(
             text: textMessage,

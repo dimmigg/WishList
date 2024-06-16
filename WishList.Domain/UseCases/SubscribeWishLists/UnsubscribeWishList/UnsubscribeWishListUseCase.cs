@@ -25,7 +25,8 @@ public class UnsubscribeWishListUseCase(
             var sb = new StringBuilder();
             sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* удалён из избранного");
 
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter(Commands.SubscribeUsers);
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddBaseFooter(Commands.SubscribeUsers);
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

@@ -31,7 +31,8 @@ public class MyWishListEditNameRequestUseCase(
             
             var textMessage = $"Введите новое название списка *`{wishList.Name.MarkForbiddenChar()}`*";
             var answerMessage = $"Введите новое название списка {wishList.Name.MarkForbiddenChar()}";
-            var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddSelfDeleteButton();
             
             await telegramSender.AnswerCallbackQueryAsync(
                 text: answerMessage,

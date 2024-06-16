@@ -22,7 +22,8 @@ public class SubscribeUsersUseCase(
             keyboard = users
                 .Select(gr => new List<InlineKeyboardButton>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{gr.Key} ({gr.Count()})",
+                    InlineKeyboardButton.WithCallbackData($"{gr.Key}",
+                        
                         $"{Commands.SubscribeUserWishLists}<?>{gr.Key.Id}"),
                 }).ToList();
         }
@@ -36,7 +37,7 @@ public class SubscribeUsersUseCase(
             InlineKeyboardButton.WithCallbackData(
                 "🔍 Поиск", Commands.UsersFindRequest)
         ]);
-        keyboard = keyboard.AddBaseFooter();
+        keyboard.AddBaseFooter();
 
         await telegramSender.EditMessageAsync(
             text: sb.ToString(),

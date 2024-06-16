@@ -40,7 +40,7 @@ public class MyWishListParamsUseCase(
                 ],
             ];
             
-            keyboard = keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishListId}");
+            keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

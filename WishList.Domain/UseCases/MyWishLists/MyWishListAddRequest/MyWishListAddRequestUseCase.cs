@@ -17,7 +17,8 @@ public class MyWishListAddRequestUseCase(
 
         updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, Commands.WishListAdd);
         
-        var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
+        var keyboard = new List<List<InlineKeyboardButton>>();
+        keyboard.AddSelfDeleteButton();
 
         await telegramSender.AnswerCallbackQueryAsync(
             text: textMessage,

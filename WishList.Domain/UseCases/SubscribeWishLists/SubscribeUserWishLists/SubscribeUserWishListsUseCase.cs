@@ -40,7 +40,7 @@ public class SubscribeUserWishListsUseCase(
                 sb.AppendLine("Еще нет подписок");
             }
 
-            keyboard = keyboard.AddBaseFooter(Commands.SubscribeUsers);
+            keyboard.AddBaseFooter(Commands.SubscribeUsers);
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString().MarkForbiddenChar(),

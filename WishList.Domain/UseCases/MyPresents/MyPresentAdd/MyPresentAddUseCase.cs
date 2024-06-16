@@ -24,7 +24,8 @@ public class MyPresentAddUseCase(
             updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
             await presentStorage.AddPresent(request.Param.Message!.Text!, wishListId, cancellationToken);
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.Presents}<?>{wishListId}");
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddBaseFooter($"{Commands.Presents}<?>{wishListId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,

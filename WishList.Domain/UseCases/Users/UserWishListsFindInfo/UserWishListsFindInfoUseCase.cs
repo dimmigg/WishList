@@ -53,7 +53,7 @@ public class UserWishListsFindInfoUseCase(
                     }).ToList();
             }
 
-            keyboard = keyboard.AddBaseFooter();
+            keyboard.AddBaseFooter();
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

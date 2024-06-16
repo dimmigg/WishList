@@ -17,7 +17,8 @@ public class UsersFindRequestUseCase(
 
         updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, Commands.UsersFind);
 
-        var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter(Commands.SubscribeUsers);
+        var keyboard = new List<List<InlineKeyboardButton>>();
+        keyboard.AddBaseFooter(Commands.SubscribeUsers);
 
         await telegramSender.EditMessageAsync(
             text: textMessage,

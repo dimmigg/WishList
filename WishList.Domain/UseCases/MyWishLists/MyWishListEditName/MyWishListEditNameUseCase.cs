@@ -27,7 +27,8 @@ public class MyWishListEditNameUseCase(
             await wishListStorage.EditName(request.Param.Message!.Text!, wishListId, cancellationToken);
             
             const string textMessage = @"Отлично\! Название списка обновлено\!";
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.WishListInfo}<?>{wishListId}");
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishListId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,

@@ -40,7 +40,7 @@ public class UsersFindUseCase(
             }
         }
 
-        keyboard = keyboard.AddBaseFooter();
+        keyboard.AddBaseFooter();
 
         await telegramSender.SendMessageAsync(
             text: sb.ToString(),

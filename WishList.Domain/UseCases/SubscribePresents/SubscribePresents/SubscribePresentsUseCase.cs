@@ -68,7 +68,7 @@ public class SubscribePresentsUseCase(
                 sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* пуст");
             }
 
-            keyboard = keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishList.Id}");
+            keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishList.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

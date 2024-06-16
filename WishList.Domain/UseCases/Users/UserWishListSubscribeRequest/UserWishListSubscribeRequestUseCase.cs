@@ -47,7 +47,7 @@ public class UserWishListSubscribeRequestUseCase(
                     ],
                 ];
 
-                keyboard = keyboard.AddBaseFooter($"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
+                keyboard.AddBaseFooter($"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
 
                 await telegramSender.EditMessageAsync(
                     text: textMessage,

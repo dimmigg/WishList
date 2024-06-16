@@ -5,27 +5,22 @@ namespace System;
 
 public static class InlineKeyboardButtonExtensions
 {
-    public static List<List<InlineKeyboardButton>> AddBaseFooter(this List<List<InlineKeyboardButton>> keyboard,
+    public static void AddBaseFooter(this List<List<InlineKeyboardButton>> keyboard,
         string? backCommand = null)
     {
         var backButton = InlineKeyboardButton.WithCallbackData("👈 Назад", backCommand ?? string.Empty);
         var homeButton = InlineKeyboardButton.WithCallbackData("🖖 Главное меню", Commands.Main);
-        
-        if (!string.IsNullOrWhiteSpace(backCommand))
-            keyboard.Add([backButton, homeButton]);
-        else
-            keyboard.Add([homeButton]);
 
-        return keyboard;
+        keyboard.Add(!string.IsNullOrWhiteSpace(backCommand)
+            ? [backButton, homeButton]
+            : [homeButton]);
     }
 
-    public static List<List<InlineKeyboardButton>> AddSelfDeleteButton(this List<List<InlineKeyboardButton>> keyboard)
+    public static void AddSelfDeleteButton(this List<List<InlineKeyboardButton>> keyboard)
     {
         keyboard.Add([
             InlineKeyboardButton.WithCallbackData(
                 "❌ Отмена", Commands.SelfDeleteButton)
         ]);
-
-        return keyboard;
     }
 }

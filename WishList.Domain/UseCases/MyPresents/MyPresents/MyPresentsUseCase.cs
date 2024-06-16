@@ -44,7 +44,7 @@ public class MyPresentsUseCase(
                 InlineKeyboardButton.WithCallbackData(
                     "✌️ Добавить", $"{Commands.PresentAddRequest}<?>{wishList.Id}")
             ]);
-            keyboard = keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishList.Id}");
+            keyboard.AddBaseFooter($"{Commands.WishListInfo}<?>{wishList.Id}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

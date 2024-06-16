@@ -47,7 +47,7 @@ public class MyWishListInfoUseCase(
                 ],
             ];
 
-            keyboard = keyboard.AddBaseFooter(Commands.WishLists);
+            keyboard.AddBaseFooter(Commands.WishLists);
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

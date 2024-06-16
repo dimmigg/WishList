@@ -42,8 +42,7 @@ public class UserWishListSubscribeUseCase(
                         "🧾 Список желаний", $"{Commands.SubscribePresents}<?>{wishListId}")
                 ],
             ];
-             keyboard = keyboard.AddBaseFooter(
-                    $"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
+            keyboard.AddBaseFooter($"{Commands.UsersWishListsFindInfo}<?>{foundUser.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,

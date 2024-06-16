@@ -21,7 +21,8 @@ public class MyPresentEditNameRequestUseCase(
 
             updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditName}<?>{presentId}");
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddSelfDeleteButton();
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddSelfDeleteButton();
             
             await telegramSender.AnswerCallbackQueryAsync(
                 text: textMessage,

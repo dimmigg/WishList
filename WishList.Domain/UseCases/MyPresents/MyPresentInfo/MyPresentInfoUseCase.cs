@@ -46,7 +46,7 @@ public class MyPresentInfoUseCase(
                 ],
             ];
             
-            keyboard = keyboard.AddBaseFooter($"{Commands.Presents}<?>{present.WishListId}");
+            keyboard.AddBaseFooter($"{Commands.Presents}<?>{present.WishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

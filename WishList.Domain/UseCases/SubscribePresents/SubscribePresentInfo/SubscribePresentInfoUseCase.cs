@@ -49,7 +49,7 @@ public class SubscribePresentInfoUseCase(
                 ]);
             }
 
-            keyboard = keyboard.AddBaseFooter(command.Length == 3 
+            keyboard.AddBaseFooter(command.Length == 3 
                 ? $"{Commands.SubscribePresents}<?>{present.WishListId}<?>{Commands.Reserved}" 
                 : $"{Commands.SubscribePresents}<?>{present.WishListId}");
             

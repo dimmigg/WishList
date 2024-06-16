@@ -29,7 +29,8 @@ public class MyWishListDeleteUseCase(
             await wishListStorage.Delete(wishListId, cancellationToken);
 
             var textMessage = $"Список *{wishList.Name.MarkForbiddenChar()}* удален";
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter(Commands.WishLists);
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddBaseFooter(Commands.WishLists);
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,

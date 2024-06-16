@@ -28,7 +28,7 @@ public class MyPresentDeleteRequestUseCase(
                         "👌 Да", $"{Commands.PresentDelete}<?>{present.Id}"),
                 ]
             ];
-            keyboard = keyboard.AddBaseFooter($"{Commands.PresentInfo}<?>{present.Id}");
+            keyboard.AddBaseFooter($"{Commands.PresentInfo}<?>{present.Id}");
             
             await telegramSender.EditMessageAsync(
                 text: textMessage,

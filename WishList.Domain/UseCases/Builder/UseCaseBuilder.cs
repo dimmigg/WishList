@@ -44,60 +44,63 @@ using WishList.Domain.UseCases.Users.UserWishListSubscribeRequest;
 
 namespace WishList.Domain.UseCases.Builder;
 
-public class UseCaseBuilder()
-    : IUseCaseBuilder
+public class UseCaseBuilder : IUseCaseBuilder
 {
+    private readonly IDictionary<string, Func<UseCaseParam, IRequest>> _commandMap;
+
+    public UseCaseBuilder()
+    {
+        _commandMap = new Dictionary<string, Func<UseCaseParam, IRequest>>()
+        {
+            { Commands.Main, param => new MainCommand(param) },
+            { Commands.HowToFindMe, param => new HowToFindMeCommand(param) },
+            { Commands.SelfDeleteButton, param => new SelfDeleteButtonCommand(param) },
+            { Commands.WishLists, param => new MyWishListsCommand(param) },
+            { Commands.WishListInfo, param => new MyWishListInfoCommand(param) },
+            { Commands.WishListParams, param => new MyWishListParamsCommand(param) },
+            { Commands.WishListEditNameRequest, param => new MyWishListEditNameRequestCommand(param) },
+            { Commands.WishListEditName, param => new MyWishListEditNameCommand(param) },
+            { Commands.WishListEditSecurityRequest, param => new NotImplementedCommand(param) },
+            { Commands.WishListDeleteRequest, param => new MyWishListDeleteRequestCommand(param) },
+            { Commands.WishListDelete, param => new MyWishListDeleteCommand(param) },
+            { Commands.WishListAddRequest, param => new MyWishListAddRequestCommand(param) },
+            { Commands.WishListAdd, param => new MyWishListAddCommand(param) },
+            { Commands.Presents, param => new MyPresentsCommand(param) },
+            { Commands.PresentInfo, param => new MyPresentInfoCommand(param) },
+            { Commands.PresentEditNameRequest, param => new MyPresentEditNameRequestCommand(param) },
+            { Commands.PresentEditName, param => new MyPresentEditNameCommand(param) },
+            { Commands.PresentEditReferenceRequest, param => new MyPresentEditReferenceRequestCommand(param) },
+            { Commands.PresentEditReference, param => new MyPresentEditReferenceCommand(param) },
+            { Commands.PresentEditCommentRequest, param => new MyPresentEditCommentRequestCommand(param) },
+            { Commands.PresentEditComment, param => new MyPresentEditCommentCommand(param) },
+            { Commands.PresentDeleteRequest, param => new MyPresentDeleteRequestCommand(param) },
+            { Commands.PresentDelete, param => new MyPresentDeleteCommand(param) },
+            { Commands.PresentAddRequest, param => new MyPresentAddRequestCommand(param) },
+            { Commands.PresentAdd, param => new MyPresentAddCommand(param) },
+            { Commands.SubscribeUsers, param => new SubscribeUsersCommand(param) },
+            { Commands.SubscribeUserWishLists, param => new SubscribeUserWishListsCommand(param) },
+            { Commands.SubscribeWishListInfo, param => new SubscribeWishListInfoCommand(param) },
+            { Commands.UnsubscribeWishListRequest, param => new UnsubscribeWishListRequestCommand(param) },
+            { Commands.UnsubscribeWishList, param => new UnsubscribeWishListCommand(param) },
+            { Commands.SubscribePresents, param => new SubscribePresentsCommand(param) },
+            { Commands.SubscribePresentInfo, param => new SubscribePresentInfoCommand(param) },
+            { Commands.RemoveReservePresent, param => new RemoveReservePresentCommand(param) },
+            { Commands.ReservePresent, param => new ReservePresentCommand(param) },
+            { Commands.UsersFindRequest, param => new UsersFindRequestCommand(param) },
+            { Commands.UsersFind, param => new UsersFindCommand(param) },
+            { Commands.UsersWishListsFindInfo, param => new UserWishListsFindInfoCommand(param) },
+            { Commands.UsersWishListSubscribeRequest, param => new UserWishListSubscribeRequestCommand(param) },
+            { Commands.UsersWishListSubscribe, param => new UserWishListSubscribeCommand(param) }
+        };
+    }
+
     public IRequest Build(UseCaseParam param)
     {
-        return param.LastCommand switch
+        if (_commandMap.TryGetValue(param.LastCommand, out var commandFactory))
         {
-            Commands.Main => new MainCommand(param),
-            Commands.HowToFindMe => new HowToFindMeCommand(param),
-            
-            Commands.SelfDeleteButton => new SelfDeleteButtonCommand(param),
-            
-            Commands.WishLists => new MyWishListsCommand(param),
-            Commands.WishListInfo => new MyWishListInfoCommand(param),
-            Commands.WishListParams => new MyWishListParamsCommand(param),
-            Commands.WishListEditNameRequest => new MyWishListEditNameRequestCommand(param),
-            Commands.WishListEditName => new MyWishListEditNameCommand(param),
-            Commands.WishListEditSecurityRequest => new NotImplementedCommand(param),
-            Commands.WishListDeleteRequest => new MyWishListDeleteRequestCommand(param),
-            Commands.WishListDelete => new MyWishListDeleteCommand(param),
-            Commands.WishListAddRequest => new MyWishListAddRequestCommand(param),
-            Commands.WishListAdd => new MyWishListAddCommand(param),
-            
-            Commands.Presents => new MyPresentsCommand(param),
-            Commands.PresentInfo => new MyPresentInfoCommand(param),
-            Commands.PresentEditNameRequest => new MyPresentEditNameRequestCommand(param),
-            Commands.PresentEditName => new MyPresentEditNameCommand(param),
-            Commands.PresentEditReferenceRequest => new MyPresentEditReferenceRequestCommand(param),
-            Commands.PresentEditReference => new MyPresentEditReferenceCommand(param),
-            Commands.PresentEditCommentRequest => new MyPresentEditCommentRequestCommand(param),
-            Commands.PresentEditComment => new MyPresentEditCommentCommand(param),
-            Commands.PresentDeleteRequest => new MyPresentDeleteRequestCommand(param),
-            Commands.PresentDelete => new MyPresentDeleteCommand(param),
-            Commands.PresentAddRequest => new MyPresentAddRequestCommand(param),
-            Commands.PresentAdd => new MyPresentAddCommand(param),
-            
-            Commands.SubscribeUsers => new SubscribeUsersCommand(param),
-            Commands.SubscribeUserWishLists => new SubscribeUserWishListsCommand(param),
-            Commands.SubscribeWishListInfo => new SubscribeWishListInfoCommand(param),
-            Commands.UnsubscribeWishListRequest => new UnsubscribeWishListRequestCommand(param),
-            Commands.UnsubscribeWishList => new UnsubscribeWishListCommand(param),
-            
-            Commands.SubscribePresents => new SubscribePresentsCommand(param),
-            Commands.SubscribePresentInfo => new SubscribePresentInfoCommand(param),
-            Commands.RemoveReservePresent => new RemoveReservePresentCommand(param),
-            Commands.ReservePresent => new ReservePresentCommand(param),
-            
-            Commands.UsersFindRequest => new UsersFindRequestCommand(param),
-            Commands.UsersFind => new UsersFindCommand(param),
-            Commands.UsersWishListsFindInfo => new UserWishListsFindInfoCommand(param),
-            Commands.UsersWishListSubscribeRequest => new UserWishListSubscribeRequestCommand(param),
-            Commands.UsersWishListSubscribe => new UserWishListSubscribeCommand(param),
-            
-            _ => throw new DomainException($"Команда {param.LastCommand} не распознана ")
-        };
+            return commandFactory(param);
+        }
+
+        throw new DomainException($"Команда {param.LastCommand} не распознана.");
     }
 }

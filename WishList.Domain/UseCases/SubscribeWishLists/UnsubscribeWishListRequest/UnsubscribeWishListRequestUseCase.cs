@@ -33,7 +33,7 @@ public class UnsubscribeWishListRequestUseCase(
                 ],
             ];
 
-            keyboard = keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishListId}");
+            keyboard.AddBaseFooter($"{Commands.SubscribeWishListInfo}<?>{wishListId}");
 
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),

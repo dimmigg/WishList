@@ -25,7 +25,8 @@ public class MyPresentEditCommentUseCase(
             updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
             await presentStorage.UpdateComment(request.Param.Message.Text, presentId, cancellationToken);
             
-            var keyboard = new List<List<InlineKeyboardButton>>().AddBaseFooter($"{Commands.PresentInfo}<?>{presentId}");
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            keyboard.AddBaseFooter($"{Commands.PresentInfo}<?>{presentId}");
 
             await telegramSender.SendMessageAsync(
                 text: textMessage,
