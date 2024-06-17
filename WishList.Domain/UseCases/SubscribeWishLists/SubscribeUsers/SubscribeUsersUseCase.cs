@@ -18,7 +18,7 @@ public class SubscribeUsersUseCase(
         var sb = new StringBuilder();
         if (users.Length != 0)
         {
-            sb.AppendLine("Список друзей:");
+            sb.AppendLine("Выберите друга");
             keyboard = users
                 .Select(gr => new List<InlineKeyboardButton>
                 {
@@ -29,7 +29,7 @@ public class SubscribeUsersUseCase(
         }
         else
         {
-            sb.AppendLine("Еще нет подписок");
+            sb.AppendLine("Добавьте друзей");
         }
 
         keyboard.Add(

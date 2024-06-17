@@ -30,9 +30,6 @@ public class UserStorage(
     {
         var existingUser = await dbContext.Users
             .Where(u => u.Id == user.Id)
-            .Include(u => u.WishLists)
-            .Include(u => u.SubscribeWishLists)
-            .ThenInclude(swl => swl.Author)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -43,22 +40,17 @@ public class UserStorage(
         existingUser.LastName = user.LastName;
         await dbContext.SaveChangesAsync(cancellationToken);
         dbContext.Entry(existingUser).State = EntityState.Detached;
-        return existingUser;
+        return await GetMainUser(existingUser.Id, cancellationToken);
     }
 
-    public async Task<TelegramUser> UpdateLastCommandUser2(long id, string? command, CancellationToken cancellationToken)
+    public async Task<TelegramUser> GetMainUser(long userId, CancellationToken cancellationToken)
     {
         var existingUser = await dbContext.Users
-            .Where(u => u.Id == id)
-            .AsTracking()
-            .FirstOrDefaultAsync(cancellationToken);
-
-        if (existingUser is null) throw new StorageException("User not found");
-
-        existingUser.LastCommand = command;
-
-        await dbContext.SaveChangesAsync(cancellationToken);
-
+            .Where(u => u.Id == userId)
+            .Include(u => u.WishLists)
+            .Include(u => u.SubscribeWishLists)
+            .ThenInclude(swl => swl.Author)
+            .FirstAsync(cancellationToken);
         return existingUser;
     }
 
@@ -83,6 +75,7 @@ public class UserStorage(
         {
             user.SubscribeWishLists.Add(wishList);
             await dbContext.SaveChangesAsync(cancellationToken);
+            dbContext.Entry(user).State = EntityState.Detached;
         }
     }
 }

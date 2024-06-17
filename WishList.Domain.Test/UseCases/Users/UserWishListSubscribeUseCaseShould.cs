@@ -4,6 +4,7 @@ using Moq.Language.Flow;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Exceptions;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Domain.UseCases.Users.UserWishListSubscribe;
 using WishList.Storage.Entities;
 using WishList.Storage.Storages.Users;
@@ -25,7 +26,8 @@ public class UserWishListSubscribeUseCaseShould : UseCaseBase
         wlStorageGetWishListSetup = wishListStorage.Setup(wl => wl.GetWishList(It.IsAny<int>(), It.IsAny<CancellationToken>()));
         var userStorage = new Mock<IUserStorage>();
         getUserSetup = userStorage.Setup(u => u.GetUser(It.IsAny<long>(), It.IsAny<CancellationToken>()));
-        sut = new UserWishListSubscribeUseCase(sender.Object, wishListStorage.Object, userStorage.Object);
+        var updateUser = new Mock<IUpdateUserUseCase>();
+        sut = new UserWishListSubscribeUseCase(sender.Object, wishListStorage.Object, userStorage.Object, updateUser.Object);
     }
     
     [Fact]

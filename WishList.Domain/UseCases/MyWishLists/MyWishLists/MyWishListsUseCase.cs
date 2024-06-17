@@ -19,7 +19,7 @@ public class MyWishListsUseCase(
         var sb = new StringBuilder();
         if (wishLists.Length != 0)
         {
-            sb.AppendLine("Ваши списки:");
+            sb.AppendLine("Выберите список");
             keyboard = wishLists
                 .Select(wishList => new List<InlineKeyboardButton>
                 {

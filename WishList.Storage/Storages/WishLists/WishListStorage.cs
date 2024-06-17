@@ -71,6 +71,7 @@ public class WishListStorage(
 
         user.SubscribeWishLists.Remove(wishList);
         await dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.Entry(user).State = EntityState.Detached;
     }
     
     public Task Delete(int wishListId, CancellationToken cancellationToken)  =>

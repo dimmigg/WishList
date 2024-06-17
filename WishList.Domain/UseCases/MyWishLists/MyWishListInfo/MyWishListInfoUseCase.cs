@@ -18,28 +18,40 @@ public class MyWishListInfoUseCase(
         var command = request.Param.Command.Split("<?>");
         if (command.Length < 2)
             throw new DomainException(BaseMessages.CommandNotRecognized);
-            
+
         if (int.TryParse(command[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
-            
+
             if (wishList is null)
                 throw new DomainException(BaseMessages.WishListNotFound);
-                
+
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
-            
+
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
-            
-            var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
-            sb.AppendLine($"Приватность: *{isPrivate}*");
+
+            if (wishList.Presents.Count != 0)
+            {
+                sb.AppendLine();
+                foreach (var present in wishList.Presents)
+                {
+                    sb.AppendLine($"\\-\t *{present.Name.MarkForbiddenChar()}*");
+                }
+            }
+
+            //var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
+            //sb.AppendLine($"Приватность: *{isPrivate}*");
 
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "✏️ Список", $"{Commands.Presents}<?>{wishListId}"),
+                        "📝 Изменить список", $"{Commands.Presents}<?>{wishListId}"),
+                    
+                ],
+                [
                     InlineKeyboardButton.WithCallbackData(
-                        "⚙ Параметры", $"{Commands.WishListParams}<?>{wishListId}")
+                        "✏️ Переименовать", $"{Commands.WishListEditNameRequest}<?>{wishListId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(

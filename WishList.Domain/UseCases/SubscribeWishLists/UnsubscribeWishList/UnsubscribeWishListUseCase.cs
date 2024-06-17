@@ -3,13 +3,15 @@ using MediatR;
 using Telegram.Bot.Types.ReplyMarkups;
 using WishList.Domain.Constants;
 using WishList.Domain.TelegramSender;
+using WishList.Domain.UseCases.UpdateUser;
 using WishList.Storage.Storages.WishLists;
 
 namespace WishList.Domain.UseCases.SubscribeWishLists.UnsubscribeWishList;
 
 public class UnsubscribeWishListUseCase(
     ITelegramSender telegramSender,
-    IWishListStorage wishListStorage)
+    IWishListStorage wishListStorage,
+    IUpdateUserUseCase updateUser)
     : IRequestHandler<UnsubscribeWishListCommand>
 {
     public async Task Handle(UnsubscribeWishListCommand request, CancellationToken cancellationToken)
@@ -22,6 +24,8 @@ public class UnsubscribeWishListUseCase(
             if(wishList is null) return;
             
             await wishListStorage.UnsubscribeWishList(request.Param.User.Id, wishListId, cancellationToken);
+            await updateUser.RefreshUser(request.Param.User.Id, cancellationToken);
+            
             var sb = new StringBuilder();
             sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}* удалён из избранного");
 

@@ -34,13 +34,13 @@ public class MyPresentInfoUseCase(
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🪪 Название", $"{Commands.PresentEditNameRequest}<?>{presentId}"),
+                        "✏️ Переименовать", $"{Commands.PresentEditNameRequest}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
-                        "📝 Ссылка", $"{Commands.PresentEditReferenceRequest}<?>{presentId}")
+                        "📎 Ссылка", $"{Commands.PresentEditReferenceRequest}<?>{presentId}")
                 ],
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "📄 Комментарий", $"{Commands.PresentEditCommentRequest}<?>{presentId}"),
+                        "🗯 Комментарий", $"{Commands.PresentEditCommentRequest}<?>{presentId}"),
                     InlineKeyboardButton.WithCallbackData(
                         "🗑 Удалить", $"{Commands.PresentDeleteRequest}<?>{presentId}")
                 ],
