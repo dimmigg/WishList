@@ -25,11 +25,20 @@ public class SubscribeWishListInfoUseCase(
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
             
+            if (wishList.Presents.Count != 0)
+            {
+                sb.AppendLine();
+                foreach (var present in wishList.Presents)
+                {
+                    sb.AppendLine($"\\-\t *{present.Name.MarkForbiddenChar()}*");
+                }
+            }
+            
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [
                     InlineKeyboardButton.WithCallbackData(
-                        "🧾 Список желаний", $"{Commands.SubscribePresents}<?>{wishListId}")
+                        "👀 Смотреть список", $"{Commands.SubscribePresents}<?>{wishListId}")
                 ],
             ];
 

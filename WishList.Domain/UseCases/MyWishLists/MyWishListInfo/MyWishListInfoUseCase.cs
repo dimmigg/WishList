@@ -39,9 +39,6 @@ public class MyWishListInfoUseCase(
                 }
             }
 
-            //var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
-            //sb.AppendLine($"Приватность: *{isPrivate}*");
-
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [

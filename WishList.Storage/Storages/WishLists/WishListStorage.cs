@@ -66,12 +66,21 @@ public class WishListStorage(
             .FirstOrDefaultAsync(cancellationToken);
         if (user is null) throw new StorageException("Пользователь не найден");
 
-        var wishList = await GetDbWishList(wishListId).FirstOrDefaultAsync(cancellationToken);
+        var wishList = await GetDbWishList(wishListId)
+            .Include(wl => wl.Presents)
+            .FirstOrDefaultAsync(cancellationToken);
         if(wishList is null) throw new StorageException("Список не найден");
 
+        foreach (var present in wishList.Presents)
+        {
+            if (present.ReserveForUserId == userId)
+                present.ReserveForUserId = null;
+        }
+        
         user.SubscribeWishLists.Remove(wishList);
         await dbContext.SaveChangesAsync(cancellationToken);
         dbContext.Entry(user).State = EntityState.Detached;
+        dbContext.Entry(wishList).State = EntityState.Detached;
     }
     
     public Task Delete(int wishListId, CancellationToken cancellationToken)  =>

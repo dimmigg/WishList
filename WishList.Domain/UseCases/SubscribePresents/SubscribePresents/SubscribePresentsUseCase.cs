@@ -31,7 +31,8 @@ public class SubscribePresentsUseCase(
             {
                 if (command.Length == 3)
                 {
-                    sb.AppendLine($"Мои резервы из списка *{wishList.Name.MarkForbiddenChar()}*:");
+                    sb.AppendLine($"Мои резервы из списка *{wishList.Name.MarkForbiddenChar()}*");
+                    
                     wishLists = wishLists.Where(p => p.ReserveForUserId == request.Param.User.Id).ToArray();
                     keyboard = wishLists
                         .Select(present =>
@@ -48,7 +49,8 @@ public class SubscribePresentsUseCase(
                 }
                 else
                 {
-                    sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}*:");
+                    sb.AppendLine($"Список *{wishList.Name.MarkForbiddenChar()}*");
+                    
                     keyboard = wishLists
                         .Select(present =>
                         {
