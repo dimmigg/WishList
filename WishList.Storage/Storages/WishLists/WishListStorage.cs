@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WishList.Storage.Exceptions;
 
 namespace WishList.Storage.Storages.WishLists;
 
 public class WishListStorage(
-    WishListDbContext dbContext,
-    IMapper mapper) : IWishListStorage
+    WishListDbContext dbContext) : IWishListStorage
 {
     public async Task<Entities.WishList> AddWishList(string name, long userId, CancellationToken cancellationToken)
     {
@@ -31,6 +29,7 @@ public class WishListStorage(
         await dbContext.WishLists
             .Where(wl => wl.Id == id)
             .Include(wl => wl.Presents)
+            .Include(wl => wl.Author)
             .FirstOrDefaultAsync(cancellationToken);
 
     private IQueryable<Entities.WishList> GetDbWishList(int id) =>

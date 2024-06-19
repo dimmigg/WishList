@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot.Types;
 using WishList.Storage.Entities;
-using WishList.Storage.Exceptions;
 
 namespace WishList.Storage.Storages.Users;
 

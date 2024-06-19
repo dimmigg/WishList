@@ -22,9 +22,10 @@ public class SubscribeWishListInfoUseCase(
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList is null) return;
-            var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
+            var sb = new StringBuilder(
+                $"Список: *{wishList.Name.MarkForbiddenChar()}* _\\({wishList.Author.ToString().MarkForbiddenChar()}\\)_\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
-            
+
             if (wishList.Presents.Count != 0)
             {
                 sb.AppendLine();
@@ -33,7 +34,7 @@ public class SubscribeWishListInfoUseCase(
                     sb.AppendLine($"\\-\t *{present.Name.MarkForbiddenChar()}*");
                 }
             }
-            
+
             List<List<InlineKeyboardButton>> keyboard =
             [
                 [
@@ -51,13 +52,20 @@ public class SubscribeWishListInfoUseCase(
                         "📌 Мои резервы", $"{Commands.SubscribePresents}<?>{wishListId}<?>{Commands.Reserved}")
                 ]);
             }
+
             keyboard.Add([
                 InlineKeyboardButton.WithCallbackData(
                     "👋 Отписаться", $"{Commands.UnsubscribeWishListRequest}<?>{wishListId}")
             ]);
 
-            keyboard.AddBaseFooter($"{Commands.SubscribeUserWishLists}<?>{wishList.AuthorId}");
-            
+            var wishLists = (await wishListStorage.GetSubscribeWishLists(request.Param.User.Id, cancellationToken))
+                .Where(wl => wl.AuthorId == wishList.AuthorId)
+                .ToArray();
+
+            keyboard.AddBaseFooter(wishLists.Length == 1
+                ? Commands.SubscribeUsers
+                : $"{Commands.SubscribeUserWishLists}<?>{wishList.AuthorId}");
+
             await telegramSender.EditMessageAsync(
                 text: sb.ToString(),
                 replyMarkup: new InlineKeyboardMarkup(keyboard),
