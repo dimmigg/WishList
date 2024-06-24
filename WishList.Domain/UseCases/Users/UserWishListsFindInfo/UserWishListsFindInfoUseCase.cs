@@ -17,12 +17,10 @@ public class UserWishListsFindInfoUseCase(
 {
     public async Task Handle(UserWishListsFindInfoCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        
-        if (command.Length < 2)
+        if (request.Param.Commands.Length < 2)
             throw new DomainException(BaseMessages.CommandNotRecognized);
         
-        if (long.TryParse(command[1], out var userId))
+        if (long.TryParse(request.Param.Commands[1], out var userId))
         {
             var wishLists = await wishListStorage.GetWishLists(userId, cancellationToken);
             var user = await userStorage.GetUser(userId, cancellationToken);

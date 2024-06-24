@@ -14,10 +14,9 @@ public class ReservePresentUseCase(
 {
     public async Task Handle(ReservePresentCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 3) return;
-        if (int.TryParse(command[1], out var presentId) &&
-            long.TryParse(command[2], out var reservedUserId))
+        if (request.Param.Commands.Length < 3) return;
+        if (int.TryParse(request.Param.Commands[1], out var presentId) &&
+            long.TryParse(request.Param.Commands[2], out var reservedUserId))
         {
             await presentStorage.Reserve(presentId, reservedUserId, cancellationToken);
 

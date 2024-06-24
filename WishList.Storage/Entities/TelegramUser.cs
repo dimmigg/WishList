@@ -6,14 +6,18 @@ namespace WishList.Storage.Entities;
 public class TelegramUser
 {
     [Key]
-    public long Id { get; set; }
+    public long Id { get; init; }
     
+    [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
     public string FirstName { get; set; } = default!;
     
+    [StringLength(500, ErrorMessage = "LastName cannot be longer than 500 characters.")]
     public string? LastName { get; set; }
     
+    [StringLength(500, ErrorMessage = "Username cannot be longer than 500 characters.")]
     public string? Username { get; set; }
     
+    [StringLength(100, ErrorMessage = "LastCommand cannot be longer than 100 characters.")]
     public string? LastCommand  { get; set; }
     
     [InverseProperty(nameof(WishList.Author))]

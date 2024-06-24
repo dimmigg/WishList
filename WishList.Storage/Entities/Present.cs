@@ -7,15 +7,18 @@ public class Present
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-
-    public string Name { get; set; }
+    public int Id { get; init; }
     
-    public string? Comment { get; set; }
-
-    public string? Reference { get; set; }
+    [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+    public string Name { get; init; }
     
-    public int WishListId { get; set; }
+    [StringLength(500, ErrorMessage = "Comment cannot be longer than 500 characters.")]
+    public string Comment { get; set; }
+
+    [StringLength(500, ErrorMessage = "Reference cannot be longer than 500 characters.")]
+    public string Reference { get; set; }
+    
+    public int WishListId { get; init; }
     
     [ForeignKey(nameof(WishListId))]
     public WishList WishList { get; set; }

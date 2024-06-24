@@ -16,14 +16,13 @@ public class MyPresentEditCommentUseCase(
 
     public async Task Handle(MyPresentEditCommentCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var presentId))
         {
             const string textMessage = "Комментарий изменен";
 
             updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
-            await presentStorage.UpdateComment(request.Param.Message.Text, presentId, cancellationToken);
+            await presentStorage.UpdateComment(request.Param.Message!.Text!, presentId, cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();
             keyboard.AddBaseFooter($"{Commands.PresentInfo}<?>{presentId}");

@@ -13,11 +13,9 @@ public class MyPresentEditCommentRequestUseCase(
 {
     public async Task Handle(MyPresentEditCommentRequestCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var presentId))
         {
-
             const string textMessage = "Введите комментарий записи";
 
             updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditComment}<?>{presentId}");

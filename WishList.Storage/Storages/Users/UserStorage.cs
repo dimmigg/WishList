@@ -47,7 +47,7 @@ public class UserStorage(
         var existingUser = await dbContext.Users
             .Where(u => u.Id == userId)
             .Include(u => u.WishLists)
-            .Include(u => u.SubscribeWishLists)
+            .Include(u => u.SubscribeWishLists)!
             .ThenInclude(swl => swl.Author)
             .FirstAsync(cancellationToken);
         return existingUser;
@@ -72,7 +72,7 @@ public class UserStorage(
             .FirstOrDefaultAsync(w => w.Id == wishListId, cancellationToken);
         if (user is not null && wishList is not null)
         {
-            user.SubscribeWishLists.Add(wishList);
+            user.SubscribeWishLists?.Add(wishList);
             await dbContext.SaveChangesAsync(cancellationToken);
             dbContext.Entry(user).State = EntityState.Detached;
         }

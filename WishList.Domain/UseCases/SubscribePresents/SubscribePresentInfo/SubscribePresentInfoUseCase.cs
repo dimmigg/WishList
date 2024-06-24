@@ -14,9 +14,8 @@ public class SubscribePresentInfoUseCase(
 {
     public async Task Handle(SubscribePresentInfoCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var presentId))
         {
             var present = await presentStorage.GetPresent(presentId, cancellationToken);
             if(present is null) return;
@@ -34,7 +33,7 @@ public class SubscribePresentInfoUseCase(
             if (present.ReserveForUserId.HasValue)
             {
                 sb.AppendLine("*Подарок зарезервирован*");
-                var fromReserve = command.Length == 3 ? "<?>r" : "";
+                var fromReserve = request.Param.Commands.Length == 3 ? "<?>r" : "";
                 if(present.ReserveForUserId.Value == request.Param.User.Id)
                     keyboard.Add([
                         InlineKeyboardButton.WithCallbackData(
@@ -49,7 +48,7 @@ public class SubscribePresentInfoUseCase(
                 ]);
             }
 
-            keyboard.AddBaseFooter(command.Length == 3 
+            keyboard.AddBaseFooter(request.Param.Commands.Length == 3 
                 ? $"{Commands.SubscribePresents}<?>{present.WishListId}<?>{Commands.Reserved}" 
                 : $"{Commands.SubscribePresents}<?>{present.WishListId}");
             

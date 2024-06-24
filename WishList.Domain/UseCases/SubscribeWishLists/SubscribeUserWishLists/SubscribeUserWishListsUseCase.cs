@@ -16,10 +16,9 @@ public class SubscribeUserWishListsUseCase(
 {
     public async Task Handle(SubscribeUserWishListsCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
+        if (request.Param.Commands.Length < 2) return;
 
-        if (long.TryParse(command[1], out var subscribeUserId))
+        if (long.TryParse(request.Param.Commands[1], out var subscribeUserId))
         {
             List<List<InlineKeyboardButton>> keyboard = [];
             var wishLists = (await wishListStorage.GetSubscribeWishLists(request.Param.User.Id, cancellationToken))

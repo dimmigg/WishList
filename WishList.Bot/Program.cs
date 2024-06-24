@@ -11,8 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 var botConfigurationSection = builder.Configuration.GetSection(BotConfiguration.Configuration);
 builder.Services.Configure<BotConfiguration>(botConfigurationSection);
 
-var botConfiguration = botConfigurationSection.Get<BotConfiguration>();
-var connectionString = builder.Configuration.GetConnectionString("Postgres");
+var botConfiguration = botConfigurationSection.Get<BotConfiguration>() ??
+                       throw new InvalidOperationException("BotConfiguration not found.");
+var connectionString = builder.Configuration.GetConnectionString("Postgres") ??
+                       throw new InvalidOperationException("Connection string for 'Postgres' not found.");
 
 builder.Services.AddHttpClient("telegram_bot_client")
     .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
@@ -37,7 +39,7 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-app.MapBotWebhookRoute<BotController>(route: botConfiguration?.Route);
+app.MapBotWebhookRoute<BotController>(route: botConfiguration.Route);
 app.MapControllers();
 app.UseHealthChecks("/health");
 app.Run();

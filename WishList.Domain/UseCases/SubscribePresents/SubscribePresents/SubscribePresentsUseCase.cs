@@ -16,9 +16,8 @@ public class SubscribePresentsUseCase(
 {
     public async Task Handle(SubscribePresentsCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var wishListId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if(wishList is null) return;
@@ -29,7 +28,7 @@ public class SubscribePresentsUseCase(
             var sb = new StringBuilder();
             if (wishLists.Length != 0)
             {
-                if (command.Length == 3)
+                if (request.Param.Commands.Length == 3)
                 {
                     sb.AppendLine($"Мои резервы из списка *{wishList.Name.MarkForbiddenChar()}*");
                     

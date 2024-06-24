@@ -6,7 +6,7 @@ using WishList.Bot.Services;
 namespace WishList.Bot.Controllers;
 
 public class BotController : ControllerBase
-{
+{/*
     [HttpPost]
     [ValidateTelegramBot]
     public async Task<IActionResult> Post(
@@ -17,4 +17,5 @@ public class BotController : ControllerBase
         //await handleUpdateService.HandleUpdateAsync(update, cancellationToken);
         return Ok();
     }
+    */
 }

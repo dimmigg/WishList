@@ -15,11 +15,10 @@ public class MyWishListParamsUseCase(
 {
     public async Task Handle(MyWishListParamsCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2)
+        if (request.Param.Commands.Length < 2)
             throw new DomainException(BaseMessages.CommandNotRecognized);
             
-        if (int.TryParse(command[1], out var wishListId))
+        if (int.TryParse(request.Param.Commands[1], out var wishListId))
         {
             var wishList = await wishListStorage.GetWishList(wishListId, cancellationToken);
             if (wishList is null)

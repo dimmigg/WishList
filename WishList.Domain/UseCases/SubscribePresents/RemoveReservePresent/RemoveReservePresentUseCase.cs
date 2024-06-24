@@ -14,16 +14,15 @@ public class RemoveReservePresentUseCase(
 {
     public async Task Handle(RemoveReservePresentCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var presentId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var presentId))
         {
             await presentStorage.RemoveReserve(presentId, cancellationToken);
 
             await telegramSender.AnswerCallbackQueryAsync(
                 "Подарок удалён из резервирова. Теперь его может зарезервировать кто-нибудь другой.",
                 cancellationToken: cancellationToken);
-            var fromReserve = command.Length == 3 ? $"<?>{Commands.Reserved}" : "";
+            var fromReserve = request.Param.Commands.Length == 3 ? $"<?>{Commands.Reserved}" : "";
             
             request.Param.Command = $"{Commands.SubscribePresentInfo}<?>{presentId}{fromReserve}";
             await mediator.Send(new SubscribePresentInfoCommand(request.Param), cancellationToken);

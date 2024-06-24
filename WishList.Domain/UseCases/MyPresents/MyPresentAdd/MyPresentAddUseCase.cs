@@ -15,9 +15,8 @@ public class MyPresentAddUseCase(
 {
     public async Task Handle(MyPresentAddCommand request, CancellationToken cancellationToken)
     {
-        var command = request.Param.Command.Split("<?>");
-        if (command.Length < 2) return;
-        if (int.TryParse(command[1], out var wishListId))
+        if (request.Param.Commands.Length < 2) return;
+        if (int.TryParse(request.Param.Commands[1], out var wishListId))
         {
             const string textMessage = "Отлично\\! Запись добавлена";
 
