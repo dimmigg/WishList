@@ -15,18 +15,19 @@ public class UpdateUserUseCase(
 
     public async Task<TelegramUser> CreateOrUpdateUserAsync(User user, CancellationToken cancellationToken)
     {
+        /*
         if (!cache.TryGetValue(user.Id, out TelegramUser? tgUser))
             return await UpdateUserAsync(user, cancellationToken);
         if (tgUser is not null)
             return tgUser;
-
+            */
         return await UpdateUserAsync(user, cancellationToken);
     }
 
     public async Task<TelegramUser> UpdateUserAsync(User user, CancellationToken cancellationToken)
     {
         var tgUser = await userStorage.UpdateUser(user, cancellationToken);
-        cache.Set(user.Id, tgUser, cacheDuration);
+        //cache.Set(user.Id, tgUser, cacheDuration);
 
         return tgUser;
     }
@@ -34,15 +35,14 @@ public class UpdateUserUseCase(
     public async Task RefreshUser(long userId, CancellationToken cancellationToken)
     {
         var user = await userStorage.GetMainUser(userId, cancellationToken);
-        if (user is null)
-            throw new DomainException(Constants.BaseMessages.UserNotFound);
-        cache.Set(user.Id, user, cacheDuration);
+        //if (user is null)
+        //    throw new DomainException(Constants.BaseMessages.UserNotFound);
+       // cache.Set(user.Id, user, cacheDuration);
     }
 
-    public void UpdateLastCommandUser(long id, string? command = null)
-    {
-        var user = cache.Get<TelegramUser>(id)!;
-        user.LastCommand = command;
-        cache.Set(user.Id, user, cacheDuration);
-    }
+    public Task UpdateLastCommandUserAsync(long id, string? command = null, CancellationToken cancellationToken = default) =>
+        userStorage.UpdateLastCommandAsync(id, command, cancellationToken);
+        //var user = cache.Get<TelegramUser>(id)!;
+        //user.LastCommand = command;
+        //cache.Set(user.Id, user, cacheDuration);
 }

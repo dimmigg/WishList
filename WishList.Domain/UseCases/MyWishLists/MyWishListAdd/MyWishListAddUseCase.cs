@@ -17,7 +17,7 @@ public class MyWishListAddUseCase(
     {
         const string textMessage = "Отлично\\! Список добавлен";
 
-        updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, null);
+        await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, null, cancellationToken: cancellationToken);
         await wishListStorage.AddWishList(request.Param.Message!.Text!, request.Param.User.Id, cancellationToken);
 
         var keyboard = new List<List<InlineKeyboardButton>>();

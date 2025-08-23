@@ -21,7 +21,7 @@ public class MyPresentEditReferenceUseCase(
         {
             const string textMessage = "Ссылка изменена";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, null);
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, null, cancellationToken: cancellationToken);
             await presentStorage.UpdateReference(request.Param.Message!.Text!, presentId, cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();

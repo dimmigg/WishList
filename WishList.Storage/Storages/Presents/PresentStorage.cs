@@ -75,5 +75,5 @@ public class PresentStorage(
         dbContext.Presents
             .Where(p => p.Id == presentId)
             .ExecuteUpdateAsync(s => s
-                .SetProperty(p => p.ReserveForUserId, (Func<Present, long?>)null!), cancellationToken);
+                .SetProperty(p => p.ReserveForUserId, (long?)null), cancellationToken);
 }

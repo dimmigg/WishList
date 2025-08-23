@@ -14,12 +14,13 @@ public class SubscribeUsersUseCase(
     {
         List<List<InlineKeyboardButton>> keyboard = [];
 
-        var users = request.Param.User.SubscribeWishLists.GroupBy(swl => swl.Author).ToArray();
+        var users = request.Param.User.SubscribeWishLists.ToArray();
         var sb = new StringBuilder();
         if (users.Length != 0)
         {
             sb.AppendLine("Выберите друга");
             keyboard = users
+                .GroupBy(swl => swl.Author)
                 .Select(gr => new List<InlineKeyboardButton>
                 {
                     InlineKeyboardButton.WithCallbackData($"{gr.Key}",

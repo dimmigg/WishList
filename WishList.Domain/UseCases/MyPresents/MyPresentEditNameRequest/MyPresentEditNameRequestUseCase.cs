@@ -18,7 +18,7 @@ public class MyPresentEditNameRequestUseCase(
         {
             const string textMessage = "Введите название записи";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditName}<?>{presentId}");
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, $"{Commands.PresentEditName}<?>{presentId}", cancellationToken: cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();
             keyboard.AddSelfDeleteButton();

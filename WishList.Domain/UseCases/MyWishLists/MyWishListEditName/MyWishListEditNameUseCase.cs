@@ -22,7 +22,7 @@ public class MyWishListEditNameUseCase(
         
         if (int.TryParse(request.Param.Commands[1], out var wishListId))
         {
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, cancellationToken: cancellationToken);
             await wishListStorage.EditName(request.Param.Message!.Text!, wishListId, cancellationToken);
             
             const string textMessage = @"Отлично\! Название списка обновлено\!";

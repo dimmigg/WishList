@@ -11,4 +11,5 @@ public interface IUserStorage
     Task<TelegramUser> UpdateUser(User user, CancellationToken cancellationToken);
     Task<TelegramUser[]?> FindUsers(string findText, CancellationToken cancellationToken);
     Task AddSubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken);
+    Task UpdateLastCommandAsync(long userId, string? command = null, CancellationToken cancellationToken = default);
 }

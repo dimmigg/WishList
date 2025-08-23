@@ -21,7 +21,7 @@ public class MyPresentEditCommentUseCase(
         {
             const string textMessage = "Комментарий изменен";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, cancellationToken: cancellationToken);
             await presentStorage.UpdateComment(request.Param.Message!.Text!, presentId, cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();

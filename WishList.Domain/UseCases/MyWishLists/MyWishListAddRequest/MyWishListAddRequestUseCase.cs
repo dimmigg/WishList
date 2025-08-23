@@ -15,7 +15,7 @@ public class MyWishListAddRequestUseCase(
     {
         const string textMessage = "Введите название нового списка";
 
-        updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, Commands.WishListAdd);
+        await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, Commands.WishListAdd, cancellationToken: cancellationToken);
         
         var keyboard = new List<List<InlineKeyboardButton>>();
         keyboard.AddSelfDeleteButton();

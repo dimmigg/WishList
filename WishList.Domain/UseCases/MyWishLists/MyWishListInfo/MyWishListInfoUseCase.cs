@@ -15,6 +15,7 @@ public class MyWishListInfoUseCase(
 {
     public async Task Handle(MyWishListInfoCommand request, CancellationToken cancellationToken)
     {
+        
         if (request.Param.Commands.Length < 2)
             throw new DomainException(BaseMessages.CommandNotRecognized);
 

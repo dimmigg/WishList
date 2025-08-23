@@ -26,7 +26,7 @@ public class MyWishListParamsUseCase(
                 
             var sb = new StringBuilder($"Список: *{wishList.Name.MarkForbiddenChar()}*\n");
             sb.AppendLine($"Кол\\-во записей: *{wishList.Presents.Count}*");
-            var isPrivate = wishList.IsPrivate ? "вкл" : "выкл";
+            var isPrivate = wishList.IsPrivate ?? false ? "вкл" : "выкл";
             sb.AppendLine($"Приватность: *{isPrivate}*");
             
             List<List<InlineKeyboardButton>> keyboard =

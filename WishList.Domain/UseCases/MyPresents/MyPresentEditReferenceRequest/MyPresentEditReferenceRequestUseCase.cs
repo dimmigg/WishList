@@ -18,7 +18,7 @@ public class MyPresentEditReferenceRequestUseCase(
         {
             const string textMessage = "Введите ссылку записи";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditReference}<?>{presentId}");
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, $"{Commands.PresentEditReference}<?>{presentId}", cancellationToken: cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();
             keyboard.AddSelfDeleteButton();

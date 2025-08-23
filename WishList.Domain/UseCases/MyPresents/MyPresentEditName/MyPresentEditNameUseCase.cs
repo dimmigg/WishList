@@ -22,7 +22,7 @@ public class MyPresentEditNameUseCase(
         {
             const string textMessage = "Название изменено";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, cancellationToken: cancellationToken);
             await presentStorage.UpdateName(request.Param.Message!.Text!, presentId, cancellationToken);
 
             var keyboard = new List<List<InlineKeyboardButton>>();

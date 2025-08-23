@@ -18,7 +18,7 @@ public class MyPresentEditCommentRequestUseCase(
         {
             const string textMessage = "Введите комментарий записи";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentEditComment}<?>{presentId}");
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, $"{Commands.PresentEditComment}<?>{presentId}", cancellationToken: cancellationToken);
 
             var keyboard = new List<List<InlineKeyboardButton>>();
             keyboard.AddSelfDeleteButton();

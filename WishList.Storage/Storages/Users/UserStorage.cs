@@ -60,7 +60,7 @@ public class UserStorage(
             .Where(u => (u.Username != null && u.Username.ToLower().Contains(findText.ToLower())) || u.Id == id)
             .ToArrayAsync(cancellationToken);
     }
-
+    
     public async Task AddSubscribeWishList(long userId, int wishListId, CancellationToken cancellationToken)
     {
         var user = await dbContext.Users
@@ -68,13 +68,27 @@ public class UserStorage(
             .Include(u => u.SubscribeWishLists)
             .AsTracking()
             .FirstOrDefaultAsync(cancellationToken);
+    
+        // Добавляем AsNoTracking для wishList, чтобы не создавать конфликт отслеживания
         var wishList = await dbContext.WishLists
+            .AsNoTracking()
             .FirstOrDefaultAsync(w => w.Id == wishListId, cancellationToken);
+    
         if (user is not null && wishList is not null)
         {
-            user.SubscribeWishLists?.Add(wishList);
+            // Присоединяем wishList к контексту, если он не отслеживается
+            var trackedWishList = dbContext.WishLists.Local.FirstOrDefault(w => w.Id == wishListId) 
+                                  ?? dbContext.WishLists.Attach(wishList).Entity;
+        
+            user.SubscribeWishLists?.Add(trackedWishList);
             await dbContext.SaveChangesAsync(cancellationToken);
             dbContext.Entry(user).State = EntityState.Detached;
         }
     }
+
+    public Task UpdateLastCommandAsync(long userId, string? command = null, CancellationToken cancellationToken = default) =>
+        dbContext.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.LastCommand, command), cancellationToken);
 }

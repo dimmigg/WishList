@@ -30,6 +30,7 @@ public class WishListStorage(
             .Where(wl => wl.Id == id)
             .Include(wl => wl.Presents)
             .Include(wl => wl.Author)
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
     private IQueryable<Entities.WishList> GetDbWishList(int id) =>
@@ -41,6 +42,7 @@ public class WishListStorage(
         await dbContext.WishLists
             .Where(wl => wl.AuthorId == userId)
             .Include(wl => wl.Presents)
+            .AsNoTracking()
             .ToArrayAsync(cancellationToken);
 
     public async Task<IEnumerable<Entities.WishList>> GetSubscribeWishLists(long userId, CancellationToken cancellationToken)
@@ -51,6 +53,7 @@ public class WishListStorage(
             .ThenInclude(w => w.Author)
             .Include(u => u.SubscribeWishLists)
             .ThenInclude(w => w.Presents)
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
         if (user is null) throw new StorageException("Пользователь не найден");
         return user.SubscribeWishLists;

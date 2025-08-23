@@ -18,7 +18,7 @@ public class MyPresentAddRequestUseCase(
         {
             const string textMessage = "Введите название новой записи";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.PresentAdd}<?>{wishListId}");
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, $"{Commands.PresentAdd}<?>{wishListId}", cancellationToken: cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();
             keyboard.AddSelfDeleteButton();

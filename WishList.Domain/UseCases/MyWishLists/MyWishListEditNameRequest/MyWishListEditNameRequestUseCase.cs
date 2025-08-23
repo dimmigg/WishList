@@ -26,7 +26,7 @@ public class MyWishListEditNameRequestUseCase(
             if (wishList is null)
                 throw new DomainException(BaseMessages.WishListNotFound);
             
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id, $"{Commands.WishListEditName}<?>{wishList.Id}");
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, $"{Commands.WishListEditName}<?>{wishList.Id}", cancellationToken: cancellationToken);
             
             var textMessage = $"Введите новое название списка *`{wishList.Name.MarkForbiddenChar()}`*";
             var answerMessage = $"Введите новое название списка {wishList.Name.MarkForbiddenChar()}";

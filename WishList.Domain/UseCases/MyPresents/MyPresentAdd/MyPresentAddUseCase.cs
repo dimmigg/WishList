@@ -20,7 +20,7 @@ public class MyPresentAddUseCase(
         {
             const string textMessage = "Отлично\\! Запись добавлена";
 
-            updateUserUseCase.UpdateLastCommandUser(request.Param.User.Id);
+            await updateUserUseCase.UpdateLastCommandUserAsync(request.Param.User.Id, cancellationToken: cancellationToken);
             await presentStorage.AddPresent(request.Param.Message!.Text!, wishListId, cancellationToken);
             
             var keyboard = new List<List<InlineKeyboardButton>>();
